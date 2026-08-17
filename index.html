@@ -10,7 +10,7 @@
 <meta name="description" content="Şirniyyat mağazası üçün müştəri, sifariş və məhsul idarəetmə sistemi"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400..900&family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400..900&family=Plus+Jakarta+Sans:wght@400..800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -59,15 +59,21 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .brand-title {
-        background: linear-gradient(90deg, #75584d, #b8886f, #75584d);
-        background-size: 200% auto;
+        font-family: 'Playfair Display', 'Literata', serif;
+        font-style: italic;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        background: linear-gradient(90deg, #6b4a38, #c9835a, #75584d, #a8663f, #6b4a38);
+        background-size: 300% auto;
         -webkit-background-clip: text; background-clip: text; color: transparent;
-        animation: brandShine 4s linear infinite, brandPulse 2.8s ease-in-out infinite;
+        animation: brandShine 5s linear infinite, brandPulse 3s ease-in-out infinite, brandEntrance .8s cubic-bezier(.2,1.4,.4,1);
         display: inline-block;
+        text-shadow: 0 1px 12px rgba(169,106,63,0.25);
     }
-    @keyframes brandShine { to { background-position: 200% center; } }
-    @keyframes brandPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.035); } }
-    .brand-emoji { animation: brandWiggle 2.6s ease-in-out infinite; display: inline-block; transform-origin: 70% 70%; }
+    @keyframes brandShine { to { background-position: 300% center; } }
+    @keyframes brandPulse { 0%,100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.04) rotate(-0.5deg); } }
+    @keyframes brandEntrance { from { opacity: 0; transform: translateY(-10px) scale(0.9); letter-spacing: 0.2em; } to { opacity: 1; transform: translateY(0) scale(1); letter-spacing: 0.01em; } }
+    .brand-emoji { animation: brandWiggle 2.6s ease-in-out infinite; display: inline-block; transform-origin: 70% 70%; filter: drop-shadow(0 2px 6px rgba(169,106,63,0.35)); }
     @keyframes brandWiggle { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
     /* Qəbz çapı */
     .receipt-paper { font-family: 'Courier New', monospace; width: 280px; margin: 0 auto; color: #111; }
@@ -126,7 +132,7 @@
   </div>
 </header>
 
-<main id="app" class="w-full max-w-7xl mx-auto px-margin-mobile py-md"></main>
+<main id="app" class="w-full max-w-7xl mx-auto px-margin-mobile py-md my-3 rounded-3xl bg-[#fffaf6]/95 shadow-xl min-h-[60vh]"></main>
 
 <div id="toast-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 items-center"></div>
 <div id="modal-root"></div>

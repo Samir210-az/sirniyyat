@@ -926,6 +926,10 @@ function renderOrders(app) {
                 <button onclick="deleteOrder('${o.id}')" class="p-1.5 rounded-full ${o.status === 'legv' ? 'bg-surface-container text-on-surface-variant' : 'bg-error-container text-error'} hover:opacity-80 transition-opacity" title="${o.status === 'legv' ? 'Bərpa et' : 'Ləğv et'}">
                   <span class="material-symbols-outlined text-base block">${o.status === 'legv' ? 'restore' : 'cancel'}</span>
                 </button>
+                ${o.status === 'legv' ? `
+                <button onclick="permanentlyDeleteOrder('${o.id}')" class="p-1.5 rounded-full bg-error-container text-error hover:opacity-80 transition-opacity" title="Tam sil">
+                  <span class="material-symbols-outlined text-base block">delete_forever</span>
+                </button>` : ''}
               </div>
             </div>
           </div>`;
@@ -936,6 +940,14 @@ function renderOrders(app) {
 function updateOrderStatus(id, status) {
   const o = DB.orders.find(x => x.id === id);
   o.status = status; saveDB(); toast('Status yeniləndi');
+}
+function permanentlyDeleteOrder(id) {
+  const o = DB.orders.find(x => x.id === id);
+  if (!o || o.status !== 'legv') return; // yalnız artıq ləğv edilmiş (audit izli) sifarişlər tam silinə bilər
+  confirmModal('Tam sil?', 'Bu ləğv edilmiş sifariş sistemdən həmişəlik silinəcək (test məlumatlarını təmizləmək üçün). Bu əməliyyat geri qaytarıla bilməz.', () => {
+    DB.orders = DB.orders.filter(x => x.id !== id);
+    saveDB(); toast('Sifariş tam silindi'); renderOrders(document.getElementById('app'));
+  });
 }
 function deleteOrder(id) {
   const o = DB.orders.find(x => x.id === id);
