@@ -12,6 +12,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400..900&family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
     tailwind.config = {
         darkMode: "class",
@@ -105,7 +107,7 @@
 
 <header class="w-full top-0 sticky shadow-sm bg-[#f0d5bf]/90 backdrop-blur-md z-40">
   <div class="flex justify-between items-center px-margin-mobile py-3 w-full max-w-7xl mx-auto">
-    <div class="flex items-center gap-2 cursor-pointer" onclick="navigate('dashboard')">
+    <div class="flex items-center gap-2 cursor-pointer" onclick="handleLogoTap()">
       <img src="https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Shortcake/3D/shortcake_3d.png" alt="Tort" class="w-11 h-11 brand-emoji object-contain" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Birthday%20cake/3D/birthday_cake_3d.png'"/>
       <span class="text-2xl md:text-3xl font-headline-md font-headline-md brand-title">Ev Ləzzəti Şirniyyat</span>
     </div>

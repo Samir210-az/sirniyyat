@@ -3,6 +3,145 @@
    Verilənlər: localStorage (DB_KEY altında)
    ============================================================ */
 
+/* ---------------- FIREBASE (Lisenziya / Aktivasiya sistemi) ---------------- */
+const firebaseConfig = {
+  apiKey: "AIzaSyCBhyGNzZRGgQShP_C9kwAzTm_g_0zJlzg",
+  authDomain: "an-psixoloji-33442.firebaseapp.com",
+  databaseURL: "https://an-psixoloji-33442-default-rtdb.firebaseio.com",
+  projectId: "an-psixoloji-33442",
+  storageBucket: "an-psixoloji-33442.firebasestorage.app",
+  messagingSenderId: "528809299356",
+  appId: "1:528809299356:web:59cae89a64e446dc520c59"
+};
+firebase.initializeApp(firebaseConfig);
+const fbdb = firebase.database();
+const LICENSE_PATH = 'sirniyyat/licenses';
+
+function getDeviceId() {
+  let id = localStorage.getItem('sirniyyat_device_id');
+  if (!id) { id = uid('dev'); localStorage.setItem('sirniyyat_device_id', id); }
+  return id;
+}
+function getSavedLicenseCode() { return localStorage.getItem('sirniyyat_license_code'); }
+function saveLicenseCode(code) { localStorage.setItem('sirniyyat_license_code', code); }
+
+async function checkLicense() {
+  const savedCode = getSavedLicenseCode();
+  const deviceId = getDeviceId();
+  if (savedCode) {
+    try {
+      const snap = await fbdb.ref(`${LICENSE_PATH}/${savedCode}`).once('value');
+      const data = snap.val();
+      if (data && data.deviceId === deviceId) {
+        fbdb.ref(`${LICENSE_PATH}/${savedCode}`).update({ lastSeen: Date.now(), sessions: (data.sessions || 0) + 1 });
+        return true;
+      }
+      if (!data) return true; // Firebase-də tapılmadı amma lokal aktivdir - bağlantı problemi ola bilər, buraxaq
+    } catch (e) { return true; }
+  }
+  return false;
+}
+
+function renderActivationScreen(errorMsg) {
+  document.body.innerHTML = `
+    <div class="min-h-screen flex items-center justify-center px-6" style="background:linear-gradient(180deg,#e8bfa8 0%,#a86a4f 100%);">
+      <div class="bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full text-center">
+        <div class="text-4xl mb-3">🔐</div>
+        <h2 class="text-xl font-bold text-[#2c160e] mb-2">Aktivasiya Kodu</h2>
+        <p class="text-sm text-gray-500 mb-6">Davam etmək üçün sizə verilmiş 6 rəqəmli kodu daxil edin</p>
+        <form id="activation-form">
+          <input id="activation-input" maxlength="6" inputmode="numeric" placeholder="――――――" class="w-full text-center text-2xl tracking-[0.5em] px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#75584d] outline-none mb-3"/>
+          ${errorMsg ? `<p class="text-red-500 text-sm mb-3">${errorMsg}</p>` : ''}
+          <button type="submit" class="w-full py-3 rounded-full bg-[#75584d] text-white font-semibold hover:opacity-90 transition-opacity">Aktiv Et</button>
+        </form>
+      </div>
+    </div>`;
+  document.getElementById('activation-input').focus();
+  document.getElementById('activation-form').onsubmit = async (e) => {
+    e.preventDefault();
+    const code = document.getElementById('activation-input').value.trim();
+    if (!/^\d{6}$/.test(code)) { renderActivationScreen('Kod 6 rəqəmdən ibarət olmalıdır'); return; }
+    const deviceId = getDeviceId();
+    try {
+      const ref = fbdb.ref(`${LICENSE_PATH}/${code}`);
+      const snap = await ref.once('value');
+      const data = snap.val();
+      if (!data) { renderActivationScreen('Bu kod tapılmadı'); return; }
+      if (data.deviceId && data.deviceId !== deviceId) { renderActivationScreen('Bu kod artıq başqa cihazda istifadə olunub'); return; }
+      if (!data.deviceId) {
+        await ref.update({ deviceId, activatedAt: Date.now(), lastSeen: Date.now(), sessions: 1 });
+      } else {
+        await ref.update({ lastSeen: Date.now(), sessions: (data.sessions || 0) + 1 });
+      }
+      saveLicenseCode(code);
+      location.reload();
+    } catch (err) {
+      renderActivationScreen('Bağlantı xətası, yenidən cəhd edin');
+    }
+  };
+}
+
+/* ---------------- GİZLİ ADMIN PANEL (loqoya 5 toxunma) ---------------- */
+let logoTapCount = 0, logoTapTimer = null;
+function handleLogoTap() {
+  logoTapCount++;
+  clearTimeout(logoTapTimer);
+  logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 2000);
+  if (logoTapCount >= 5) { logoTapCount = 0; openAdminPanel(); return; }
+  navigate('dashboard');
+}
+async function openAdminPanel() {
+  openModal(`<div class="p-6"><p class="text-center text-on-surface-variant">Yüklənir...</p></div>`);
+  let licenses = {};
+  try {
+    const snap = await fbdb.ref(LICENSE_PATH).once('value');
+    licenses = snap.val() || {};
+  } catch (e) {}
+  renderAdminPanel(licenses);
+}
+function renderAdminPanel(licenses) {
+  const codes = Object.keys(licenses).sort((a, b) => (licenses[b].activatedAt || 0) - (licenses[a].activatedAt || 0));
+  openModal(`
+    <div class="p-6">
+      <h3 class="text-headline-sm font-headline-sm text-on-background mb-1">🔐 Admin Panel</h3>
+      <p class="text-label-sm text-on-surface-variant mb-4">Lisenziya kodları və aktiv istifadəçilər</p>
+      <button onclick="generateLicenseCode()" class="w-full mb-4 py-3 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-1">
+        <span class="material-symbols-outlined text-base">add</span> Yeni Kod Yarat
+      </button>
+      <div class="space-y-2 max-h-80 overflow-y-auto">
+        ${codes.length ? codes.map(code => {
+          const l = licenses[code];
+          const active = !!l.deviceId;
+          return `
+          <div class="bg-surface-container-lowest rounded-xl border border-primary-container p-3">
+            <div class="flex justify-between items-center mb-1">
+              <span class="font-mono text-lg font-bold tracking-widest">${code}</span>
+              <span class="text-[10px] font-bold uppercase px-2 py-1 rounded-full ${active ? 'bg-[#E8F5E9] text-[#2E7D32]' : 'bg-surface-container text-on-surface-variant'}">${active ? 'Aktiv' : 'Gözləyir'}</span>
+            </div>
+            ${active ? `<p class="text-label-sm text-on-surface-variant">Aktivləşib: ${new Date(l.activatedAt).toLocaleString('az-AZ')}</p>
+            <p class="text-label-sm text-on-surface-variant">Son giriş: ${new Date(l.lastSeen).toLocaleString('az-AZ')} (${l.sessions || 1} sessiya)</p>
+            <button onclick="resetLicenseCode('${code}')" class="mt-2 text-label-sm text-error font-label-md">Sıfırla (başqa cihazda istifadə üçün)</button>` :
+            `<p class="text-label-sm text-on-surface-variant">Hələ heç bir cihazda aktivləşdirilməyib</p>`}
+          </div>`;
+        }).join('') : `<p class="text-body-sm text-on-surface-variant text-center py-4">Hələ kod yaradılmayıb</p>`}
+      </div>
+      <button onclick="closeModal()" class="w-full mt-4 py-3 rounded-full border border-outline-variant text-on-background font-label-md text-label-md hover:bg-surface-container transition-colors">Bağla</button>
+    </div>`);
+}
+async function generateLicenseCode() {
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  await fbdb.ref(`${LICENSE_PATH}/${code}`).set({ createdAt: Date.now(), deviceId: null });
+  toast('Yeni kod yaradıldı: ' + code);
+  openAdminPanel();
+}
+async function resetLicenseCode(code) {
+  confirmModal('Kodu sıfırla?', `${code} kodu başqa bir cihazda yenidən aktivləşdirilə bilsin deyə sıfırlanacaq. Cari istifadəçi kod istəyəcək.`, async () => {
+    await fbdb.ref(`${LICENSE_PATH}/${code}`).update({ deviceId: null });
+    toast('Kod sıfırlandı');
+    openAdminPanel();
+  });
+}
+
 const DB_KEY = 'sirniyyat_db_v6';
 // Yalnız adı TƏSDİQLƏNMİŞ (alt-mətni yoxlanılmış) real şəkillər saxlanıldı.
 const IMG = {
@@ -1230,4 +1369,7 @@ function resetData() {
 }
 
 /* ---------------- INIT ---------------- */
-navigate('dashboard');
+checkLicense().then(ok => {
+  if (ok) { navigate('dashboard'); }
+  else { renderActivationScreen(); }
+});
