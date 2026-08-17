@@ -46,17 +46,20 @@ async function checkLicense() {
 }
 
 function renderActivationScreen(errorMsg) {
-  document.body.innerHTML = `
-    <div class="min-h-screen flex items-center justify-center px-6" style="background:linear-gradient(180deg,#e8bfa8 0%,#a86a4f 100%);">
-      <div class="bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full text-center">
+  LICENSED = false;
+  document.getElementById('modal-root').innerHTML = '';
+  document.getElementById('app').innerHTML = `
+    <div class="min-h-[70vh] flex items-center justify-center px-2 fade-in">
+      <div class="bg-surface-container-lowest rounded-2xl shadow-xl p-8 max-w-sm w-full text-center border border-primary-container">
         <div class="text-4xl mb-3">🔐</div>
-        <h2 class="text-xl font-bold text-[#2c160e] mb-2">Aktivasiya Kodu</h2>
-        <p class="text-sm text-gray-500 mb-6">Davam etmək üçün sizə verilmiş 6 rəqəmli kodu daxil edin</p>
+        <h2 class="text-xl font-bold text-on-background mb-2">Aktivasiya Kodu</h2>
+        <p class="text-sm text-on-surface-variant mb-6">Davam etmək üçün sizə verilmiş 6 rəqəmli kodu daxil edin</p>
         <form id="activation-form">
-          <input id="activation-input" maxlength="6" inputmode="numeric" placeholder="――――――" class="w-full text-center text-2xl tracking-[0.5em] px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#75584d] outline-none mb-3"/>
-          ${errorMsg ? `<p class="text-red-500 text-sm mb-3">${errorMsg}</p>` : ''}
-          <button type="submit" class="w-full py-3 rounded-full bg-[#75584d] text-white font-semibold hover:opacity-90 transition-opacity">Aktiv Et</button>
+          <input id="activation-input" maxlength="6" inputmode="numeric" placeholder="――――――" class="w-full text-center text-2xl tracking-[0.5em] px-4 py-3 rounded-xl border-2 border-outline-variant focus:border-primary outline-none mb-3"/>
+          ${errorMsg ? `<p class="text-error text-sm mb-3">${errorMsg}</p>` : ''}
+          <button type="submit" class="w-full py-3 rounded-full bg-primary text-on-primary font-semibold hover:opacity-90 transition-opacity">Aktiv Et</button>
         </form>
+        <p class="text-[11px] text-on-surface-variant mt-6">🍰 loqoya 5 dəfə toxunaraq admin panelinə keçə bilərsiniz</p>
       </div>
     </div>`;
   document.getElementById('activation-input').focus();
@@ -80,7 +83,8 @@ function renderActivationScreen(errorMsg) {
         await ref.update({ deviceIds: updated, activatedAt: data.activatedAt || Date.now(), lastSeen: Date.now(), sessions: (data.sessions || 0) + 1 });
       }
       saveLicenseCode(code);
-      location.reload();
+      LICENSED = true;
+      navigate('dashboard');
     } catch (err) {
       renderActivationScreen('Bağlantı xətası, yenidən cəhd edin');
     }
@@ -88,12 +92,14 @@ function renderActivationScreen(errorMsg) {
 }
 
 /* ---------------- GİZLİ ADMIN PANEL (loqoya 5 toxunma) ---------------- */
+let LICENSED = false;
 let logoTapCount = 0, logoTapTimer = null;
 function handleLogoTap() {
   logoTapCount++;
   clearTimeout(logoTapTimer);
   logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 2000);
   if (logoTapCount >= 5) { logoTapCount = 0; openAdminPanel(); return; }
+  if (!LICENSED) return;
   navigate('dashboard');
 }
 async function openAdminPanel() {
@@ -327,6 +333,7 @@ function statusClass(s) {
 /* ---------------- RENDER ROOT ---------------- */
 function render() {
   const app = document.getElementById('app');
+  if (!LICENSED) return renderActivationScreen();
   if (ROUTE === 'dashboard') return renderDashboard(app);
   if (ROUTE === 'pos') return renderPOS(app);
   if (ROUTE === 'products') return renderProducts(app);
@@ -1377,6 +1384,7 @@ function resetData() {
 
 /* ---------------- INIT ---------------- */
 checkLicense().then(ok => {
+  LICENSED = ok;
   if (ok) { navigate('dashboard'); }
   else { renderActivationScreen(); }
 });
