@@ -3,20 +3,29 @@
    Verilənlər: localStorage (DB_KEY altında)
    ============================================================ */
 
-const DB_KEY = 'sirniyyat_db_v1';
+const DB_KEY = 'sirniyyat_db_v2';
+// Yalnız adı TƏSDİQLƏNMİŞ (alt-mətni yoxlanılmış) real şəkillər saxlanıldı.
 const IMG = {
   ballıTort: 'https://lh3.googleusercontent.com/aida-public/AB6AXuALQiHAkXe43qate2K8RJwzphK_eVKzDJC-5R-2Amfqu21030Netch_9Nws49Xy2CU-IbFUmCHkTnfFJDlDmwkFoxJwDDK8bL2efKS0erQif48u1taf9A2Fhf-RHVriJGkm_xXBS7dRlzQffdB1t6_-0LTmyxIK3hExpd2XkFc10c38rMu7upJ1jAtl9wk9MfasKJ09x0lcMa2r2ZE6d_87lzC_tn4engb962omil1e2eW2iDmqTEJ7',
-  napoleon: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA7zUBmyn5qf3l9y287cklR6WL4tXzNBdtUnDfiiOu3ycMOjMzPMkQ7AaZvN_mY-MxKzC7mtjPUYn9OTo0riBjeYmHEckA94uIyQJNj5wihUM1s1OleU5X0bb8g-vjfBjrjJq7F1wzZg3SmgWrq2GRLYXoen2gNwo51qDduIwH1nQXctUeYNerZh3o591GetqU_Bwf4f4M1nH5AhV6-n4UTxMTywS3zJi6tMa0GYgAfACqYZeekT3_a',
+  napoleon: 'https://lh3.googleusercontent.com/aida-public/AB6AXuADtGLAEb9zCT10NvFdflbFVT96hSuetHXsqJrHfdgamC-Rprynex1hbnAnCvYLX7YOay0WOLwHLwiNK5-XilrI1lAG93Bxb54HcKZ_Q9LquVgx-lD93eXH8jz4hpU1otJxYIJQxJ88yweGVoDjqb4pLxVzX2LJCbSpnGpA-efJWH1zRMIDu4-93lB0xj_Oj4gb5eTEQICbtzMXoi2azQkUn5QaX2--kIt2Gd0bwi2_6yy8Mm_mVV0V',
   kurasan: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDtOhhyG4QEn51Ju004JPrnQUm9VPml6XfpN-8og5YD45TSQ62zMZYn9iZZR-JoW2vJEyCHpIHM0vDtnpFHFiKvUfAT5JIQ4lY3K1SpR8nTshcPNOTzFYgSI1jGFTWS37O1Hs1vea_gW_QxtDa6nSu1JCeTnlDeLQd0pYktYovyfVp8xs9TRoCfzzaKRUy8ldGAr0qSwT6IPVwLBP2_q_0J6CBkxsJqLUEQhQUON_HKQF2ijBnK2cT0',
   paxlava: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBm1GvPvWyRkFsbYXmNpB0Wn8U9Msbsbj0kNxlXaxtoYDHXhPdT9WWIEcTc6f0w6FGrwTdFNTySqbqY1A7qD3uilJqo_xG3nDv17vWqUZYYuShH16P0xt_MKPcY78zUaLrcMU_K3TCNb2R2vajStjEuFCQNwIcYNCzo2lkeDIsLiPnUHl5K8tVihSXkFVq4lQbWrw7ZhaOLrmif-M8uTGoFUtiQakO0LHVoqZPu4CUhQoaBsNqUarp3',
   miniPaxlava: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC4UrvKf3qpHKHVHXSU7yAAimQstSv_mtU-bJiihETZhSfLeUxdOs9xG275ZdEX73VX98ymy-hXMGQOeDBnSc50gRWQfn3vOreeOPlUyNV5WT7zjUGGajQM9860slfdXs6d1tUrhC8mVK5OvMiGriiZCLGSXJiRhemdHUAu_0DGep5Tv4TDJ0zYTKFc2Z7ZtKwhSgCifkAvYBL2sQY776r-nF8dyZExRmkR5M6NpTJ_e5BrBRTVVWhl',
-  sekerbura: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBfDbGGCruI1xBxl_H_Tml7IAidROS1c5wJbp-Mkt2ypfJSs8RPsgHCaUFDdTDamJUUHrOHavc-0Lam_QwJiYxd0F-OcMVYDVkj30TfMDdERyFsDtKrw4hpFKFguUKYTV4v5CChLFIGdbwqWlgsSrdRM9tggFssT27Sx57T2MxKEc3MF7F5qQqJxcPASo20QPqggymBEVjSdfBEcaCRD696VbSGdzZDT0L6DR1jpVLVSkO-m0ilkZdr',
-  qogal: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBpiYTJi916BMOWTjZq7U4O9N2CxT4NCWxbAr53nesh6YAT--9I0enkdGt9p5bKq7E1N0DazK2qAGSPSU71AEfMNp-4PxqcpfH39CgCGMYj72sXhRi08tei5EZ-TjvxY6723Yi72OQ0bM1NhsqTHvRFFA-rGSW5jBfLDhRjojAxvpJ2LzOK1ZBYGJpvJ2DxZcPNzGZEGi_Uh3bD9BTJfT2u6-gqOKrdS6hxHRAs62_8sWrqkiAml7CC',
-  napoleonSlice: 'https://lh3.googleusercontent.com/aida-public/AB6AXuADtGLAEb9zCT10NvFdflbFVT96hSuetHXsqJrHfdgamC-Rprynex1hbnAnCvYLX7YOay0WOLwHLwiNK5-XilrI1lAG93Bxb54HcKZ_Q9LquVgx-lD93eXH8jz4hpU1otJxYIJQxJ88yweGVoDjqb4pLxVzX2LJCbSpnGpA-efJWH1zRMIDu4-93lB0xj_Oj4gb5eTEQICbtzMXoi2azQkUn5QaX2--kIt2Gd0bwi2_6yy8Mm_mVV0V',
-  cayDesti: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAl6LgmpEHtFzlClr8DjvOiaE8yEUiTOhzl2yZsO5gRBgJeIP8QfLVMmFYaFRmb1ZccNmXqgv50xNqiYZSPL39B4UB7Im-5RIoBdlXjeekOOYI3nyhzoUTIHo4sl7oEon0MojRj6PJZQdHCRkBeesNMKub4R6h0niQu7ncTJLlYgIKeKS8s7v9r7SQXyoA6LRurBC8KRORKBU4Dhg3wSf6SP1FQ7yB4z0MaSflHG0-OL-wos_spjcP8',
-  tortAssorti: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBL0PAmoKbt6jwoDuvhvpbr_II13L5nZaFTbT7UvkyDCrylKfwyu6b3vR8k2LMPB1hj4hX35Cy098ShPIaD5lB39H0jsQbLTmgjt9-2n6JPHBsjewx3hEJcyoTh_Hmbm1zAQ7FYEIMJ8gFWqHysNIEnU7tDOITYc5ON9HQrfQOmIKm1EnAarEu-ze5Hh8TVIxIx-9D8YUckZMpG54MqPJ4nkI1PiNXaxMbp3VJq5rDLrIUdFu4GZgGS',
-  eclair: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAIMzvkh5w8VevxAqBI5LI5jlMuj2LtI9_8Pn9Wtlg0fm8qFLJypivvxTnnTBK2TiadsNUchXgqcQKC5hx_xFGbM0dEV3aRVYjUFnIIQ_hh-OPblQ3UJIIvCWUDCRstuSeMKt5OzNuYlmYvrIfGcbY_iX3RhMDbTroEqh_Pr-K2vfjuXisdVf3i8iAv_lLQXgmXQNr3zo5KyqVqMj1eXrrrWc0PGT-kuZ6EGzP3kXOVBzk2PAQT4nPV'
+  chocCake: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBpiYTJi916BMOWTjZq7U4O9N2CxT4NCWxbAr53nesh6YAT--9I0enkdGt9p5bKq7E1N0DazK2qAGSPSU71AEfMNp-4PxqcpfH39CgCGMYj72sXhRi08tei5EZ-TjvxY6723Yi72OQ0bM1NhsqTHvRFFA-rGSW5jBfLDhRjojAxvpJ2LzOK1ZBYGJpvJ2DxZcPNzGZEGi_Uh3bD9BTJfT2u6-gqOKrdS6hxHRAs62_8sWrqkiAml7CC'
 };
+// Real, uyğun şəkli təsdiqlənməyən məhsullar üçün rəngli emoji-tile istifadə olunur (yanlış şəkil əvəzinə)
+const EMOJI_TILE = {
+  sekerbura: { emoji: '🥟', bg: 'from-[#fed7ca] to-[#fce4ec]' },
+  qogal: { emoji: '🥯', bg: 'from-[#f2ecb8] to-[#fed7ca]' },
+  tortAssorti: { emoji: '🎂', bg: 'from-[#fce4ec] to-[#e4beb2]' },
+  eclair: { emoji: '🧁', bg: 'from-[#eae4b1] to-[#fce4ec]' },
+  cayDesti: { emoji: '☕', bg: 'from-[#e4beb2] to-[#f2ecb8]' }
+};
+function productVisual(p, sizeClasses) {
+  if (p.img) return `<img src="${p.img}" class="${sizeClasses} object-cover" alt="${escapeHtml(p.name)}"/>`;
+  const t = EMOJI_TILE[p.emojiKey] || { emoji: '🍰', bg: 'from-primary-container to-secondary-container' };
+  return `<div class="${sizeClasses} flex items-center justify-center text-3xl bg-gradient-to-br ${t.bg}">${t.emoji}</div>`;
+}
 
 function uid(prefix) { return prefix + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
 function todayISO() { return new Date().toISOString().slice(0, 10); }
@@ -36,12 +45,12 @@ function seedDB() {
     { id: uid('p'), name: 'Kurasan', desc: 'Kərə yağı ilə', price: 3.5, stock: 45, unit: 'ədəd', catId: categories[2].id, img: IMG.kurasan },
     { id: uid('p'), name: 'Paxlava', desc: 'Qozlu, ballı', price: 2, stock: 30, unit: 'pors', catId: categories[1].id, img: IMG.paxlava },
     { id: uid('p'), name: 'Mini Paxlava', desc: 'Qarışıq qoz-fındıq', price: 1.5, stock: 60, unit: 'ədəd', catId: categories[1].id, img: IMG.miniPaxlava },
-    { id: uid('p'), name: 'Şəkərbura', desc: 'Ənənəvi Novruz şirniyyatı', price: 2.2, stock: 40, unit: 'ədəd', catId: categories[1].id, img: IMG.sekerbura },
-    { id: uid('p'), name: 'Qoğal', desc: 'Zəncəfilli, xəşilli', price: 2.5, stock: 25, unit: 'ədəd', catId: categories[1].id, img: IMG.qogal },
+    { id: uid('p'), name: 'Şəkərbura', desc: 'Ənənəvi Novruz şirniyyatı', price: 2.2, stock: 40, unit: 'ədəd', catId: categories[1].id, emojiKey: 'sekerbura' },
+    { id: uid('p'), name: 'Qoğal', desc: 'Zəncəfilli, xəşilli', price: 2.5, stock: 25, unit: 'ədəd', catId: categories[1].id, emojiKey: 'qogal' },
     { id: uid('p'), name: 'Ballı Tort', desc: 'Ənənəvi bal tortu, qat-qat', price: 42, stock: 8, unit: 'ədəd', catId: categories[0].id, img: IMG.ballıTort },
-    { id: uid('p'), name: 'Tort Assorti', desc: 'Qarışıq şirniyyat çeşidi', price: 38, stock: 6, unit: 'ədəd', catId: categories[0].id, img: IMG.tortAssorti },
-    { id: uid('p'), name: 'Eklerlər', desc: 'Şokoladlı krem dolması', price: 3, stock: 20, unit: 'ədəd', catId: categories[2].id, img: IMG.eclair },
-    { id: uid('p'), name: 'Çay dəsti', desc: 'Qara çay, 6 ədəd bişkot ilə', price: 6, stock: 15, unit: 'dəst', catId: categories[3].id, img: IMG.cayDesti }
+    { id: uid('p'), name: 'Tort Assorti', desc: 'Şokoladlı, qarışıq çeşid', price: 38, stock: 6, unit: 'ədəd', catId: categories[0].id, img: IMG.chocCake },
+    { id: uid('p'), name: 'Eklerlər', desc: 'Şokoladlı krem dolması', price: 3, stock: 20, unit: 'ədəd', catId: categories[2].id, emojiKey: 'eclair' },
+    { id: uid('p'), name: 'Çay dəsti', desc: 'Qara çay, 6 ədəd bişkot ilə', price: 6, stock: 15, unit: 'dəst', catId: categories[3].id, emojiKey: 'cayDesti' }
   ];
   const customers = [
     { id: uid('c'), name: 'Aysel Məmmədova', phone: '+994 50 123 45 67', birthday: '1994-03-12', address: 'Nərimanov r., Bakı', notes: 'VIP müştəri, hər ay tort sifariş edir' },
@@ -169,10 +178,16 @@ function renderDashboard(app) {
 
   const recentOrders = [...DB.orders].sort((a, b) => b.createdAt - a.createdAt).slice(0, 3);
 
+  const hour = new Date().getHours();
+  const greetings = hour < 6 ? ['Gecəniz xeyrə qalsın 🌙', 'Sabah yeni fırın növbəsi başlayır'] :
+    hour < 12 ? ['Sabahınız xeyir ☀️', 'Bu gün yeni sifarişlərlə dolu ola bilər'] :
+    hour < 17 ? ['Xoş gördük! 🍰', 'Günün ən şirin saatları burdadır'] :
+    hour < 21 ? ['Axşamınız xeyir 🌇', 'Günü yekunlaşdıraq, rəqəmlərə baxaq'] :
+    ['Gecəniz xoş keçsin 🌃', 'Sabaha hazırlıq üçün son baxış'];
   app.innerHTML = `
     <div class="fade-in">
-      <h2 class="text-headline-md font-headline-md text-on-background">Salam, Sona xanım</h2>
-      <p class="text-body-md font-body-md text-on-surface-variant mb-md">Bu günün qısa xülasəsi</p>
+      <h2 class="text-headline-md font-headline-md text-on-background">${greetings[0]}</h2>
+      <p class="text-body-md font-body-md text-on-surface-variant mb-md">${greetings[1]}</p>
 
       <div class="glass-card rounded-2xl p-md mb-sm">
         <div class="flex items-center gap-2 text-on-surface-variant text-body-sm font-body-sm mb-2">
@@ -208,7 +223,7 @@ function renderDashboard(app) {
         ${topProducts.length ? topProducts.map(({ product, qty }) => `
           <div class="rounded-lg p-sm flex items-center gap-sm border border-surface-variant/20 hover:bg-surface-container-low transition-colors">
             <div class="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-surface-container">
-              <img src="${product.img}" class="w-full h-full object-cover" alt="${escapeHtml(product.name)}"/>
+              ${productVisual(product, 'w-full h-full')}
             </div>
             <div class="flex-grow min-w-0">
               <h4 class="text-body-lg font-body-lg text-on-background font-semibold truncate">${escapeHtml(product.name)}</h4>
@@ -293,7 +308,7 @@ function renderProductGrid(catId) {
     return `
     <div class="bg-surface-container-lowest rounded-xl border border-primary-container soft-shadow overflow-hidden group">
       <div class="relative aspect-square overflow-hidden bg-surface-container">
-        <img src="${p.img}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt="${escapeHtml(p.name)}"/>
+        <div class="absolute inset-0 group-hover:scale-105 transition-transform duration-300">${productVisual(p, 'w-full h-full')}</div>
         ${low ? `<span class="absolute top-2 left-2 bg-error text-on-error text-[10px] font-bold px-2 py-0.5 rounded-full">AZ QALIB</span>` : ''}
       </div>
       <div class="p-sm">
@@ -366,7 +381,7 @@ function openProductForm(id) {
     const data = {
       name: f.get('name').trim(), desc: f.get('desc').trim(), price: parseFloat(f.get('price')) || 0,
       stock: parseInt(f.get('stock')) || 0, unit: f.get('unit').trim() || 'ədəd', catId: f.get('catId'),
-      img: f.get('img').trim() || IMG.napoleon
+      img: f.get('img').trim()
     };
     if (p) { Object.assign(p, data); toast('Məhsul yeniləndi'); }
     else { DB.products.push({ id: uid('p'), ...data }); toast('Məhsul əlavə edildi'); }
