@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html lang="az"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Şirniyyat Evi - Müştərilər</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Literata:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#442a22",
+                        "on-primary-fixed-variant": "#524249",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#1e1c00",
+                        "on-secondary-fixed-variant": "#5b4137",
+                        "tertiary-fixed": "#eae4b1",
+                        "surface-container-highest": "#ffdbd0",
+                        "surface-variant": "#ffdbd0",
+                        "outline": "#7f7478",
+                        "surface-dim": "#fbd1c4",
+                        "inverse-on-surface": "#ffede8",
+                        "inverse-primary": "#d7c1c8",
+                        "on-tertiary-fixed-variant": "#4b4822",
+                        "primary-container": "#fce4ec",
+                        "tertiary-fixed-dim": "#cdc897",
+                        "surface-tint": "#6b5a60",
+                        "on-primary-container": "#76646b",
+                        "primary-fixed": "#f4dce4",
+                        "primary": "#6b5a60",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#fed7ca",
+                        "on-background": "#2c160e",
+                        "tertiary": "#636037",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#25181e",
+                        "surface-container-high": "#ffe2da",
+                        "secondary-fixed-dim": "#e4beb2",
+                        "outline-variant": "#d0c3c7",
+                        "surface": "#fff8f6",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#75584d",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#ffe9e3",
+                        "surface-container-low": "#fff1ed",
+                        "on-secondary-container": "#795c51",
+                        "surface-bright": "#fff8f6",
+                        "on-secondary": "#ffffff",
+                        "background": "#fff8f6",
+                        "secondary-fixed": "#ffdbce",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#4d4447",
+                        "tertiary-container": "#f2ecb8",
+                        "on-surface": "#2c160e",
+                        "on-tertiary-container": "#6e6b41",
+                        "on-secondary-fixed": "#2b160f",
+                        "primary-fixed-dim": "#d7c1c8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "64px",
+                        "margin-mobile": "20px",
+                        "xs": "8px",
+                        "md": "24px",
+                        "gutter": "16px",
+                        "sm": "16px",
+                        "base": "4px",
+                        "lg": "40px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Literata"],
+                        "headline-lg": ["Literata"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Literata"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Literata"],
+                        "body-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "700" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .icon-filled { font-variation-settings: 'FILL' 1; }
+        .soft-shadow { box-shadow: 0 4px 20px rgba(141, 110, 99, 0.08); }
+        .glass-nav { background-color: rgba(255, 248, 246, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .soft-row-hover:hover { background-color: theme('colors.primary-container'); transition: background-color 0.2s ease; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen pb-24 md:pb-8 flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky shadow-sm bg-surface z-40">
+<div class="flex justify-between items-center px-margin-mobile py-base w-full max-w-7xl mx-auto md:px-margin-desktop">
+<div class="flex items-center gap-xs">
+<img class="w-10 h-10 rounded-full object-cover border border-outline-variant/30" data-alt="A small, elegant bakery logo featuring a stylized whisk and wheat stalk in soft caramel tones on a cream background. The design is minimalist, artisanal, and suitable for a warm, welcoming storefront aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvDTrErw5rJlZ7UcWXLdXNQGJk8nc63fIif4eluJB88o08A1IHIUvTt6iXtxdR6vxearVaA-3KwnigLfWu0Cia-bsBh-PFzhchN4dkMyApllVWE0HBDtPro7jZxUbsQP0QkzjkgF4qKwsJVr0lGxGFhe6ksUHQCXKhzl3YJMECDYUKIGXLC5_KPdSvNHzi7_OKV5Hq0aQuPBHRH7sJ4tFeuRRPxVMLPZHDrDE_RjqDaq-XCUTavOpW"/>
+<h1 class="text-headline-sm font-headline-md font-bold text-secondary">Şirniyyat Evi</h1>
+</div>
+<!-- Desktop Nav Cluster (Hidden on Mobile) -->
+<nav class="hidden md:flex gap-md items-center">
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-primary-container/20" href="#"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-primary-container/20" href="#"><span class="material-symbols-outlined">bakery_dining</span>Məhsullar</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-primary-container/20" href="#"><span class="material-symbols-outlined">shopping_bag</span>Sifarişlər</a>
+<a class="text-label-md font-label-md text-primary bg-primary-container/30 transition-colors flex items-center gap-2 px-3 py-2 rounded-lg" href="#"><span class="material-symbols-outlined icon-filled">group</span>Müştərilər</a>
+</nav>
+<button aria-label="Settings" class="text-primary p-2 rounded-full hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pt-md pb-xl">
+<!-- Page Header & Actions -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-sm mb-md">
+<div>
+<h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg text-on-background mb-1">Müştərilər bazası</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Bütün müştəri məlumatları və sifariş tarixçəsi.</p>
+</div>
+<div class="flex gap-sm w-full md:w-auto">
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/70 pointer-events-none">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant/30 rounded-xl text-body-md font-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-shadow text-on-background placeholder:text-on-surface-variant/60" placeholder="Ad və ya nömrə axtar..." type="text"/>
+</div>
+<button class="flex items-center justify-center gap-2 bg-secondary hover:bg-secondary/90 text-on-secondary px-4 py-2 rounded-xl text-label-md font-label-md transition-transform duration-150 active:scale-98 shadow-sm whitespace-nowrap">
+<span class="material-symbols-outlined text-[20px]">add</span> <span class="hidden md:inline">Yeni Müştəri</span>
+</button>
+</div>
+</div>
+<!-- Bento Grid Layout for Customers -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Customer Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-md soft-shadow border border-surface-variant/50 flex flex-col gap-sm relative group overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary-container/30 rounded-bl-full -mr-4 -mt-4 transition-transform duration-300 group-hover:scale-110"></div>
+<div class="flex justify-between items-start z-10">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-headline-sm font-headline-sm font-bold">
+                            AM
+                        </div>
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-background">Aysel Məmmədova</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">call</span> +994 50 123 45 67
+                            </p>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-secondary transition-colors p-1 rounded-full hover:bg-surface-container">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto pt-sm border-t border-outline-variant/20 flex justify-between items-center z-10">
+<div class="flex items-center gap-2">
+<span class="bg-tertiary-container text-on-tertiary-container text-label-sm font-label-sm px-2 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">shopping_bag</span> 3 sifariş
+                        </span>
+<span class="bg-surface-container text-on-surface text-label-sm font-label-sm px-2 py-1 rounded-full">VIP</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Son: 2 gün öncə</p>
+</div>
+</div>
+<!-- Customer Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-md soft-shadow border border-surface-variant/50 flex flex-col gap-sm relative group overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary-container/30 rounded-bl-full -mr-4 -mt-4 transition-transform duration-300 group-hover:scale-110"></div>
+<div class="flex justify-between items-start z-10">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center text-headline-sm font-headline-sm font-bold">
+                            EƏ
+                        </div>
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-background">Elvin Əliyev</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">call</span> +994 55 987 65 43
+                            </p>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-secondary transition-colors p-1 rounded-full hover:bg-surface-container">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto pt-sm border-t border-outline-variant/20 flex justify-between items-center z-10">
+<div class="flex items-center gap-2">
+<span class="bg-primary-container text-on-primary-container text-label-sm font-label-sm px-2 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">shopping_bag</span> 5 sifariş
+                        </span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Son: 1 həftə öncə</p>
+</div>
+</div>
+<!-- Customer Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-md soft-shadow border border-surface-variant/50 flex flex-col gap-sm relative group overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary-container/30 rounded-bl-full -mr-4 -mt-4 transition-transform duration-300 group-hover:scale-110"></div>
+<div class="flex justify-between items-start z-10">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center text-headline-sm font-headline-sm font-bold">
+                            Nİ
+                        </div>
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-background">Nigar İsmayılova</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">call</span> +994 70 456 78 90
+                            </p>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-secondary transition-colors p-1 rounded-full hover:bg-surface-container">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto pt-sm border-t border-outline-variant/20 flex justify-between items-center z-10">
+<div class="flex items-center gap-2">
+<span class="bg-surface-variant text-on-surface-variant text-label-sm font-label-sm px-2 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">shopping_bag</span> 1 sifariş
+                        </span>
+<span class="border border-outline-variant/50 text-on-surface-variant text-label-sm font-label-sm px-2 py-1 rounded-full">Yeni</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Son: Dünən</p>
+</div>
+</div>
+<!-- Customer Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl p-md soft-shadow border border-surface-variant/50 flex flex-col gap-sm relative group overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary-container/30 rounded-bl-full -mr-4 -mt-4 transition-transform duration-300 group-hover:scale-110"></div>
+<div class="flex justify-between items-start z-10">
+<div class="flex items-center gap-3">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="A close up, soft focus portrait photo of a smiling middle aged woman with dark hair, warm lighting, conveying a friendly bakery customer. The image is cropped into a perfect circle avatar, set against a soft cream background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNchUQwqTUY7n-S7nUNVOSWyrvqewevAis9monzYjc_rJzuNIiTpumsSvtJqgOreyoKdCWiofMniM6AyJPOxyj8tshHAWybIX17OeYrRfrKXisnDDrkKthr_crTypmt5Qs7WEWmc0kL-Hq5dCKHAsGtQKUVJvAKoAGmrdj7-W2JF6NipZPZ9K1WbGFlTFw6Py72a_eWZOMj5nWxpwul-7aN7S70c3ZuS25gKbsNR72PBSirEOyZRYZ"/>
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-background">Sevinc Qasımova</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">call</span> +994 50 111 22 33
+                            </p>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-secondary transition-colors p-1 rounded-full hover:bg-surface-container">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto pt-sm border-t border-outline-variant/20 flex justify-between items-center z-10">
+<div class="flex items-center gap-2">
+<span class="bg-primary-container text-on-primary-container text-label-sm font-label-sm px-2 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">shopping_bag</span> 12 sifariş
+                        </span>
+<span class="bg-surface-container text-on-surface text-label-sm font-label-sm px-2 py-1 rounded-full">VIP</span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Son: Bu gün</p>
+</div>
+</div>
+<!-- Customer Card 5 -->
+<div class="bg-surface-container-lowest rounded-xl p-md soft-shadow border border-surface-variant/50 flex flex-col gap-sm relative group overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary-container/30 rounded-bl-full -mr-4 -mt-4 transition-transform duration-300 group-hover:scale-110"></div>
+<div class="flex justify-between items-start z-10">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-headline-sm font-headline-sm font-bold">
+                            TƏ
+                        </div>
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-background">Tural Əhmədov</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[16px]">call</span> +994 55 333 44 55
+                            </p>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-secondary transition-colors p-1 rounded-full hover:bg-surface-container">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto pt-sm border-t border-outline-variant/20 flex justify-between items-center z-10">
+<div class="flex items-center gap-2">
+<span class="bg-tertiary-container text-on-tertiary-container text-label-sm font-label-sm px-2 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">shopping_bag</span> 2 sifariş
+                        </span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Son: 3 ay öncə</p>
+</div>
+</div>
+</div>
+<!-- Pagination/Load More -->
+<div class="mt-lg flex justify-center">
+<button class="px-6 py-2 border-2 border-secondary text-secondary rounded-xl text-label-md font-label-md hover:bg-secondary/5 transition-colors duration-150 active:scale-98">
+                Daha çox yüklə
+            </button>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden glass-nav fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe border-t border-surface-variant/30 shadow-lg rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 px-4 py-1 rounded-xl" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-sm font-label-sm mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 px-4 py-1 rounded-xl" href="#">
+<span class="material-symbols-outlined">bakery_dining</span>
+<span class="text-label-sm font-label-sm mt-1">Məhsullar</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 px-4 py-1 rounded-xl" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="text-label-sm font-label-sm mt-1">Sifarişlər</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined icon-filled">group</span>
+<span class="text-label-sm font-label-sm mt-1">Müştərilər</span>
+</a>
+</nav>
+</body></html>

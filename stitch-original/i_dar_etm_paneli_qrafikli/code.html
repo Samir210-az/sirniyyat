@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html lang="az"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Şirniyyat Evi - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400..900&amp;family=Plus+Jakarta+Sans:wght@400..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#442a22",
+                        "on-primary-fixed-variant": "#524249",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#1e1c00",
+                        "on-secondary-fixed-variant": "#5b4137",
+                        "tertiary-fixed": "#eae4b1",
+                        "surface-container-highest": "#ffdbd0",
+                        "surface-variant": "#ffdbd0",
+                        "outline": "#7f7478",
+                        "surface-dim": "#fbd1c4",
+                        "inverse-on-surface": "#ffede8",
+                        "inverse-primary": "#d7c1c8",
+                        "on-tertiary-fixed-variant": "#4b4822",
+                        "primary-container": "#fce4ec",
+                        "tertiary-fixed-dim": "#cdc897",
+                        "surface-tint": "#6b5a60",
+                        "on-primary-container": "#76646b",
+                        "primary-fixed": "#f4dce4",
+                        "primary": "#6b5a60",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#fed7ca",
+                        "on-background": "#2c160e",
+                        "tertiary": "#636037",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#25181e",
+                        "surface-container-high": "#ffe2da",
+                        "secondary-fixed-dim": "#e4beb2",
+                        "outline-variant": "#d0c3c7",
+                        "surface": "#fff8f6",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#75584d",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#ffe9e3",
+                        "surface-container-low": "#fff1ed",
+                        "on-secondary-container": "#795c51",
+                        "surface-bright": "#fff8f6",
+                        "on-secondary": "#ffffff",
+                        "background": "#fff8f6",
+                        "secondary-fixed": "#ffdbce",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#4d4447",
+                        "tertiary-container": "#f2ecb8",
+                        "on-surface": "#2c160e",
+                        "on-tertiary-container": "#6e6b41",
+                        "on-secondary-fixed": "#2b160f",
+                        "primary-fixed-dim": "#d7c1c8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "64px",
+                        "margin-mobile": "20px",
+                        "xs": "8px",
+                        "md": "24px",
+                        "gutter": "16px",
+                        "sm": "16px",
+                        "base": "4px",
+                        "lg": "40px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Literata"],
+                        "headline-lg": ["Literata"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Literata"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Literata"],
+                        "body-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "700" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .glass-card {
+            background: linear-gradient(135deg, theme('colors.surface-container-lowest') 0%, theme('colors.surface-container-low') 100%);
+            border: 1px solid theme('colors.primary-container');
+            box-shadow: 0 8px 32px 0 rgba(141, 110, 99, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .soft-shadow { box-shadow: 0 4px 16px rgba(141, 110, 99, 0.08); }
+        .dotted-path { border-bottom: 2px dotted theme('colors.outline-variant'); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky shadow-sm dark:shadow-none bg-surface dark:bg-surface-dim z-40">
+<div class="flex justify-between items-center px-margin-mobile py-base w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-xs">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="Shop Logo" class="w-full h-full object-cover" data-alt="A warm, artisanal bakery logo featuring a stylized whisk and rolling pin, rendered in soft caramel brown and light cream tones. The style is minimalist and elegant, suitable for a high-end confectionery shop. Bright, inviting lighting highlights the logo." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIMzvkh5w8VevxAqBI5LI5jlMuj2LtI9_8Pn9Wtlg0fm8qFLJypivvxTnnTBK2TiadsNUchXgqcQKC5hx_xFGbM0dEV3aRVYjUFnIIQ_hh-OPblQ3UJIIvCWUDCRstuSeMKt5OzNuYlmYvrIfGcbY_iX3RhMDbTroEqh_Pr-K2vfjuXisdVf3i8iAv_lLQXgmXQNr3zo5KyqVqMj1eXrrrWc0PGT-kuZ6EGzP3kXOVBzk2PAQT4nPV"/>
+</div>
+<h1 class="text-headline-sm font-headline-md font-bold text-secondary dark:text-secondary-fixed tracking-tight">Şirniyyat Evi</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-primary dark:text-primary-fixed-dim hover:bg-primary-container/20 dark:hover:bg-primary-fixed-variant/20 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-md grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Welcome Section -->
+<div class="col-span-1 md:col-span-12 mb-xs">
+<h2 class="text-headline-md font-headline-md text-on-background">Salam, Sona xanım</h2>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Bu günün qısa xülasəsi</p>
+</div>
+<!-- Daily Sales Summary (Hero Metric) -->
+<div class="col-span-1 md:col-span-4 glass-card rounded-xl p-md flex flex-col justify-between h-48 relative overflow-hidden group hover:scale-[0.99] transition-transform duration-300 cursor-default">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-primary-container rounded-full opacity-50 mix-blend-multiply filter blur-2xl group-hover:scale-110 transition-transform duration-500"></div>
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">payments</span>
+                    Günlük Satış
+                </p>
+<div class="mt-4">
+<h3 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg text-on-background">450 <span class="text-headline-sm font-headline-sm text-on-surface-variant ml-1">AZN</span></h3>
+<div class="flex items-center gap-2 mt-2 bg-surface-container rounded-full px-3 py-1 w-max">
+<span class="material-symbols-outlined text-secondary text-sm">trending_up</span>
+<span class="text-label-sm font-label-sm text-secondary">+12% dünənə görə</span>
+</div>
+</div>
+</div>
+</div><div class="col-span-1 md:col-span-8 glass-card rounded-xl p-md flex flex-col h-48 relative overflow-hidden group hover:scale-[0.99] transition-transform duration-300 cursor-default">
+<div class="flex justify-between items-center mb-2">
+<p class="text-label-md font-label-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">monitoring</span>
+            Satış Dinamikası
+        </p>
+<span class="text-label-sm font-label-sm text-secondary">Son 7 gün</span>
+</div>
+<div class="flex-grow flex flex-col justify-end">
+<div class="w-full h-24 relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 400 100">
+<defs>
+<lineargradient id="chartGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color: #6b5a60; stop-opacity: 0.2"></stop>
+<stop offset="100%" style="stop-color: #6b5a60; stop-opacity: 0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,80 Q50,60 100,70 T200,40 T300,50 T400,20 L400,100 L0,100 Z" fill="url(#chartGradient)"></path>
+<path d="M0,80 Q50,60 100,70 T200,40 T300,50 T400,20" fill="none" stroke="#6b5a60" stroke-linecap="round" stroke-width="3"></path>
+<circle cx="0" cy="80" fill="#75584d" r="4"></circle>
+<circle cx="100" cy="70" fill="#75584d" r="4"></circle>
+<circle cx="200" cy="40" fill="#75584d" r="4"></circle>
+<circle cx="300" cy="50" fill="#75584d" r="4"></circle>
+<circle cx="400" cy="20" fill="#75584d" r="4"></circle>
+</svg>
+</div>
+<div class="flex justify-between mt-2 px-1">
+<span class="text-[10px] font-label-sm text-on-surface-variant">B.</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant">Ç.A.</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant">Ç.</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant">C.A.</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant">C.</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant">Ş.</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant">B.</span>
+</div>
+</div>
+</div>
+<!-- Quick Stats Grid -->
+<div class="col-span-1 md:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-gutter h-auto md:h-32 mt-sm">
+<div class="bg-surface-container-lowest rounded-xl p-md border border-surface-variant/30 soft-shadow flex flex-col justify-center items-center text-center">
+<span class="material-symbols-outlined text-tertiary text-3xl mb-2">cake</span>
+<p class="text-headline-md font-headline-md text-on-background">24</p>
+<p class="text-label-md font-label-md text-on-surface-variant">Yeni Sifariş</p>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-md border border-surface-variant/30 soft-shadow flex flex-col justify-center items-center text-center">
+<span class="material-symbols-outlined text-secondary text-3xl mb-2">local_shipping</span>
+<p class="text-headline-md font-headline-md text-on-background">8</p>
+<p class="text-label-md font-label-md text-on-surface-variant">Çatdırılmada</p>
+</div>
+</div>
+<!-- Top Selling Products -->
+<div class="col-span-1 md:col-span-6 mt-sm">
+<div class="flex justify-between items-center mb-sm">
+<h3 class="text-headline-sm font-headline-sm text-on-background">Top Məhsullar</h3>
+<button class="text-label-md font-label-md text-primary hover:text-secondary transition-colors">Hamısı</button>
+</div>
+<div class="flex flex-col gap-xs">
+<!-- Product 1 -->
+<div class="bg-surface-container-lowest rounded-lg p-sm flex items-center gap-sm border border-surface-variant/20 hover:bg-surface-container-low transition-colors group">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img alt="Tort Napoleon" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A delicious slice of classic Napoleon cake, featuring multiple layers of thin, flaky puff pastry and rich custard cream. Set against a warm, inviting bakery background with soft, natural lighting. The overall mood is sweet, appetizing, and artisanal, perfect for a confectionery setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADtGLAEb9zCT10NvFdflbFVT96hSuetHXsqJrHfdgamC-Rprynex1hbnAnCvYLX7YOay0WOLwHLwiNK5-XilrI1lAG93Bxb54HcKZ_Q9LquVgx-lD93eXH8jz4hpU1otJxYIJQxJ88yweGVoDjqb4pLxVzX2LJCbSpnGpA-efJWH1zRMIDu4-93lB0xj_Oj4gb5eTEQICbtzMXoi2azQkUn5QaX2--kIt2Gd0bwi2_6yy8Mm_mVV0V"/>
+</div>
+<div class="flex-grow">
+<h4 class="text-body-lg font-body-lg text-on-background font-semibold">Tort 'Napoleon'</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Klassik resept</p>
+</div>
+<div class="text-right shrink-0">
+<p class="text-label-md font-label-md text-on-background">12 ədəd</p>
+<p class="text-label-sm font-label-sm text-secondary">Satılıb</p>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="bg-surface-container-lowest rounded-lg p-sm flex items-center gap-sm border border-surface-variant/20 hover:bg-surface-container-low transition-colors group">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img alt="Kurasan" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A freshly baked, golden-brown croissant resting on a wooden board. The pastry looks flaky and buttery, with a soft, warm light highlighting its delicate layers. The setting is a cozy bakery with hints of flour and baking tools in the slightly blurred background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7zUBmyn5qf3l9y287cklR6WL4tXzNBdtUnDfiiOu3ycMOjMzPMkQ7AaZvN_mY-MxKzC7mtjPUYn9OTo0riBjeYmHEckA94uIyQJNj5wihUM1s1OleU5X0bb8g-vjfBjrjJq7F1wzZg3SmgWrq2GRLYXoen2gNwo51qDduIwH1nQXctUeYNerZh3o591GetqU_Bwf4f4M1nH5AhV6-n4UTxMTywS3zJi6tMa0GYgAfACqYZeekT3_a"/>
+</div>
+<div class="flex-grow">
+<h4 class="text-body-lg font-body-lg text-on-background font-semibold">Kurasan</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Kərə yağı ilə</p>
+</div>
+<div class="text-right shrink-0">
+<p class="text-label-md font-label-md text-on-background">45 ədəd</p>
+<p class="text-label-sm font-label-sm text-secondary">Satılıb</p>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="bg-surface-container-lowest rounded-lg p-sm flex items-center gap-sm border border-surface-variant/20 hover:bg-surface-container-low transition-colors group">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0">
+<img alt="Paxlava" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Traditional Azerbaijani Paxlava arranged neatly on a decorative plate. The diamond-shaped pastries are golden, glistening with syrup, and topped with halves of walnuts. The lighting is warm and inviting, showcasing the rich textures and layers of the nut-filled pastry in a high-end confectionery presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm1GvPvWyRkFsbYXmNpB0Wn8U9Msbsbj0kNxlXaxtoYDHXhPdT9WWIEcTc6f0w6FGrwTdFNTySqbqY1A7qD3uilJqo_xG3nDv17vWqUZYYuShH16P0xt_MKPcY78zUaLrcMU_K3TCNb2R2vajStjEuFCQNwIcYNCzo2lkeDIsLiPnUHl5K8tVihSXkFVq4lQbWrw7ZhaOLrmif-M8uTGoFUtiQakO0LHVoqZPu4CUhQoaBsNqUarp3"/>
+</div>
+<div class="flex-grow">
+<h4 class="text-body-lg font-body-lg text-on-background font-semibold">Paxlava</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Qozlu, ballı</p>
+</div>
+<div class="text-right shrink-0">
+<p class="text-label-md font-label-md text-on-background">30 pors</p>
+<p class="text-label-sm font-label-sm text-secondary">Satılıb</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity -->
+<div class="col-span-1 md:col-span-6 mt-sm">
+<div class="flex justify-between items-center mb-sm">
+<h3 class="text-headline-sm font-headline-sm text-on-background">Son Sifarişlər</h3>
+<button class="text-label-md font-label-md text-primary hover:text-secondary transition-colors">Tarixçə</button>
+</div>
+<div class="bg-surface-container-lowest rounded-xl border border-primary-container soft-shadow p-sm">
+<!-- Order 1 -->
+<div class="flex items-start gap-md py-sm border-b border-surface-variant/30 last:border-0 hover:bg-primary-container/10 transition-colors rounded-lg px-2 -mx-2">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0 mt-1">
+<span class="text-label-md font-label-md">AM</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="text-body-md font-body-md text-on-background font-semibold">Aysel Məmmədova</h4>
+<span class="text-label-sm font-label-sm text-on-surface-variant">10:45</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">1x Tort 'Napoleon', 2x Kurasan</p>
+<div class="mt-2 flex items-center gap-2">
+<span class="px-2 py-1 rounded-full bg-[#E8F5E9] text-[#2E7D32] text-[10px] font-bold uppercase tracking-wide">Hazırdır</span>
+<span class="text-label-sm font-label-sm text-on-background font-semibold">45 AZN</span>
+</div>
+</div>
+</div>
+<!-- Order 2 -->
+<div class="flex items-start gap-md py-sm border-b border-surface-variant/30 last:border-0 hover:bg-primary-container/10 transition-colors rounded-lg px-2 -mx-2">
+<div class="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container shrink-0 mt-1">
+<span class="text-label-md font-label-md">EH</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="text-body-md font-body-md text-on-background font-semibold">Emin Həsənov</h4>
+<span class="text-label-sm font-label-sm text-on-surface-variant">09:30</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">10x Paxlava, 1x Çay dəsti</p>
+<div class="mt-2 flex items-center gap-2">
+<span class="px-2 py-1 rounded-full bg-primary-container text-on-primary-container text-[10px] font-bold uppercase tracking-wide">Hazırlanır</span>
+<span class="text-label-sm font-label-sm text-on-background font-semibold">60 AZN</span>
+</div>
+</div>
+</div>
+<!-- Order 3 -->
+<div class="flex items-start gap-md py-sm border-b border-surface-variant/30 last:border-0 hover:bg-primary-container/10 transition-colors rounded-lg px-2 -mx-2">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant shrink-0 mt-1">
+<span class="text-label-md font-label-md">LQ</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<h4 class="text-body-md font-body-md text-on-background font-semibold">Lalə Quliyeva</h4>
+<span class="text-label-sm font-label-sm text-on-surface-variant">08:15</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">5x Şəkərbura, 5x Qoğal</p>
+<div class="mt-2 flex items-center gap-2">
+<span class="px-2 py-1 rounded-full bg-[#E8F5E9] text-[#2E7D32] text-[10px] font-bold uppercase tracking-wide">Təhvil verildi</span>
+<span class="text-label-sm font-label-sm text-on-background font-semibold">25 AZN</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface/80 dark:bg-inverse-surface/90 backdrop-blur-md border-t border-surface-variant/30 dark:border-outline-variant/20 shadow-lg rounded-t-xl">
+<!-- Dashboard (Active) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1 scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-label-sm font-label-sm mt-1">Dashboard</span>
+</a>
+<!-- Məhsullar (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-primary-fixed-variant rounded-full px-4 py-1 transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">bakery_dining</span>
+<span class="text-label-sm font-label-sm mt-1">Məhsullar</span>
+</a>
+<!-- Sifarişlər (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-primary-fixed-variant rounded-full px-4 py-1 transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">shopping_bag</span>
+<span class="text-label-sm font-label-sm mt-1">Sifarişlər</span>
+</a>
+<!-- Müştərilər (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-primary-fixed-variant rounded-full px-4 py-1 transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">group</span>
+<span class="text-label-sm font-label-sm mt-1">Müştərilər</span>
+</a>
+</nav>
+<!-- SideNav replacement for Desktop TopAppBar Links (Hidden on mobile) -->
+<div class="hidden md:flex fixed top-0 right-0 h-16 items-center px-margin-desktop z-50 gap-6 mr-16">
+<a class="text-primary font-label-md text-label-md border-b-2 border-primary pb-1" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md transition-colors" href="#">Məhsullar</a>
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md transition-colors" href="#">Sifarişlər</a>
+<a class="text-on-surface-variant hover:text-primary font-label-md text-label-md transition-colors" href="#">Müştərilər</a>
+</div>
+</body></html>

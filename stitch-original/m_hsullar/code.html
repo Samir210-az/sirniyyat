@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html lang="az"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Məhsullar - Şirniyyat Evi CRM</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400..700&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-surface": "#442a22",
+                      "on-primary-fixed-variant": "#524249",
+                      "on-error-container": "#93000a",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-fixed": "#1e1c00",
+                      "on-secondary-fixed-variant": "#5b4137",
+                      "tertiary-fixed": "#eae4b1",
+                      "surface-container-highest": "#ffdbd0",
+                      "surface-variant": "#ffdbd0",
+                      "outline": "#7f7478",
+                      "surface-dim": "#fbd1c4",
+                      "inverse-on-surface": "#ffede8",
+                      "inverse-primary": "#d7c1c8",
+                      "on-tertiary-fixed-variant": "#4b4822",
+                      "primary-container": "#fce4ec",
+                      "tertiary-fixed-dim": "#cdc897",
+                      "surface-tint": "#6b5a60",
+                      "on-primary-container": "#76646b",
+                      "primary-fixed": "#f4dce4",
+                      "primary": "#6b5a60",
+                      "on-error": "#ffffff",
+                      "secondary-container": "#fed7ca",
+                      "on-background": "#2c160e",
+                      "tertiary": "#636037",
+                      "error": "#ba1a1a",
+                      "on-primary-fixed": "#25181e",
+                      "surface-container-high": "#ffe2da",
+                      "secondary-fixed-dim": "#e4beb2",
+                      "outline-variant": "#d0c3c7",
+                      "surface": "#fff8f6",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary": "#75584d",
+                      "on-primary": "#ffffff",
+                      "surface-container": "#ffe9e3",
+                      "surface-container-low": "#fff1ed",
+                      "on-secondary-container": "#795c51",
+                      "surface-bright": "#fff8f6",
+                      "on-secondary": "#ffffff",
+                      "background": "#fff8f6",
+                      "secondary-fixed": "#ffdbce",
+                      "on-tertiary": "#ffffff",
+                      "on-surface-variant": "#4d4447",
+                      "tertiary-container": "#f2ecb8",
+                      "on-surface": "#2c160e",
+                      "on-tertiary-container": "#6e6b41",
+                      "on-secondary-fixed": "#2b160f",
+                      "primary-fixed-dim": "#d7c1c8"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "64px",
+                      "margin-mobile": "20px",
+                      "xs": "8px",
+                      "md": "24px",
+                      "gutter": "16px",
+                      "sm": "16px",
+                      "base": "4px",
+                      "lg": "40px",
+                      "margin-desktop": "48px"
+              },
+              "fontFamily": {
+                      "label-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Literata"
+                      ],
+                      "headline-lg": [
+                              "Literata"
+                      ],
+                      "body-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-sm": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-sm": [
+                              "Literata"
+                      ],
+                      "body-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "Literata"
+                      ],
+                      "body-sm": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "40px",
+                              {
+                                      "lineHeight": "48px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-sm": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        
+        /* Custom subtle shadow using secondary tint as per guidelines */
+        .ambient-shadow-sm {
+            box-shadow: 0 4px 12px -2px rgba(117, 88, 77, 0.08), 0 2px 6px -2px rgba(117, 88, 77, 0.04);
+        }
+        
+        .ambient-shadow-md {
+            box-shadow: 0 8px 24px -4px rgba(117, 88, 77, 0.12), 0 4px 10px -4px rgba(117, 88, 77, 0.08);
+        }
+
+        /* Dotted path for steps (though not heavily used here, good to have for consistency) */
+        .dotted-path {
+            background-image: radial-gradient(theme('colors.outline-variant') 20%, transparent 20%);
+            background-size: 8px 8px;
+            background-position: center;
+            background-repeat: repeat-x;
+        }
+
+        /* Hide scrollbar for chips row */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col pb-24 relative">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-surface dark:bg-surface-dim shadow-sm dark:shadow-none transition-transform duration-150">
+<div class="flex justify-between items-center px-margin-mobile py-base w-full max-w-7xl mx-auto">
+<!-- Leading Avatar -->
+<div class="w-10 h-10 rounded-full overflow-hidden border border-primary-container bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">storefront</span>
+</div>
+<!-- Headline Brand Logo -->
+<h1 class="text-headline-sm font-headline-md font-bold text-secondary dark:text-secondary-fixed">
+                Şirniyyat Evi
+            </h1>
+<!-- Trailing Icon -->
+<button class="p-2 text-on-surface-variant hover:bg-primary-container/20 rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col w-full max-w-7xl mx-auto px-margin-mobile pt-sm space-y-md">
+<!-- Header & Search Section -->
+<div class="flex flex-col space-y-sm">
+<h2 class="text-headline-sm font-headline-sm text-on-background">Kataloq</h2>
+<!-- Search Bar -->
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</div>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-container-lowest border border-primary-container focus:border-secondary focus:ring-1 focus:ring-secondary rounded-xl text-body-md font-body-md text-on-surface placeholder-on-surface-variant transition-colors shadow-sm" placeholder="Məhsul axtar..." type="text"/>
+</div>
+<!-- Categories / Chips -->
+<div class="flex space-x-2 overflow-x-auto no-scrollbar py-2">
+<button class="flex-shrink-0 px-4 py-1.5 bg-secondary text-on-secondary rounded-full text-label-md font-label-md transition-transform active:scale-95">
+                    Bütün
+                </button>
+<button class="flex-shrink-0 px-4 py-1.5 bg-surface-container text-on-surface-variant border border-outline-variant/30 hover:bg-surface-container-high rounded-full text-label-md font-label-md transition-transform active:scale-95">
+                    Tortlar
+                </button>
+<button class="flex-shrink-0 px-4 py-1.5 bg-surface-container text-on-surface-variant border border-outline-variant/30 hover:bg-surface-container-high rounded-full text-label-md font-label-md transition-transform active:scale-95">
+                    Şirniyyatlar
+                </button>
+<button class="flex-shrink-0 px-4 py-1.5 bg-surface-container text-on-surface-variant border border-outline-variant/30 hover:bg-surface-container-high rounded-full text-label-md font-label-md transition-transform active:scale-95">
+                    Milli
+                </button>
+</div>
+</div>
+<!-- Product Grid (Bento-inspired asymmetrical layout) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Product 1: Ballı tort -->
+<div class="bg-surface-container-lowest rounded-xl border border-primary-container ambient-shadow-sm overflow-hidden flex flex-col transition-transform hover:-translate-y-1 duration-200">
+<div class="relative h-48 w-full bg-surface-container">
+<img alt="Ballı tort" class="absolute inset-0 w-full h-full object-cover" data-alt="A beautifully layered traditional honey cake slice on a pristine white ceramic plate. The cake has golden brown layers filled with rich white cream, topped with fine cake crumbs. The setting is a bright, sunlit bakery table with a warm, artisanal atmosphere. The lighting is soft and natural, emphasizing the comforting, minimalist aesthetic of the shop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALQiHAkXe43qate2K8RJwzphK_eVKzDJC-5R-2Amfqu21030Netch_9Nws49Xy2CU-IbFUmCHkTnfFJDlDmwkFoxJwDDK8bL2efKS0erQif48u1taf9A2Fhf-RHVriJGkm_xXBS7dRlzQffdB1t6_-0LTmyxIK3hExpd2XkFc10c38rMu7upJ1jAtl9wk9MfasKJ09x0lcMa2r2ZE6d_87lzC_tn4engb962omil1e2eW2iDmqTEJ7"/>
+<div class="absolute top-2 right-2 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded-md border border-surface-variant text-label-sm font-label-sm text-on-surface flex items-center space-x-1">
+<span class="material-symbols-outlined text-[14px] text-tertiary" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span>12 ədəd</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between">
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-background mb-1">Ballı tort</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant line-clamp-2 mb-3">Ənənəvi reseptlə hazırlanmış, yumşaq bal qatları və yüngül krem.</p>
+</div>
+<div class="flex justify-between items-end mt-auto">
+<div class="text-headline-md font-headline-md text-secondary">25 <span class="text-body-sm font-body-sm">AZN</span></div>
+<button class="w-8 h-8 rounded-full bg-primary-container text-primary flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product 2: Şokoladlı kurasan -->
+<div class="bg-surface-container-lowest rounded-xl border border-primary-container ambient-shadow-sm overflow-hidden flex flex-col transition-transform hover:-translate-y-1 duration-200">
+<div class="relative h-48 w-full bg-surface-container">
+<img alt="Şokoladlı kurasan" class="absolute inset-0 w-full h-full object-cover" data-alt="A perfectly baked, flaky chocolate croissant resting on a wooden cutting board. Deep rich chocolate is slightly visible oozing from the layers. The background hints at a cozy, minimalist bakery setting with warm cream tones and soft natural morning light filtering through a window, highlighting the pastry's golden crust." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtOhhyG4QEn51Ju004JPrnQUm9VPml6XfpN-8og5YD45TSQ62zMZYn9iZZR-JoW2vJEyCHpIHM0vDtnpFHFiKvUfAT5JIQ4lY3K1SpR8nTshcPNOTzFYgSI1jGFTWS37O1Hs1vea_gW_QxtDa6nSu1JCeTnlDeLQd0pYktYovyfVp8xs9TRoCfzzaKRUy8ldGAr0qSwT6IPVwLBP2_q_0J6CBkxsJqLUEQhQUON_HKQF2ijBnK2cT0"/>
+<div class="absolute top-2 right-2 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded-md border border-surface-variant text-label-sm font-label-sm text-on-surface flex items-center space-x-1">
+<span class="material-symbols-outlined text-[14px] text-tertiary" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span>45 ədəd</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between">
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-background mb-1">Şokoladlı kurasan</h3>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-tertiary-container/50 text-on-tertiary-container rounded-full text-[10px] font-label-sm">Premium Şokolad</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant line-clamp-2 mb-3">Fransız üsulu xırtıldayan xəmir və zəngin Belçika şokoladı.</p>
+</div>
+<div class="flex justify-between items-end mt-auto">
+<div class="text-headline-md font-headline-md text-secondary">3.50 <span class="text-body-sm font-body-sm">AZN</span></div>
+<button class="w-8 h-8 rounded-full bg-primary-container text-primary flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product 3: Mini paxlava -->
+<div class="bg-surface-container-lowest rounded-xl border border-primary-container ambient-shadow-sm overflow-hidden flex flex-col transition-transform hover:-translate-y-1 duration-200">
+<div class="relative h-48 w-full bg-surface-container">
+<img alt="Mini paxlava" class="absolute inset-0 w-full h-full object-cover" data-alt="A close-up view of several small, diamond-shaped mini pakhlava pastries arranged neatly on a sleek cream-colored tray. The pastries are glistening with light syrup and topped with crushed walnuts. The lighting is soft, warm, and inviting, creating a high-end artisanal confectionery aesthetic typical of a modern light-mode bakery app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4UrvKf3qpHKHVHXSU7yAAimQstSv_mtU-bJiihETZhSfLeUxdOs9xG275ZdEX73VX98ymy-hXMGQOeDBnSc50gRWQfn3vOreeOPlUyNV5WT7zjUGGajQM9860slfdXs6d1tUrhC8mVK5OvMiGriiZCLGSXJiRhemdHUAu_0DGep5Tv4TDJ0zYTKFc2Z7ZtKwhSgCifkAvYBL2sQY776r-nF8dyZExRmkR5M6NpTJ_e5BrBRTVVWhl"/>
+<div class="absolute top-2 right-2 bg-error-container/90 backdrop-blur-sm px-2 py-1 rounded-md border border-error/20 text-label-sm font-label-sm text-on-error-container flex items-center space-x-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span>5 ədəd</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-grow justify-between">
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-background mb-1">Mini paxlava</h3>
+<div class="flex flex-wrap gap-1 mb-2">
+<span class="px-2 py-0.5 bg-primary-container/50 text-primary rounded-full text-[10px] font-label-sm">Qozlu</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant line-clamp-2 mb-3">Xırtıldayan yuxa qatları və bol qoz ləpəsi ilə kiçik ölçülü ləzzət.</p>
+</div>
+<div class="flex justify-between items-end mt-auto">
+<div class="text-headline-md font-headline-md text-secondary">1.20 <span class="text-body-sm font-body-sm">AZN/ədəd</span></div>
+<button class="w-8 h-8 rounded-full bg-primary-container text-primary flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- New Product Ghost Card -->
+<button class="bg-surface-container/30 border-2 border-dashed border-outline-variant rounded-xl h-full min-h-[300px] flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-secondary hover:border-secondary/50 transition-all group">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center mb-3 group-hover:bg-secondary-container group-hover:text-on-secondary-container transition-colors">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</div>
+<span class="text-label-md font-label-md">Yeni Məhsul Əlavə Et</span>
+</button>
+</div>
+</main>
+<!-- Floating Action Button (FAB) -->
+<button class="fixed bottom-24 right-margin-mobile w-14 h-14 bg-secondary text-on-secondary rounded-xl ambient-shadow-md flex items-center justify-center hover:bg-secondary/90 active:scale-95 transition-all duration-200 z-40">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface/80 dark:bg-inverse-surface/90 backdrop-blur-md rounded-t-xl border-t border-surface-variant/30 ambient-shadow-md">
+<!-- Dashboard (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-primary-fixed-variant p-2 rounded-lg transition-colors w-16" href="#">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span class="text-label-sm font-label-sm">Dashboard</span>
+</a>
+<!-- Məhsullar (Active) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1 scale-90 transition-all duration-200 w-20" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">bakery_dining</span>
+<span class="text-label-sm font-label-sm">Məhsullar</span>
+</a>
+<!-- Sifarişlər (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-primary-fixed-variant p-2 rounded-lg transition-colors w-16" href="#">
+<span class="material-symbols-outlined mb-1">shopping_bag</span>
+<span class="text-label-sm font-label-sm">Sifarişlər</span>
+</a>
+<!-- Müştərilər (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-on-primary-fixed-variant p-2 rounded-lg transition-colors w-16" href="#">
+<span class="material-symbols-outlined mb-1">group</span>
+<span class="text-label-sm font-label-sm">Müştərilər</span>
+</a>
+</nav>
+</body></html>

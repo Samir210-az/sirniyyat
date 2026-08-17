@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Delete Product Confirmation</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400..700&amp;family=Plus+Jakarta+Sans:wght@400..700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#4d4447",
+                        "surface-variant": "#ffdbd0",
+                        "on-error": "#ffffff",
+                        "background": "#fff8f6",
+                        "inverse-on-surface": "#ffede8",
+                        "secondary-container": "#fed7ca",
+                        "surface-bright": "#fff8f6",
+                        "surface-tint": "#6b5a60",
+                        "inverse-surface": "#442a22",
+                        "surface-container-highest": "#ffdbd0",
+                        "surface-container": "#ffe9e3",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#ffdbce",
+                        "primary-fixed": "#f4dce4",
+                        "surface": "#fff8f6",
+                        "on-primary-fixed-variant": "#524249",
+                        "tertiary-fixed": "#eae4b1",
+                        "surface-container-low": "#fff1ed",
+                        "error-container": "#ffdad6",
+                        "primary": "#6b5a60",
+                        "primary-fixed-dim": "#d7c1c8",
+                        "on-secondary-container": "#795c51",
+                        "tertiary": "#636037",
+                        "on-secondary-fixed": "#2b160f",
+                        "primary-container": "#fce4ec",
+                        "surface-dim": "#fbd1c4",
+                        "on-surface": "#2c160e",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#1e1c00",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#ffe2da",
+                        "secondary": "#75584d",
+                        "inverse-primary": "#d7c1c8",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#cdc897",
+                        "tertiary-container": "#f2ecb8",
+                        "outline": "#7f7478",
+                        "on-secondary-fixed-variant": "#5b4137",
+                        "error": "#ba1a1a",
+                        "on-background": "#2c160e",
+                        "secondary-fixed-dim": "#e4beb2",
+                        "outline-variant": "#d0c3c7",
+                        "on-tertiary-container": "#6e6b41",
+                        "on-tertiary-fixed-variant": "#4b4822",
+                        "on-primary-container": "#76646b",
+                        "on-primary-fixed": "#25181e",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "16px",
+                        "margin-desktop": "48px",
+                        "xl": "64px",
+                        "margin-mobile": "20px",
+                        "lg": "40px",
+                        "xs": "8px",
+                        "base": "4px",
+                        "md": "24px",
+                        "sm": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Literata"],
+                        "headline-lg": ["Literata"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Literata"],
+                        "headline-md": ["Literata"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom modal entry animation */
+        @keyframes modalPop {
+            0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-animate {
+            animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body-md text-on-surface antialiased min-h-screen relative overflow-hidden selection:bg-primary-container">
+<!-- Background Context (Blurred out Products List representation) -->
+<div class="absolute inset-0 p-margin-mobile flex flex-col gap-sm pointer-events-none opacity-40">
+<!-- Mock Top App Bar -->
+<div class="flex justify-between items-center mb-md">
+<div class="w-8 h-8 rounded-full bg-surface-variant"></div>
+<div class="w-32 h-6 bg-surface-variant rounded"></div>
+<div class="w-8 h-8 rounded-full bg-surface-variant"></div>
+</div>
+<!-- Mock Product Cards (Soft-Row styling) -->
+<div class="w-full bg-surface-container-highest rounded-xl p-md flex items-center gap-sm">
+<div class="w-16 h-16 rounded-lg bg-surface-variant shrink-0"></div>
+<div class="flex-col flex gap-2 w-full">
+<div class="w-3/4 h-5 bg-surface-variant rounded"></div>
+<div class="w-1/2 h-4 bg-surface-variant rounded"></div>
+</div>
+</div>
+<div class="w-full bg-surface-container-highest rounded-xl p-md flex items-center gap-sm">
+<div class="w-16 h-16 rounded-lg bg-surface-variant shrink-0"></div>
+<div class="flex-col flex gap-2 w-full">
+<div class="w-2/3 h-5 bg-surface-variant rounded"></div>
+<div class="w-1/3 h-4 bg-surface-variant rounded"></div>
+</div>
+</div>
+<div class="w-full bg-surface-container-highest rounded-xl p-md flex items-center gap-sm">
+<div class="w-16 h-16 rounded-lg bg-surface-variant shrink-0"></div>
+<div class="flex-col flex gap-2 w-full">
+<div class="w-4/5 h-5 bg-surface-variant rounded"></div>
+<div class="w-2/5 h-4 bg-surface-variant rounded"></div>
+</div>
+</div>
+</div>
+<!-- Modal Backdrop Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-margin-mobile bg-on-surface/20 backdrop-blur-md">
+<!-- Confirmation Modal Content (Level 2 Elevation) -->
+<div class="modal-animate w-full max-w-sm bg-surface-container-lowest rounded-[24px] p-md flex flex-col items-center text-center shadow-[0_16px_32px_rgba(141,110,99,0.15)] border border-surface-container shadow-xl">
+<!-- Warning Icon -->
+<div class="w-16 h-16 rounded-full bg-error-container flex items-center justify-center mb-sm shrink-0">
+<span class="material-symbols-outlined text-[32px] text-error" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<!-- Title -->
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-xs w-full">
+                Məhsulu silməyə əminsiniz?
+            </h2>
+<!-- Description -->
+<p class="font-body-md text-body-md text-on-surface-variant mb-md px-2">
+                Bu məhsulu silsəniz, o, kataloqdan birdəfəlik silinəcək və bu əməliyyat geri qaytarıla bilməz.
+            </p>
+<!-- Actions Container -->
+<div class="w-full flex flex-col gap-xs mt-auto">
+<!-- Primary Action (Destructive) -->
+<button class="w-full py-3.5 bg-error text-on-error rounded-xl font-label-md text-label-md transition-transform duration-150 active:scale-95 shadow-sm hover:opacity-90 flex items-center justify-center gap-2" type="button">
+                    Bəli, sil
+                </button>
+<!-- Secondary Action (Cancel) -->
+<button class="w-full py-3.5 text-secondary bg-transparent rounded-xl font-label-md text-label-md transition-colors duration-150 active:bg-secondary-container/30 hover:bg-surface-variant/20 flex items-center justify-center" type="button">
+                    Xeyr, ləğv et
+                </button>
+</div>
+</div>
+</div>
+</body></html>

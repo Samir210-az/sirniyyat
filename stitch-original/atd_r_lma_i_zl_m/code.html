@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html lang="az"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Çatdırılma və Kuryer İzləmə - Confectionery CRM</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Literata:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#ffe9e3",
+                        "error": "#ba1a1a",
+                        "on-surface-variant": "#4d4447",
+                        "surface-container-high": "#ffe2da",
+                        "outline-variant": "#d0c3c7",
+                        "outline": "#7f7478",
+                        "on-primary-fixed": "#25181e",
+                        "secondary-fixed-dim": "#e4beb2",
+                        "tertiary-fixed": "#eae4b1",
+                        "primary-container": "#fce4ec",
+                        "on-primary-container": "#76646b",
+                        "tertiary-container": "#f2ecb8",
+                        "surface-bright": "#fff8f6",
+                        "inverse-surface": "#442a22",
+                        "secondary-container": "#fed7ca",
+                        "surface-container-low": "#fff1ed",
+                        "on-tertiary-fixed": "#1e1c00",
+                        "surface-variant": "#ffdbd0",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#75584d",
+                        "inverse-primary": "#d7c1c8",
+                        "inverse-on-surface": "#ffede8",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#d7c1c8",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#f4dce4",
+                        "surface": "#fff8f6",
+                        "tertiary-fixed-dim": "#cdc897",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#2c160e",
+                        "on-tertiary-container": "#6e6b41",
+                        "background": "#fff8f6",
+                        "on-tertiary-fixed-variant": "#4b4822",
+                        "on-secondary-fixed-variant": "#5b4137",
+                        "on-secondary-container": "#795c51",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#ffdbce",
+                        "on-surface": "#2c160e",
+                        "surface-tint": "#6b5a60",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#fbd1c4",
+                        "on-primary-fixed-variant": "#524249",
+                        "surface-container-highest": "#ffdbd0",
+                        "primary": "#6b5a60",
+                        "tertiary": "#636037",
+                        "on-secondary-fixed": "#2b160f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "64px",
+                        "md": "24px",
+                        "gutter": "16px",
+                        "xs": "8px",
+                        "margin-desktop": "48px",
+                        "sm": "16px",
+                        "lg": "40px",
+                        "base": "4px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Literata"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Literata"],
+                        "headline-sm": ["Literata"],
+                        "headline-lg-mobile": ["Literata"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased min-h-screen flex flex-col md:flex-row">
+<!-- Mobile Top App Bar -->
+<header class="md:hidden flex items-center justify-between px-margin-mobile h-16 w-full z-50 fixed top-0 bg-surface shadow-sm">
+<button class="text-primary active:scale-95 duration-150 p-2 -ml-2 rounded-full hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Confectionery CRM</h1>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-variant">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="A small, circular avatar portrait of a smiling young woman with dark hair tied back, wearing a neat white baker's apron against a soft pastel pink background in a modern, well-lit bakery setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDALb0ZOXvBLSJof2grejuYbxtiSfgVkbUUnB5sVquQ7LfGKRtfZuGbp4dfvXNrrK92KdukPRpIRRB6OkGByJ6j_d9Iyxp-cTvT9MPlxuu_y-Aq009eilOebk2xE1byf2tvBA4Dz4cC4JWJqOwHXiOjLlbjgEthj2aD7KGzxsEqi0X9ImOLqHyQNbOIb0fazol6ptu0iDxgfvCdUU5rkQXrqMaYMGlfrZ2liAC0zF5dIJunlAuXY51X"/>
+</div>
+</header>
+<!-- Desktop Navigation Drawer -->
+<nav class="hidden md:flex fixed inset-y-0 left-0 z-[60] flex-col py-md bg-surface-container h-full w-72 rounded-r-xl shadow-xl">
+<div class="px-md mb-8 flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant flex-shrink-0">
+<img alt="Bakery Owner Avatar" class="w-full h-full object-cover" data-alt="A high-quality, circular avatar image of a cheerful bakery owner with flour-dusted hands holding a small, perfectly decorated cupcake. The lighting is warm and inviting, showcasing a cozy bakery interior in the background with soft cream and pastel tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfDbGGCruI1xBxl_H_Tml7IAidROS1c5wJbp-Mkt2ypfJSs8RPsgHCaUFDdTDamJUUHrOHavc-0Lam_QwJiYxd0F-OcMVYDVkj30TfMDdERyFsDtKrw4hpFKFguUKYTV4v5CChLFIGdbwqWlgsSrdRM9tggFssT27Sx57T2MxKEc3MF7F5qQqJxcPASo20QPqggymBEVjSdfBEcaCRD696VbSGdzZDT0L6DR1jpVLVSkO-m0ilkZdr"/>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-primary">Sweet Dreams Bakery</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Admin Portal</p>
+</div>
+</div>
+<ul class="flex-1 flex flex-col gap-2 overflow-y-auto px-2">
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-lg mx-2 px-4 py-3 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+                    Dashboard
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-lg mx-2 px-4 py-3 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+                    Orders
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 bg-primary-container text-on-primary-container font-semibold rounded-lg mx-2 px-4 py-3 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-weight="fill">local_shipping</span>
+                    Delivery
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-lg mx-2 px-4 py-3 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                    Inventory
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-lg mx-2 px-4 py-3 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">person_search</span>
+                    Customers
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-lg mx-2 px-4 py-3 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                    Reports
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-lg mx-2 px-4 py-3 transition-all duration-200 ease-in-out mt-auto" href="#">
+<span class="material-symbols-outlined">settings_applications</span>
+                    Settings
+                </a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full md:pl-[320px] pt-20 md:pt-8 pb-24 md:pb-8 px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto min-h-screen">
+<div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Çatdırılma İzləmə</h2>
+<p class="text-on-surface-variant">Aktiv və planlaşdırılmış sifarişlərin vəziyyəti</p>
+</div>
+<div class="flex gap-3">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container border-none rounded-full focus:ring-2 focus:ring-primary-container text-on-surface w-full md:w-64" placeholder="Sifariş və ya müştəri axtar..." type="text"/>
+</div>
+<button class="bg-surface-container text-on-surface p-2 rounded-full hover:bg-surface-variant transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Column: Active Map & Priority -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Live Map Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_8px_24px_rgba(117,88,77,0.08)] overflow-hidden border border-primary-container relative h-[400px]">
+<div class="absolute inset-0 z-0 bg-surface-variant/30 flex items-center justify-center">
+<span class="text-on-surface-variant/50 font-body-lg">Xəritə Yüklənir...</span>
+<!-- Placeholder for map visualization -->
+<img alt="Delivery Map" class="absolute inset-0 w-full h-full object-cover opacity-80" data-alt="A stylized, simplified top-down map view of a city grid. The map uses soft pastel tones, primarily light beige and cream, with pale pink routes highlighted. Several small, elegant location pin icons in soft brown and muted green are scattered across the map, indicating delivery destinations in a clean, modern aesthetic." data-location="Baku" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl6LgmpEHtFzlClr8DjvOiaE8yEUiTOhzl2yZsO5gRBgJeIP8QfLVMmFYaFRmb1ZccNmXqgv50xNqiYZSPL39B4UB7Im-5RIoBdlXjeekOOYI3nyhzoUTIHo4sl7oEon0MojRj6PJZQdHCRkBeesNMKub4R6h0niQu7ncTJLlYgIKeKS8s7v9r7SQXyoA6LRurBC8KRORKBU4Dhg3wSf6SP1FQ7yB4z0MaSflHG0-OL-wos_spjcP8"/>
+</div>
+<div class="absolute top-4 left-4 z-10 bg-surface/90 backdrop-blur-sm rounded-lg p-3 shadow-sm border border-surface-container flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-[#4CAF50] animate-pulse"></div>
+<span class="font-label-md text-label-md text-on-surface">3 Aktiv Kuryer Yolda</span>
+</div>
+<!-- Floating Quick Stats on Map -->
+<div class="absolute bottom-4 left-4 right-4 z-10 flex gap-3 overflow-x-auto snap-x no-scrollbar">
+<div class="bg-surface/90 backdrop-blur-md rounded-xl p-4 shadow-md border border-surface-container min-w-[200px] snap-center shrink-0">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Sifariş #1042</span>
+<span class="bg-[#E8F5E9] text-[#2E7D32] px-2 py-0.5 rounded-full font-label-sm text-[10px]">Kuryerdə</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-1 truncate">Aygün Məmmədova</h4>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span class="font-body-sm text-body-sm">15 dəq</span>
+</div>
+</div>
+<div class="bg-surface/90 backdrop-blur-md rounded-xl p-4 shadow-md border border-surface-container min-w-[200px] snap-center shrink-0">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Sifariş #1043</span>
+<span class="bg-[#E8F5E9] text-[#2E7D32] px-2 py-0.5 rounded-full font-label-sm text-[10px]">Kuryerdə</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface mb-1 truncate">Tural Əliyev</h4>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span class="font-body-sm text-body-sm">22 dəq</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Priority Orders List -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_8px_24px_rgba(117,88,77,0.08)] p-md border border-primary-container">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Bütün Sifarişlər</h3>
+<div class="flex gap-2">
+<button class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full font-label-md text-label-md">Hamısı</button>
+<button class="px-3 py-1 bg-surface-container text-on-surface rounded-full font-label-md text-label-md hover:bg-surface-variant transition-colors">Gözləyən</button>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Order Row 1 -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg bg-surface hover:bg-primary-container/20 transition-colors border border-surface-container-high gap-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-[#FFF3E0] flex items-center justify-center text-[#E65100] shrink-0">
+<span class="material-symbols-outlined">bakery_dining</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-body-md text-body-md font-bold text-on-surface">Lalə Kərimova</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-sm">#1044</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">Şokoladlı Tort (2kg), 6 ədəd Kapkeyk</p>
+</div>
+</div>
+<div class="flex items-center gap-6 sm:justify-end">
+<div class="flex flex-col items-start sm:items-end">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Status</span>
+<span class="bg-[#FFF3E0] text-[#E65100] px-2 py-1 rounded-md font-label-sm text-[11px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">soup_kitchen</span> Hazırlanır
+                                    </span>
+</div>
+<div class="flex flex-col items-start sm:items-end min-w-[80px]">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Təxmini</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">14:30</span>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Order Row 2 -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg bg-surface hover:bg-primary-container/20 transition-colors border border-surface-container-high gap-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-[#E8F5E9] flex items-center justify-center text-[#2E7D32] shrink-0">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-body-md text-body-md font-bold text-on-surface">Rəşad Quliyev</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-sm">#1039</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">Meyvəli Tart, Kofelər</p>
+</div>
+</div>
+<div class="flex items-center gap-6 sm:justify-end">
+<div class="flex flex-col items-start sm:items-end">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Status</span>
+<span class="bg-[#E8F5E9] text-[#2E7D32] px-2 py-1 rounded-md font-label-sm text-[11px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">done_all</span> Çatdırıldı
+                                    </span>
+</div>
+<div class="flex flex-col items-start sm:items-end min-w-[80px]">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Kuryer</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">Orxan M.</span>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Order Row 3 -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg bg-surface hover:bg-primary-container/20 transition-colors border border-surface-container-high gap-4 opacity-70">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-[#FFEBEE] flex items-center justify-center text-[#C62828] shrink-0">
+<span class="material-symbols-outlined">cancel</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-body-md text-body-md font-bold text-on-surface line-through decoration-on-surface-variant/50">Sevinc Həsənova</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-sm">#1038</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">Makarons Seti (12 ədəd)</p>
+</div>
+</div>
+<div class="flex items-center gap-6 sm:justify-end">
+<div class="flex flex-col items-start sm:items-end">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Status</span>
+<span class="bg-[#FFEBEE] text-[#C62828] px-2 py-1 rounded-md font-label-sm text-[11px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">error</span> Ləğv edildi
+                                    </span>
+</div>
+<div class="flex flex-col items-start sm:items-end min-w-[80px]">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Səbəb</span>
+<span class="font-body-md text-body-md text-on-surface text-sm">Ünvan səhvi</span>
+</div>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Courier Status Bento -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Active Couriers Bento -->
+<div class="bg-primary rounded-xl shadow-[0_8px_24px_rgba(117,88,77,0.15)] p-md text-on-primary relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-20">
+<span class="material-symbols-outlined text-[80px]" data-weight="fill">two_wheeler</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-1 relative z-10">Kuryer Ekibi</h3>
+<p class="font-body-sm text-body-sm text-on-primary/80 mb-6 relative z-10">Hazırda xətdə olanlar</p>
+<div class="flex flex-col gap-4 relative z-10">
+<!-- Courier 1 -->
+<div class="flex items-center justify-between bg-surface/10 p-3 rounded-lg backdrop-blur-sm border border-surface/20">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden">
+<img alt="Kuryer Orxan" class="w-full h-full object-cover" data-alt="A small, circular avatar portrait of a young male courier wearing a casual cap and a light jacket, smiling warmly against a bright, sunny urban background. The lighting is natural and vibrant." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1baW1lDHoiaRTppTdWqdoaTHCfc8G1vRDqTOOzXABWAe6bmtRcWMPbqdqiRP-ZwwAA43GJRRT_zb1hZAIMHFPHU0k2dTogW2WH-AYmQ5TOmTFXDhHwbDqabfWu28VJVd_Bvn_tNNdo2R4TUm9IxKojgkA-W5uAJYLa2RM4eO0zbWvDsb8ubU7X-AuugDd703ff5NhQBuh_VmcoDoy5PvBl0o4O5_E9hTPhc7L-8eV4w4xVOIvYy1I"/>
+</div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-[#4CAF50] border-2 border-primary rounded-full"></div>
+</div>
+<div>
+<h4 class="font-label-md text-label-md font-bold">Orxan M.</h4>
+<p class="font-label-sm text-label-sm text-on-primary/70">Sərbəstdir</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface/20 flex items-center justify-center hover:bg-surface/40 transition-colors">
+<span class="material-symbols-outlined text-[18px]">call</span>
+</button>
+</div>
+<!-- Courier 2 -->
+<div class="flex items-center justify-between bg-surface/10 p-3 rounded-lg backdrop-blur-sm border border-surface/20">
+<div class="flex items-center gap-3">
+<div class="relative">
+<div class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant font-bold">
+                                        E
+                                    </div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-[#FFA000] border-2 border-primary rounded-full"></div>
+</div>
+<div>
+<h4 class="font-label-md text-label-md font-bold">Elvin Q.</h4>
+<p class="font-label-sm text-label-sm text-on-primary/70">Sifarişdə (2)</p>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface/20 flex items-center justify-center hover:bg-surface/40 transition-colors">
+<span class="material-symbols-outlined text-[18px]">call</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Daily Stats -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_8px_24px_rgba(117,88,77,0.08)] p-md border border-primary-container">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-4">Günün Xülasəsi</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container p-4 rounded-lg flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary mb-2 text-[28px]">local_mall</span>
+<span class="font-headline-md text-headline-md text-on-surface">24</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Tamamlanıb</span>
+</div>
+<div class="bg-surface-container p-4 rounded-lg flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-[#E65100] mb-2 text-[28px]">cycle</span>
+<span class="font-headline-md text-headline-md text-on-surface">8</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Prosesdə</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Bottom Nav Bar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-xs pb-4 pt-2 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md rounded-t-xl shadow-[0_-4px_12px_rgba(117,88,77,0.1)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-transform duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-transform duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1">shopping_bag</span>
+<span class="font-label-sm text-label-sm">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 active:scale-90 transition-transform duration-200 min-w-[64px]" href="#">
+<span class="material-symbols-outlined mb-1" data-weight="fill">local_shipping</span>
+<span class="font-label-sm text-label-sm">Delivery</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-transform duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1">group</span>
+<span class="font-label-sm text-label-sm">Clients</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary active:scale-90 transition-transform duration-200 w-16" href="#">
+<span class="material-symbols-outlined mb-1">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+</body></html>

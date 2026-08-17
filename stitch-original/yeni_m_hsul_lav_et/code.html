@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html lang="az"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Yeni Məhsul Əlavə Et - Şirniyyat Evi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #d7c1c8; /* inverse-primary from config */
+            border-radius: 9999px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#2c160e",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#d7c1c8",
+                        "on-secondary-fixed": "#2b160f",
+                        "surface-dim": "#fbd1c4",
+                        "primary": "#6b5a60",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#f4dce4",
+                        "surface-tint": "#6b5a60",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#f2ecb8",
+                        "on-secondary-container": "#795c51",
+                        "outline-variant": "#d0c3c7",
+                        "on-primary-container": "#76646b",
+                        "background": "#fff8f6",
+                        "surface-bright": "#fff8f6",
+                        "tertiary-fixed-dim": "#cdc897",
+                        "surface-container": "#ffe9e3",
+                        "on-background": "#2c160e",
+                        "on-tertiary-fixed-variant": "#4b4822",
+                        "surface-variant": "#ffdbd0",
+                        "on-primary-fixed": "#25181e",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#636037",
+                        "surface-container-low": "#fff1ed",
+                        "on-error": "#ffffff",
+                        "primary-container": "#fce4ec",
+                        "secondary-container": "#fed7ca",
+                        "on-primary-fixed-variant": "#524249",
+                        "tertiary-fixed": "#eae4b1",
+                        "inverse-on-surface": "#ffede8",
+                        "secondary": "#75584d",
+                        "surface-container-highest": "#ffdbd0",
+                        "surface-container-high": "#ffe2da",
+                        "secondary-fixed-dim": "#e4beb2",
+                        "primary-fixed-dim": "#d7c1c8",
+                        "on-tertiary-container": "#6e6b41",
+                        "surface": "#fff8f6",
+                        "secondary-fixed": "#ffdbce",
+                        "on-surface-variant": "#4d4447",
+                        "on-tertiary-fixed": "#1e1c00",
+                        "on-secondary-fixed-variant": "#5b4137",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#442a22",
+                        "outline": "#7f7478"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "16px",
+                        "xl": "64px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "20px",
+                        "md": "24px",
+                        "base": "4px",
+                        "xs": "8px",
+                        "gutter": "16px",
+                        "lg": "40px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Literata"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Literata"],
+                        "headline-lg": ["Literata"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Literata"],
+                        "label-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased md:items-center md:justify-center md:bg-surface-variant">
+<!-- Mobile Container (Simulated for Web View) -->
+<main class="w-full h-full flex flex-col relative md:max-w-md md:h-[850px] md:rounded-[32px] md:shadow-xl md:overflow-hidden bg-background">
+<!-- Top App Bar (Transactional, no bottom nav needed) -->
+<header class="w-full top-0 sticky z-40 bg-surface/90 backdrop-blur-md shadow-sm">
+<div class="flex items-center px-margin-mobile py-sm">
+<!-- Back Button -->
+<button aria-label="Geri qayıt" class="p-2 -ml-2 rounded-full hover:bg-primary-container/20 active:scale-95 transition-transform text-primary">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<!-- Title -->
+<h1 class="flex-1 text-center font-headline-sm text-headline-sm text-on-surface ml-[-24px] pointer-events-none">
+                    Yeni Məhsul Əlavə Et
+                </h1>
+</div>
+</header>
+<!-- Main Form Content -->
+<div class="flex-1 overflow-y-auto px-margin-mobile py-md pb-xl space-y-md">
+<!-- Image Upload Area -->
+<div class="w-full aspect-[4/3] rounded-xl bg-surface-container flex flex-col items-center justify-center border-2 border-dashed border-outline-variant hover:border-primary cursor-pointer transition-colors relative overflow-hidden group">
+<span class="material-symbols-outlined text-4xl text-primary mb-2 group-hover:scale-110 transition-transform" data-icon="add_a_photo" style="font-variation-settings: 'FILL' 0;">add_a_photo</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Şəkil yüklə (İstəyə bağlı)</span>
+<!-- Hidden file input would go here -->
+</div>
+<!-- Form Fields -->
+<form class="space-y-md">
+<!-- Product Name -->
+<div class="space-y-base">
+<label class="block font-body-md text-body-md font-bold text-on-surface" for="productName">Məhsulun adı</label>
+<input class="w-full bg-surface-container-low border-0 border-b-2 border-transparent focus:border-primary-container focus:ring-0 rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 transition-colors" id="productName" placeholder="Məsələn: Ballı Tort" type="text"/>
+</div>
+<!-- Description -->
+<div class="space-y-base">
+<label class="block font-body-md text-body-md font-bold text-on-surface" for="productDesc">Təsviri</label>
+<textarea class="w-full bg-surface-container-low border-0 border-b-2 border-transparent focus:border-primary-container focus:ring-0 rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 transition-colors resize-none" id="productDesc" placeholder="Məhsul haqqında qısa məlumat..." rows="3"></textarea>
+</div>
+<!-- Price and Category Row -->
+<div class="grid grid-cols-2 gap-sm">
+<!-- Price -->
+<div class="space-y-base relative">
+<label class="block font-body-md text-body-md font-bold text-on-surface" for="productPrice">Qiyməti</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-0 border-b-2 border-transparent focus:border-primary-container focus:ring-0 rounded-lg pl-4 pr-12 py-3 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 transition-colors" id="productPrice" placeholder="0.00" step="0.10" type="number"/>
+<div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+<span class="font-body-md text-body-md text-on-surface-variant">AZN</span>
+</div>
+</div>
+</div>
+<!-- Category -->
+<div class="space-y-base">
+<label class="block font-body-md text-body-md font-bold text-on-surface" for="productCategory">Kateqoriya</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low border-0 border-b-2 border-transparent focus:border-primary-container focus:ring-0 rounded-lg pl-4 pr-10 py-3 font-body-md text-body-md text-on-surface appearance-none transition-colors" id="productCategory">
+<option disabled="" selected="" value="">Seçin...</option>
+<option value="tortlar">Tortlar</option>
+<option value="sirniyyatlar">Şirniyyatlar</option>
+<option value="milli">Milli</option>
+</select>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- In Stock Toggle -->
+<div class="flex items-center justify-between py-sm mt-xs border-t border-surface-variant/30">
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-bold text-on-surface">Stokda var</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Müştərilərə sifariş üçün açıqdır</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+</form>
+</div>
+<!-- Sticky Bottom Action -->
+<div class="w-full p-margin-mobile bg-background/95 backdrop-blur-sm border-t border-surface-variant/30 pb-[calc(20px+env(safe-area-inset-bottom))]">
+<button class="w-full bg-secondary text-on-secondary font-label-md text-label-md py-4 rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform shadow-[0_4px_12px_rgba(141,110,99,0.15)]" type="button">
+<span class="material-symbols-outlined" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                Əlavə et
+            </button>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="az"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Yeni Müştəri</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#f4dce4",
+                        "tertiary-fixed-dim": "#cdc897",
+                        "surface": "#fff8f6",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#d7c1c8",
+                        "inverse-surface": "#442a22",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#fff8f6",
+                        "on-background": "#2c160e",
+                        "surface-container-high": "#ffe2da",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#d0c3c7",
+                        "secondary": "#75584d",
+                        "on-tertiary-fixed": "#1e1c00",
+                        "primary": "#6b5a60",
+                        "on-primary-fixed-variant": "#524249",
+                        "on-primary-container": "#76646b",
+                        "primary-container": "#fce4ec",
+                        "on-tertiary-container": "#6e6b41",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#ffdbd0",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#5b4137",
+                        "on-secondary-container": "#795c51",
+                        "on-tertiary-fixed-variant": "#4b4822",
+                        "inverse-on-surface": "#ffede8",
+                        "outline": "#7f7478",
+                        "surface-tint": "#6b5a60",
+                        "secondary-container": "#fed7ca",
+                        "surface-container-highest": "#ffdbd0",
+                        "error": "#ba1a1a",
+                        "background": "#fff8f6",
+                        "surface-container-low": "#fff1ed",
+                        "on-surface-variant": "#4d4447",
+                        "tertiary-container": "#f2ecb8",
+                        "surface-container": "#ffe9e3",
+                        "secondary-fixed-dim": "#e4beb2",
+                        "on-primary-fixed": "#25181e",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#2c160e",
+                        "primary-fixed-dim": "#d7c1c8",
+                        "on-secondary-fixed": "#2b160f",
+                        "tertiary": "#636037",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#eae4b1",
+                        "surface-dim": "#fbd1c4",
+                        "secondary-fixed": "#ffdbce"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "64px",
+                        "xs": "8px",
+                        "gutter": "16px",
+                        "lg": "40px",
+                        "margin-desktop": "48px",
+                        "base": "4px",
+                        "margin-mobile": "20px",
+                        "md": "24px",
+                        "sm": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Literata"],
+                        "headline-md": ["Literata"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Literata"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Literata"],
+                        "body-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "700" }],
+                        "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #fff8f6; } /* Fallback surface */
+        .glass-nav {
+            background-color: rgba(255, 248, 246, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .form-input {
+            background-color: #fff1ed; /* surface-container-low, Cream fill */
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .form-input:focus {
+            border: 2px solid #fce4ec; /* primary-container, Petal Pink border */
+            outline: none;
+            box-shadow: none;
+            background-color: #ffffff; /* pure white on focus */
+        }
+        .btn-tap-effect:active {
+            transform: scale(0.98);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased pb-24 font-body-md min-h-screen">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky shadow-sm bg-surface z-40">
+<div class="flex justify-between items-center px-margin-mobile py-base w-full max-w-7xl mx-auto">
+<button aria-label="Geri" class="text-on-surface-variant hover:bg-primary-container/20 p-2 rounded-full transition-colors flex items-center justify-center btn-tap-effect">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="text-headline-sm font-headline-sm font-bold text-secondary text-center flex-1">Yeni Müştəri</h1>
+<div class="w-10"></div> <!-- Spacer for centering -->
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="max-w-2xl mx-auto px-margin-mobile py-md">
+<form class="space-y-sm">
+<div class="bg-surface-container-lowest p-md rounded-xl shadow-[0_8px_16px_rgba(141,110,99,0.1)] border border-primary-container/30">
+<div class="space-y-sm">
+<!-- Full Name -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-2" for="fullName">Ad, Soyad</label>
+<input class="form-input w-full rounded-lg px-4 py-3 text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant/50" id="fullName" name="fullName" placeholder="Məs. Əli Əliyev" required="" type="text"/>
+</div>
+<!-- Phone Number -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-2" for="phone">Telefon nömrəsi</label>
+<input class="form-input w-full rounded-lg px-4 py-3 text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant/50" id="phone" name="phone" placeholder="+994 (55) 123-45-67" required="" type="tel"/>
+</div>
+<!-- Email (Optional) -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-2 flex items-center justify-between" for="email">
+                            E-poçt 
+                            <span class="text-label-sm font-label-sm text-on-surface-variant/70 font-normal normal-case tracking-normal">İstəyə bağlı</span>
+</label>
+<input class="form-input w-full rounded-lg px-4 py-3 text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant/50" id="email" name="email" placeholder="numune@email.com" type="email"/>
+</div>
+<!-- Address -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-2" for="address">Ünvan</label>
+<input class="form-input w-full rounded-lg px-4 py-3 text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant/50" id="address" name="address" placeholder="Çatdırılma ünvanı" type="text"/>
+</div>
+<!-- Notes -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-2" for="notes">Qeydlər</label>
+<textarea class="form-input w-full rounded-lg px-4 py-3 text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant/50 resize-none" id="notes" name="notes" placeholder="Allergiya, xüsusi istəklər..." rows="3"></textarea>
+</div>
+</div>
+</div>
+<!-- Submit Button Area -->
+<div class="pt-sm pb-lg mt-md">
+<button class="w-full bg-secondary text-on-secondary rounded-xl py-4 px-6 text-label-md font-label-md font-bold shadow-[0_4px_8px_rgba(141,110,99,0.2)] hover:bg-secondary-container hover:text-on-secondary-container transition-all duration-200 btn-tap-effect flex justify-center items-center gap-2" type="submit">
+<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+                    Müştəri əlavə et
+                </button>
+</div>
+</form>
+</main>
+<!-- BottomNavBar (Müştərilər active) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface/80 backdrop-blur-md rounded-t-xl border-t border-surface-variant/30 shadow-lg md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high rounded-lg p-2 transition-colors btn-tap-effect" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="dashboard">dashboard</span>
+<span class="text-label-sm font-label-sm">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high rounded-lg p-2 transition-colors btn-tap-effect" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="bakery_dining">bakery_dining</span>
+<span class="text-label-sm font-label-sm">Məhsullar</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high rounded-lg p-2 transition-colors btn-tap-effect" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="shopping_bag">shopping_bag</span>
+<span class="text-label-sm font-label-sm">Sifarişlər</span>
+</a>
+<!-- Active Tab -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-95 transition-transform duration-150 btn-tap-effect" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="group" data-weight="fill" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="text-label-sm font-label-sm text-primary">Müştərilər</span>
+</a>
+</nav>
+</body></html>
