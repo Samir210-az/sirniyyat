@@ -25,6 +25,8 @@ function getDeviceId() {
 function getSavedLicenseCode() { return localStorage.getItem('sirniyyat_license_code'); }
 function saveLicenseCode(code) { localStorage.setItem('sirniyyat_license_code', code); }
 
+const MAX_DEVICES = 2;
+
 async function checkLicense() {
   const savedCode = getSavedLicenseCode();
   const deviceId = getDeviceId();
@@ -32,7 +34,8 @@ async function checkLicense() {
     try {
       const snap = await fbdb.ref(`${LICENSE_PATH}/${savedCode}`).once('value');
       const data = snap.val();
-      if (data && data.deviceId === deviceId) {
+      const devices = (data && data.deviceIds) || [];
+      if (data && devices.includes(deviceId)) {
         fbdb.ref(`${LICENSE_PATH}/${savedCode}`).update({ lastSeen: Date.now(), sessions: (data.sessions || 0) + 1 });
         return true;
       }
@@ -67,11 +70,14 @@ function renderActivationScreen(errorMsg) {
       const snap = await ref.once('value');
       const data = snap.val();
       if (!data) { renderActivationScreen('Bu kod tapılmadı'); return; }
-      if (data.deviceId && data.deviceId !== deviceId) { renderActivationScreen('Bu kod artıq başqa cihazda istifadə olunub'); return; }
-      if (!data.deviceId) {
-        await ref.update({ deviceId, activatedAt: Date.now(), lastSeen: Date.now(), sessions: 1 });
-      } else {
+      const devices = data.deviceIds || [];
+      if (devices.includes(deviceId)) {
         await ref.update({ lastSeen: Date.now(), sessions: (data.sessions || 0) + 1 });
+      } else if (devices.length >= MAX_DEVICES) {
+        renderActivationScreen(`Bu kod artıq ${MAX_DEVICES} cihazda istifadə olunub`); return;
+      } else {
+        const updated = [...devices, deviceId];
+        await ref.update({ deviceIds: updated, activatedAt: data.activatedAt || Date.now(), lastSeen: Date.now(), sessions: (data.sessions || 0) + 1 });
       }
       saveLicenseCode(code);
       location.reload();
@@ -104,23 +110,24 @@ function renderAdminPanel(licenses) {
   openModal(`
     <div class="p-6">
       <h3 class="text-headline-sm font-headline-sm text-on-background mb-1">🔐 Admin Panel</h3>
-      <p class="text-label-sm text-on-surface-variant mb-4">Lisenziya kodları və aktiv istifadəçilər</p>
+      <p class="text-label-sm text-on-surface-variant mb-4">Lisenziya kodları — hər kod maksimum ${MAX_DEVICES} cihazda aktiv ola bilər</p>
       <button onclick="generateLicenseCode()" class="w-full mb-4 py-3 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-1">
         <span class="material-symbols-outlined text-base">add</span> Yeni Kod Yarat
       </button>
       <div class="space-y-2 max-h-80 overflow-y-auto">
         ${codes.length ? codes.map(code => {
           const l = licenses[code];
-          const active = !!l.deviceId;
+          const devices = l.deviceIds || [];
+          const active = devices.length > 0;
           return `
           <div class="bg-surface-container-lowest rounded-xl border border-primary-container p-3">
             <div class="flex justify-between items-center mb-1">
               <span class="font-mono text-lg font-bold tracking-widest">${code}</span>
-              <span class="text-[10px] font-bold uppercase px-2 py-1 rounded-full ${active ? 'bg-[#E8F5E9] text-[#2E7D32]' : 'bg-surface-container text-on-surface-variant'}">${active ? 'Aktiv' : 'Gözləyir'}</span>
+              <span class="text-[10px] font-bold uppercase px-2 py-1 rounded-full ${active ? 'bg-[#E8F5E9] text-[#2E7D32]' : 'bg-surface-container text-on-surface-variant'}">${devices.length}/${MAX_DEVICES} cihaz</span>
             </div>
-            ${active ? `<p class="text-label-sm text-on-surface-variant">Aktivləşib: ${new Date(l.activatedAt).toLocaleString('az-AZ')}</p>
+            ${active ? `<p class="text-label-sm text-on-surface-variant">İlk aktivləşmə: ${new Date(l.activatedAt).toLocaleString('az-AZ')}</p>
             <p class="text-label-sm text-on-surface-variant">Son giriş: ${new Date(l.lastSeen).toLocaleString('az-AZ')} (${l.sessions || 1} sessiya)</p>
-            <button onclick="resetLicenseCode('${code}')" class="mt-2 text-label-sm text-error font-label-md">Sıfırla (başqa cihazda istifadə üçün)</button>` :
+            <button onclick="resetLicenseCode('${code}')" class="mt-2 text-label-sm text-error font-label-md">Bütün cihazları sıfırla</button>` :
             `<p class="text-label-sm text-on-surface-variant">Hələ heç bir cihazda aktivləşdirilməyib</p>`}
           </div>`;
         }).join('') : `<p class="text-body-sm text-on-surface-variant text-center py-4">Hələ kod yaradılmayıb</p>`}
@@ -130,13 +137,13 @@ function renderAdminPanel(licenses) {
 }
 async function generateLicenseCode() {
   const code = String(Math.floor(100000 + Math.random() * 900000));
-  await fbdb.ref(`${LICENSE_PATH}/${code}`).set({ createdAt: Date.now(), deviceId: null });
+  await fbdb.ref(`${LICENSE_PATH}/${code}`).set({ createdAt: Date.now(), deviceIds: [] });
   toast('Yeni kod yaradıldı: ' + code);
   openAdminPanel();
 }
 async function resetLicenseCode(code) {
-  confirmModal('Kodu sıfırla?', `${code} kodu başqa bir cihazda yenidən aktivləşdirilə bilsin deyə sıfırlanacaq. Cari istifadəçi kod istəyəcək.`, async () => {
-    await fbdb.ref(`${LICENSE_PATH}/${code}`).update({ deviceId: null });
+  confirmModal('Bütün cihazları sıfırla?', `${code} kodu bağlı olduğu bütün cihazlardan ayrılacaq, yenidən istənilən ${MAX_DEVICES} cihazda aktivləşdirilə bilər. Mövcud istifadəçilər kod istəyəcək.`, async () => {
+    await fbdb.ref(`${LICENSE_PATH}/${code}`).update({ deviceIds: [] });
     toast('Kod sıfırlandı');
     openAdminPanel();
   });
