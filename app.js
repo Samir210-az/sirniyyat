@@ -25,7 +25,7 @@ function getDeviceId() {
 function getSavedLicenseCode() { return localStorage.getItem('sirniyyat_license_code'); }
 function saveLicenseCode(code) { localStorage.setItem('sirniyyat_license_code', code); }
 
-const MAX_DEVICES = 2;
+const MAX_DEVICES = 2; // köhnə kodlar üçün ehtiyat dəyər (yeni kodlarda hər kodun öz maxDevices sahəsi var)
 
 async function checkLicense() {
   const savedCode = getSavedLicenseCode();
@@ -74,10 +74,11 @@ function renderActivationScreen(errorMsg) {
       const data = snap.val();
       if (!data) { renderActivationScreen('Bu kod tapılmadı'); return; }
       const devices = data.deviceIds || [];
+      const limit = data.maxDevices || MAX_DEVICES;
       if (devices.includes(deviceId)) {
         await ref.update({ lastSeen: Date.now(), sessions: (data.sessions || 0) + 1 });
-      } else if (devices.length >= MAX_DEVICES) {
-        renderActivationScreen(`Bu kod artıq ${MAX_DEVICES} cihazda istifadə olunub`); return;
+      } else if (devices.length >= limit) {
+        renderActivationScreen(`Bu kod artıq ${limit} cihazda istifadə olunub`); return;
       } else {
         const updated = [...devices, deviceId];
         await ref.update({ deviceIds: updated, activatedAt: data.activatedAt || Date.now(), lastSeen: Date.now(), sessions: (data.sessions || 0) + 1 });
@@ -141,20 +142,26 @@ function renderAdminPanel(licenses) {
   openModal(`
     <div class="p-6">
       <h3 class="text-headline-sm font-headline-sm text-on-background mb-1">🔐 Admin Panel</h3>
-      <p class="text-label-sm text-on-surface-variant mb-4">Lisenziya kodları — hər kod maksimum ${MAX_DEVICES} cihazda aktiv ola bilər</p>
-      <button id="gen-code-btn" onclick="generateLicenseCode()" class="w-full mb-4 py-3 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-1">
-        <span class="material-symbols-outlined text-base">add</span> Yeni Kod Yarat
-      </button>
+      <p class="text-label-sm text-on-surface-variant mb-4">Lisenziya kodları — hər kod üçün cihaz limitini özün seçirsən</p>
+      <div class="flex gap-2 mb-4">
+        <select id="new-code-device-limit" class="flex-grow px-3 py-3 rounded-xl border border-outline-variant bg-surface-container-lowest outline-none">
+          ${[1,2,3,4,5,6].map(n => `<option value="${n}" ${n === 2 ? 'selected' : ''}>${n} cihaz</option>`).join('')}
+        </select>
+        <button id="gen-code-btn" onclick="generateLicenseCode()" class="px-4 py-3 rounded-full bg-primary text-on-primary text-label-md font-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-1 whitespace-nowrap">
+          <span class="material-symbols-outlined text-base">add</span> Yeni Kod
+        </button>
+      </div>
       <div class="space-y-2 max-h-80 overflow-y-auto">
         ${codes.length ? codes.map(code => {
           const l = licenses[code];
           const devices = l.deviceIds || [];
+          const limit = l.maxDevices || MAX_DEVICES;
           const active = devices.length > 0;
           return `
           <div class="bg-surface-container-lowest rounded-xl border border-primary-container p-3">
             <div class="flex justify-between items-center mb-1">
               <span class="font-mono text-lg font-bold tracking-widest">${code}</span>
-              <span class="text-[10px] font-bold uppercase px-2 py-1 rounded-full ${active ? 'bg-[#E8F5E9] text-[#2E7D32]' : 'bg-surface-container text-on-surface-variant'}">${devices.length}/${MAX_DEVICES} cihaz</span>
+              <span class="text-[10px] font-bold uppercase px-2 py-1 rounded-full ${active ? 'bg-[#E8F5E9] text-[#2E7D32]' : 'bg-surface-container text-on-surface-variant'}">${devices.length}/${limit} cihaz</span>
             </div>
             ${active ? `<p class="text-label-sm text-on-surface-variant">İlk aktivləşmə: ${new Date(l.activatedAt).toLocaleString('az-AZ')}</p>
             <p class="text-label-sm text-on-surface-variant">Son giriş: ${new Date(l.lastSeen).toLocaleString('az-AZ')} (${l.sessions || 1} sessiya)</p>
@@ -168,11 +175,12 @@ function renderAdminPanel(licenses) {
 }
 async function generateLicenseCode() {
   const btn = document.getElementById('gen-code-btn');
+  const limit = parseInt(document.getElementById('new-code-device-limit').value) || MAX_DEVICES;
   if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
   const code = String(Math.floor(100000 + Math.random() * 900000));
   try {
-    await fbdb.ref(`${LICENSE_PATH}/${code}`).set({ createdAt: Date.now(), deviceIds: [] });
-    toast('Yeni kod yaradıldı: ' + code);
+    await fbdb.ref(`${LICENSE_PATH}/${code}`).set({ createdAt: Date.now(), deviceIds: [], maxDevices: limit });
+    toast(`Yeni kod yaradıldı: ${code} (${limit} cihaz)`);
     openAdminPanel();
   } catch (e) {
     toast('Xəta: ' + e.message, 'error');
@@ -180,7 +188,7 @@ async function generateLicenseCode() {
   }
 }
 async function resetLicenseCode(code) {
-  confirmModal('Bütün cihazları sıfırla?', `${code} kodu bağlı olduğu bütün cihazlardan ayrılacaq, yenidən istənilən ${MAX_DEVICES} cihazda aktivləşdirilə bilər. Mövcud istifadəçilər kod istəyəcək.`, async () => {
+  confirmModal('Bütün cihazları sıfırla?', `${code} kodu bağlı olduğu bütün cihazlardan ayrılacaq, yenidən öz limitinə qədər aktivləşdirilə bilər. Mövcud istifadəçilər kod istəyəcək.`, async () => {
     try {
       await fbdb.ref(`${LICENSE_PATH}/${code}`).update({ deviceIds: [] });
       toast('Kod sıfırlandı');
