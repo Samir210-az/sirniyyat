@@ -94,13 +94,36 @@ function renderActivationScreen(errorMsg) {
 /* ---------------- GİZLİ ADMIN PANEL (loqoya 5 toxunma) ---------------- */
 let LICENSED = false;
 let logoTapCount = 0, logoTapTimer = null;
+const ADMIN_PIN = 'AL2026EA';
 function handleLogoTap() {
   logoTapCount++;
   clearTimeout(logoTapTimer);
   logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 2000);
-  if (logoTapCount >= 5) { logoTapCount = 0; openAdminPanel(); return; }
+  if (logoTapCount >= 5) { logoTapCount = 0; openAdminPinGate(); return; }
   if (!LICENSED) return;
   navigate('dashboard');
+}
+function openAdminPinGate() {
+  openModal(`
+    <div class="p-6 text-center">
+      <div class="text-4xl mb-3">🔒</div>
+      <h3 class="text-headline-sm font-headline-sm text-on-background mb-1">Admin Panel</h3>
+      <p class="text-label-sm text-on-surface-variant mb-4">Davam etmək üçün PIN daxil edin</p>
+      <form id="admin-pin-form">
+        <input id="admin-pin-input" type="password" class="w-full text-center text-lg tracking-widest px-4 py-3 rounded-xl border-2 border-outline-variant focus:border-primary outline-none mb-3" placeholder="PIN"/>
+        <div class="flex gap-3">
+          <button type="button" onclick="closeModal()" class="flex-1 py-3 rounded-full border border-outline-variant text-on-background font-label-md text-label-md">Ləğv et</button>
+          <button type="submit" class="flex-1 py-3 rounded-full bg-primary text-on-primary font-label-md text-label-md">Daxil ol</button>
+        </div>
+      </form>
+    </div>`);
+  document.getElementById('admin-pin-input').focus();
+  document.getElementById('admin-pin-form').onsubmit = (e) => {
+    e.preventDefault();
+    const val = document.getElementById('admin-pin-input').value;
+    if (val === ADMIN_PIN) { openAdminPanel(); }
+    else { toast('Yanlış PIN', 'error'); }
+  };
 }
 async function openAdminPanel() {
   openModal(`<div class="p-6"><p class="text-center text-on-surface-variant">Yüklənir...</p></div>`);
@@ -108,7 +131,9 @@ async function openAdminPanel() {
   try {
     const snap = await fbdb.ref(LICENSE_PATH).once('value');
     licenses = snap.val() || {};
-  } catch (e) {}
+  } catch (e) {
+    toast('Firebase xətası: ' + e.message, 'error');
+  }
   renderAdminPanel(licenses);
 }
 function renderAdminPanel(licenses) {
@@ -117,7 +142,7 @@ function renderAdminPanel(licenses) {
     <div class="p-6">
       <h3 class="text-headline-sm font-headline-sm text-on-background mb-1">🔐 Admin Panel</h3>
       <p class="text-label-sm text-on-surface-variant mb-4">Lisenziya kodları — hər kod maksimum ${MAX_DEVICES} cihazda aktiv ola bilər</p>
-      <button onclick="generateLicenseCode()" class="w-full mb-4 py-3 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-1">
+      <button id="gen-code-btn" onclick="generateLicenseCode()" class="w-full mb-4 py-3 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-1">
         <span class="material-symbols-outlined text-base">add</span> Yeni Kod Yarat
       </button>
       <div class="space-y-2 max-h-80 overflow-y-auto">
@@ -142,16 +167,27 @@ function renderAdminPanel(licenses) {
     </div>`);
 }
 async function generateLicenseCode() {
+  const btn = document.getElementById('gen-code-btn');
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
   const code = String(Math.floor(100000 + Math.random() * 900000));
-  await fbdb.ref(`${LICENSE_PATH}/${code}`).set({ createdAt: Date.now(), deviceIds: [] });
-  toast('Yeni kod yaradıldı: ' + code);
-  openAdminPanel();
+  try {
+    await fbdb.ref(`${LICENSE_PATH}/${code}`).set({ createdAt: Date.now(), deviceIds: [] });
+    toast('Yeni kod yaradıldı: ' + code);
+    openAdminPanel();
+  } catch (e) {
+    toast('Xəta: ' + e.message, 'error');
+    if (btn) { btn.disabled = false; btn.style.opacity = '1'; }
+  }
 }
 async function resetLicenseCode(code) {
   confirmModal('Bütün cihazları sıfırla?', `${code} kodu bağlı olduğu bütün cihazlardan ayrılacaq, yenidən istənilən ${MAX_DEVICES} cihazda aktivləşdirilə bilər. Mövcud istifadəçilər kod istəyəcək.`, async () => {
-    await fbdb.ref(`${LICENSE_PATH}/${code}`).update({ deviceIds: [] });
-    toast('Kod sıfırlandı');
-    openAdminPanel();
+    try {
+      await fbdb.ref(`${LICENSE_PATH}/${code}`).update({ deviceIds: [] });
+      toast('Kod sıfırlandı');
+      openAdminPanel();
+    } catch (e) {
+      toast('Xəta: ' + e.message, 'error');
+    }
   });
 }
 
