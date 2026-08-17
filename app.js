@@ -1458,9 +1458,6 @@ function renderSettings(app) {
         <button onclick="resetData()" class="w-full py-3 rounded-full border border-outline-variant text-on-background font-label-md text-label-md hover:bg-surface-container transition-colors flex items-center justify-center gap-2">
           <span class="material-symbols-outlined text-base">restart_alt</span> Nümunə Məlumatlara Sıfırla (test üçün)
         </button>
-        <button onclick="wipeAllData()" class="w-full py-3 rounded-full bg-error-container text-error font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
-          <span class="material-symbols-outlined text-base">delete_forever</span> Bütün Test Məlumatlarını TAM Boşalt (canlıya keçid)
-        </button>
       </div>
     </div>`;
 }
@@ -1475,14 +1472,6 @@ function resetData() {
     localStorage.removeItem(DB_KEY);
     DB = loadDB();
     toast('Nümunə məlumatlara sıfırlandı');
-    navigate('dashboard');
-  });
-}
-function wipeAllData() {
-  confirmModal('Bütün məlumatları TAM boşalt?', 'Bütün məhsul, müştəri, sifariş, mal qəbulu VƏ arxiv həmişəlik silinəcək — sistem tam BOŞ vəziyyətə gələcək (heç bir nümunə məlumat olmadan). Real işə başlamazdan əvvəl istifadə edin. Bu əməliyyat geri qaytarıla BİLMƏZ.', () => {
-    DB = { categories: [], products: [], customers: [], orders: [], receivings: [], deletedOrders: [] };
-    saveDB();
-    toast('Bütün məlumatlar boşaldıldı — sistem tam təmizdir');
     navigate('dashboard');
   });
 }
