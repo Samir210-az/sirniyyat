@@ -3,7 +3,7 @@
    Verilənlər: localStorage (DB_KEY altında)
    ============================================================ */
 
-const DB_KEY = 'sirniyyat_db_v5';
+const DB_KEY = 'sirniyyat_db_v6';
 // Yalnız adı TƏSDİQLƏNMİŞ (alt-mətni yoxlanılmış) real şəkillər saxlanıldı.
 const IMG = {
   ballıTort: 'https://lh3.googleusercontent.com/aida-public/AB6AXuALQiHAkXe43qate2K8RJwzphK_eVKzDJC-5R-2Amfqu21030Netch_9Nws49Xy2CU-IbFUmCHkTnfFJDlDmwkFoxJwDDK8bL2efKS0erQif48u1taf9A2Fhf-RHVriJGkm_xXBS7dRlzQffdB1t6_-0LTmyxIK3hExpd2XkFc10c38rMu7upJ1jAtl9wk9MfasKJ09x0lcMa2r2ZE6d_87lzC_tn4engb962omil1e2eW2iDmqTEJ7',
@@ -15,20 +15,22 @@ const IMG = {
   sekerburaReal: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sekerbura_DSC3151.jpg',
   qogalReal: 'https://commons.wikimedia.org/wiki/Special:FilePath/%C5%9Eirin_qo%C4%9Fal.jpg',
   eclairReal: 'https://commons.wikimedia.org/wiki/Special:FilePath/Liebesknochen3.JPG',
-  cayDestiReal: 'https://commons.wikimedia.org/wiki/Special:FilePath/Tea_in_Azerbaijani_national_Armudu_glass.jpg',
-  cocaCola1L: 'https://commons.wikimedia.org/wiki/Special:FilePath/Coca-Cola_bottles.jpg',
-  cocaCola05L: 'https://commons.wikimedia.org/wiki/Special:FilePath/Coca-Cola_bottle_%286699404437%29.jpg',
-  fanta1L: 'https://commons.wikimedia.org/wiki/Special:FilePath/Fanta_Klassik_3.jpg',
-  fanta05L: 'https://commons.wikimedia.org/wiki/Special:FilePath/Fanta_Bottle_200ml_%28Splash-Bottle%29_Germany.jpg',
-  kofe: 'https://commons.wikimedia.org/wiki/Special:FilePath/Cafe_Latte.jpg',
-  kofe3x1: 'https://commons.wikimedia.org/wiki/Special:FilePath/Instant_coffee_and_bun.jpg',
-  cheesecake: 'https://commons.wikimedia.org/wiki/Special:FilePath/Raised_slice_of_cheesecake.jpg',
-  makaron: 'https://commons.wikimedia.org/wiki/Special:FilePath/Macaron_I%2C_August_2008.jpg',
-  pecenye: 'https://commons.wikimedia.org/wiki/Special:FilePath/Fiqurlu_pe%C3%A7enyel%C9%99rin_haz%C4%B1rlanmas%C4%B1_-_1.jpg'
+  cayDestiReal: 'https://commons.wikimedia.org/wiki/Special:FilePath/Tea_in_Azerbaijani_national_Armudu_glass.jpg'
 };
+// Bu məhsullar üçün etibarlı yoxlanmış real şəkil tapılmadı — səliqəli emoji-tile istifadə olunur.
+// Samir Firebase Storage vasitəsilə real şəkil yükləyəndə buraya img sahəsi əlavə oluna bilər.
 // Uyğun real şəkli olmayan (nadir) hallar üçün ehtiyat emoji-tile
 const EMOJI_TILE = {
-  tortAssorti: { emoji: '🎂', bg: 'from-[#fce4ec] to-[#e4beb2]' }
+  tortAssorti: { emoji: '🎂', bg: 'from-[#fce4ec] to-[#e4beb2]' },
+  cocaCola1L: { emoji: '🥤', bg: 'from-[#f5c6c6] to-[#e89a9a]' },
+  cocaCola05L: { emoji: '🥤', bg: 'from-[#f5c6c6] to-[#e89a9a]' },
+  fanta1L: { emoji: '🍊', bg: 'from-[#fbdca0] to-[#f5b56f]' },
+  fanta05L: { emoji: '🍊', bg: 'from-[#fbdca0] to-[#f5b56f]' },
+  kofe: { emoji: '☕', bg: 'from-[#e4beb2] to-[#c99870]' },
+  kofe3x1: { emoji: '🥤', bg: 'from-[#e4beb2] to-[#c99870]' },
+  cheesecake: { emoji: '🍰', bg: 'from-[#fce4ec] to-[#fed7ca]' },
+  makaron: { emoji: '🍬', bg: 'from-[#f2ecb8] to-[#fce4ec]' },
+  pecenye: { emoji: '🍪', bg: 'from-[#f2ecb8] to-[#e4beb2]' }
 };
 function productVisual(p, sizeClasses) {
   if (p.img) return `<img src="${p.img}" onerror="this.onerror=null;this.src='${IMG.ballıTort}'" class="${sizeClasses} object-cover" alt="${escapeHtml(p.name)}"/>`;
@@ -60,16 +62,16 @@ function seedDB() {
     { id: uid('p'), name: 'Tort Assorti', desc: 'Şokoladlı, qarışıq çeşid', price: 38, stock: 6, unit: 'ədəd', catId: categories[0].id, img: IMG.chocCake },
     { id: uid('p'), name: 'Eklerlər', desc: 'Şokoladlı krem dolması', price: 3, stock: 20, unit: 'ədəd', catId: categories[2].id, img: IMG.eclairReal },
     { id: uid('p'), name: 'Çay dəsti', desc: 'Qara çay, 6 ədəd bişkot ilə', price: 6, stock: 15, unit: 'dəst', catId: categories[3].id, img: IMG.cayDestiReal },
-    { id: uid('p'), name: 'Coca-Cola 1L', desc: 'Soyuq sərinləşdirici içki', price: 3, stock: 30, unit: 'ədəd', catId: categories[3].id, img: IMG.cocaCola1L },
-    { id: uid('p'), name: 'Coca-Cola 0.5L', desc: 'Soyuq sərinləşdirici içki', price: 2, stock: 40, unit: 'ədəd', catId: categories[3].id, img: IMG.cocaCola05L },
-    { id: uid('p'), name: 'Fanta 1L', desc: 'Portağal dadlı sərinləşdirici içki', price: 3, stock: 25, unit: 'ədəd', catId: categories[3].id, img: IMG.fanta1L },
-    { id: uid('p'), name: 'Fanta 0.5L', desc: 'Portağal dadlı sərinləşdirici içki', price: 2, stock: 35, unit: 'ədəd', catId: categories[3].id, img: IMG.fanta05L },
-    { id: uid('p'), name: 'Kofe', desc: 'Təzə dəmlənmiş kofe', price: 2.5, stock: 50, unit: 'fincan', catId: categories[3].id, img: IMG.kofe },
-    { id: uid('p'), name: 'Kofe 3x1', desc: 'Hazır qarışıq, paket kofe', price: 0.8, stock: 80, unit: 'paket', catId: categories[3].id, img: IMG.kofe3x1 },
+    { id: uid('p'), name: 'Coca-Cola 1L', desc: 'Soyuq sərinləşdirici içki', price: 3, stock: 30, unit: 'ədəd', catId: categories[3].id, emojiKey: 'cocaCola1L' },
+    { id: uid('p'), name: 'Coca-Cola 0.5L', desc: 'Soyuq sərinləşdirici içki', price: 2, stock: 40, unit: 'ədəd', catId: categories[3].id, emojiKey: 'cocaCola05L' },
+    { id: uid('p'), name: 'Fanta 1L', desc: 'Portağal dadlı sərinləşdirici içki', price: 3, stock: 25, unit: 'ədəd', catId: categories[3].id, emojiKey: 'fanta1L' },
+    { id: uid('p'), name: 'Fanta 0.5L', desc: 'Portağal dadlı sərinləşdirici içki', price: 2, stock: 35, unit: 'ədəd', catId: categories[3].id, emojiKey: 'fanta05L' },
+    { id: uid('p'), name: 'Kofe', desc: 'Təzə dəmlənmiş kofe', price: 2.5, stock: 50, unit: 'fincan', catId: categories[3].id, emojiKey: 'kofe' },
+    { id: uid('p'), name: 'Kofe 3x1', desc: 'Hazır qarışıq, paket kofe', price: 0.8, stock: 80, unit: 'paket', catId: categories[3].id, emojiKey: 'kofe3x1' },
     { id: uid('p'), name: 'Qara Çay', desc: 'Ənənəvi Azərbaycan qara çayı', price: 1, stock: 60, unit: 'stəkan', catId: categories[3].id, img: IMG.cayDestiReal },
-    { id: uid('p'), name: 'Cheesecake', desc: 'Krem pendirli tort', price: 8, stock: 10, unit: 'dilim', catId: categories[0].id, img: IMG.cheesecake },
-    { id: uid('p'), name: 'Makaron', desc: 'Fransız şirniyyatı, badam unlu', price: 2.8, stock: 30, unit: 'ədəd', catId: categories[1].id, img: IMG.makaron },
-    { id: uid('p'), name: 'Peçenye', desc: 'Fiqurlu, ev şirniyyatı', price: 1.2, stock: 50, unit: 'ədəd', catId: categories[1].id, img: IMG.pecenye }
+    { id: uid('p'), name: 'Cheesecake', desc: 'Krem pendirli tort', price: 8, stock: 10, unit: 'dilim', catId: categories[0].id, emojiKey: 'cheesecake' },
+    { id: uid('p'), name: 'Makaron', desc: 'Fransız şirniyyatı, badam unlu', price: 2.8, stock: 30, unit: 'ədəd', catId: categories[1].id, emojiKey: 'makaron' },
+    { id: uid('p'), name: 'Peçenye', desc: 'Fiqurlu, ev şirniyyatı', price: 1.2, stock: 50, unit: 'ədəd', catId: categories[1].id, emojiKey: 'pecenye' }
   ];
   const customers = [
     { id: uid('c'), name: 'Aysel Məmmədova', phone: '+994 50 123 45 67', birthday: '1994-03-12', address: 'Nərimanov r., Bakı', notes: 'VIP müştəri, hər ay tort sifariş edir' },
