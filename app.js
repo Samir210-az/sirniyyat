@@ -153,11 +153,192 @@ function statusClass(s) {
 function render() {
   const app = document.getElementById('app');
   if (ROUTE === 'dashboard') return renderDashboard(app);
+  if (ROUTE === 'pos') return renderPOS(app);
   if (ROUTE === 'products') return renderProducts(app);
   if (ROUTE === 'orders') return renderOrders(app);
   if (ROUTE === 'customers') return renderCustomers(app);
   if (ROUTE === 'reports') return renderReports(app);
   if (ROUTE === 'settings') return renderSettings(app);
+}
+
+/* ================= SATIŞ (POS) ================= */
+let posCart = []; // { productId, qty, price }
+function posCatFilter() { return document.getElementById('app').dataset.posCat || 'all'; }
+
+function renderPOS(app) {
+  const today = todaysOrders().reduce((s, o) => s + orderTotal(o), 0);
+  const thisMonth = todayISO().slice(0, 7);
+  const monthTotal = DB.orders.filter(o => o.date.startsWith(thisMonth)).reduce((s, o) => s + orderTotal(o), 0);
+
+  app.innerHTML = `
+    <div class="fade-in pb-24">
+      <div class="flex justify-between items-center mb-sm">
+        <h2 class="text-headline-md font-headline-md text-on-background">Satış</h2>
+        <div class="flex gap-2 text-right">
+          <div class="bg-surface-container-lowest rounded-xl border border-primary-container px-3 py-2 soft-shadow">
+            <p class="text-[10px] font-label-sm text-on-surface-variant uppercase">Bugün</p>
+            <p class="text-label-md font-label-md text-on-background font-bold">${today.toFixed(0)} ₼</p>
+          </div>
+          <div class="bg-surface-container-lowest rounded-xl border border-primary-container px-3 py-2 soft-shadow">
+            <p class="text-[10px] font-label-sm text-on-surface-variant uppercase">Bu ay</p>
+            <p class="text-label-md font-label-md text-on-background font-bold">${monthTotal.toFixed(0)} ₼</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex gap-2 overflow-x-auto pb-2 mb-md no-scrollbar" id="pos-cat-filters">
+        <button onclick="filterPOS('all')" class="pos-cat-chip px-4 py-1.5 rounded-full text-label-md font-label-md whitespace-nowrap transition-colors bg-primary text-on-primary">Hamısı</button>
+        ${DB.categories.map(c => `<button onclick="filterPOS('${c.id}')" class="pos-cat-chip px-4 py-1.5 rounded-full text-label-md font-label-md whitespace-nowrap transition-colors bg-surface-container text-on-surface-variant">${escapeHtml(c.name)}</button>`).join('')}
+      </div>
+
+      <div id="pos-grid" class="grid grid-cols-2 md:grid-cols-4 gap-sm mb-4"></div>
+    </div>
+
+    <!-- Sabit səbət paneli -->
+    <div id="pos-cart-bar" class="fixed bottom-16 md:bottom-4 left-0 w-full px-4 z-40 flex justify-center pointer-events-none">
+      <div id="pos-cart-inner" class="pointer-events-auto max-w-md w-full bg-primary text-on-primary rounded-full shadow-lg px-5 py-3 flex items-center justify-between cursor-pointer hover:opacity-95 transition-opacity" style="display:none;" onclick="openCartDrawer()">
+        <span class="flex items-center gap-2 font-label-md text-label-md">
+          <span class="material-symbols-outlined">shopping_cart</span>
+          <span id="pos-cart-count">0</span> məhsul
+        </span>
+        <span id="pos-cart-total" class="font-headline-sm font-headline-sm">0.00 AZN</span>
+      </div>
+    </div>`;
+  renderPOSGrid('all');
+  updateCartBar();
+}
+
+function filterPOS(catId) {
+  document.getElementById('app').dataset.posCat = catId;
+  document.querySelectorAll('#pos-cat-filters .pos-cat-chip').forEach((btn, i) => {
+    const isAll = i === 0;
+    const match = isAll ? catId === 'all' : DB.categories[i - 1] && DB.categories[i - 1].id === catId;
+    btn.className = `pos-cat-chip px-4 py-1.5 rounded-full text-label-md font-label-md whitespace-nowrap transition-colors ${match ? 'bg-primary text-on-primary' : 'bg-surface-container text-on-surface-variant'}`;
+  });
+  renderPOSGrid(catId);
+}
+
+function renderPOSGrid(catId) {
+  const list = catId === 'all' ? DB.products : DB.products.filter(p => p.catId === catId);
+  const grid = document.getElementById('pos-grid');
+  grid.innerHTML = list.length ? list.map(p => {
+    const inCart = posCart.find(it => it.productId === p.id);
+    const qty = inCart ? inCart.qty : 0;
+    return `
+    <div onclick="addToCart('${p.id}')" class="relative bg-surface-container-lowest rounded-xl border ${qty > 0 ? 'border-primary ring-2 ring-primary/30' : 'border-primary-container'} soft-shadow overflow-hidden cursor-pointer active:scale-95 transition-transform select-none">
+      <div class="relative aspect-square overflow-hidden bg-surface-container">
+        ${productVisual(p, 'w-full h-full')}
+        ${qty > 0 ? `<span class="absolute top-2 right-2 bg-primary text-on-primary text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shadow">${qty}</span>` : ''}
+      </div>
+      <div class="p-sm">
+        <h4 class="text-body-sm font-body-sm text-on-background font-semibold truncate">${escapeHtml(p.name)}</h4>
+        <span class="text-label-md font-label-md text-primary font-bold">${fmtMoney(p.price)}</span>
+      </div>
+    </div>`;
+  }).join('') : `<div class="col-span-2 md:col-span-4 text-center py-12 text-on-surface-variant text-body-md">Bu kateqoriyada məhsul yoxdur</div>`;
+}
+
+function addToCart(pid) {
+  const p = DB.products.find(x => x.id === pid);
+  if (!p) return;
+  const existing = posCart.find(it => it.productId === pid);
+  if (existing) existing.qty += 1; else posCart.push({ productId: pid, qty: 1, price: p.price });
+  renderPOSGrid(posCatFilter());
+  updateCartBar();
+  if (document.getElementById('cart-drawer-list')) renderCartDrawerList();
+}
+function changeCartQty(pid, delta) {
+  const it = posCart.find(x => x.productId === pid);
+  if (!it) return;
+  it.qty += delta;
+  if (it.qty <= 0) posCart = posCart.filter(x => x.productId !== pid);
+  renderPOSGrid(posCatFilter());
+  updateCartBar();
+  renderCartDrawerList();
+}
+function updateCartBar() {
+  const bar = document.getElementById('pos-cart-inner');
+  if (!bar) return;
+  const count = posCart.reduce((s, it) => s + it.qty, 0);
+  const total = posCart.reduce((s, it) => s + it.qty * it.price, 0);
+  bar.style.display = count > 0 ? 'flex' : 'none';
+  document.getElementById('pos-cart-count').textContent = count;
+  document.getElementById('pos-cart-total').textContent = fmtMoney(total);
+}
+
+function openCartDrawer() {
+  if (!posCart.length) return;
+  openModal(`
+    <div class="p-6">
+      <h3 class="text-headline-sm font-headline-sm text-on-background mb-4">Səbət</h3>
+      <div id="cart-drawer-list" class="space-y-2 mb-4 max-h-64 overflow-y-auto"></div>
+      <div>
+        <label class="text-label-sm font-label-sm text-on-surface-variant">Müştəri (istəyə bağlı)</label>
+        <select id="pos-customer-select" class="w-full mt-1 px-4 py-3 rounded-xl border border-outline-variant bg-surface-container-lowest focus:border-primary outline-none">
+          <option value="">Sürətli satış (müştərisiz)</option>
+          ${DB.customers.map(c => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="mt-3">
+        <label class="text-label-sm font-label-sm text-on-surface-variant">Endirim (%)</label>
+        <input id="pos-discount-input" type="number" min="0" max="100" value="0" oninput="renderCartDrawerList()" class="w-full mt-1 px-4 py-3 rounded-xl border border-outline-variant bg-surface-container-lowest focus:border-primary outline-none"/>
+      </div>
+      <div class="flex justify-between items-center px-1 pt-4">
+        <span class="text-body-md font-body-md text-on-surface-variant">Cəmi:</span>
+        <span id="pos-drawer-total" class="text-headline-sm font-headline-sm text-on-background">0.00 AZN</span>
+      </div>
+      <div class="flex gap-3 pt-4">
+        <button onclick="closeModal()" class="flex-1 py-3 rounded-full border border-outline-variant text-on-background font-label-md text-label-md hover:bg-surface-container transition-colors">Davam et</button>
+        <button onclick="completeSale()" class="flex-1 py-3 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-1">
+          <span class="material-symbols-outlined text-base">check_circle</span> Satışı Tamamla
+        </button>
+      </div>
+    </div>`);
+  renderCartDrawerList();
+}
+function renderCartDrawerList() {
+  const el = document.getElementById('cart-drawer-list');
+  if (!el) return;
+  el.innerHTML = posCart.length ? posCart.map(it => {
+    const p = DB.products.find(x => x.id === it.productId);
+    return `
+    <div class="flex items-center justify-between gap-2 bg-surface-container-lowest border border-surface-variant/30 rounded-lg px-3 py-2">
+      <div class="flex items-center gap-2 min-w-0">
+        <div class="w-9 h-9 rounded-lg overflow-hidden shrink-0">${productVisual(p, 'w-full h-full')}</div>
+        <span class="text-body-sm font-body-sm truncate">${escapeHtml(p ? p.name : '?')}</span>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="changeCartQty('${it.productId}', -1)" class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center"><span class="material-symbols-outlined text-sm">remove</span></button>
+        <span class="text-label-md font-label-md w-4 text-center">${it.qty}</span>
+        <button onclick="changeCartQty('${it.productId}', 1)" class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center"><span class="material-symbols-outlined text-sm">add</span></button>
+        <b class="text-label-sm w-16 text-right">${fmtMoney(it.qty * it.price)}</b>
+      </div>
+    </div>`;
+  }).join('') : `<p class="text-label-sm text-on-surface-variant text-center py-4">Səbət boşdur</p>`;
+  const sum = posCart.reduce((s, it) => s + it.qty * it.price, 0);
+  const disc = parseFloat(document.getElementById('pos-discount-input')?.value) || 0;
+  const totalEl = document.getElementById('pos-drawer-total');
+  if (totalEl) totalEl.textContent = fmtMoney(sum - sum * disc / 100);
+  if (!posCart.length) closeModal();
+}
+function completeSale() {
+  if (!posCart.length) { toast('Səbət boşdur', 'error'); return; }
+  const customerId = document.getElementById('pos-customer-select').value;
+  const discount = parseFloat(document.getElementById('pos-discount-input').value) || 0;
+  const now = new Date();
+  DB.orders.push({
+    id: uid('o'), customerId: customerId || null, date: todayISO(), time: now.toTimeString().slice(0, 5),
+    createdAt: Date.now(), items: posCart.map(it => ({ ...it })), discount, status: 'tehvil'
+  });
+  posCart.forEach(it => {
+    const p = DB.products.find(x => x.id === it.productId);
+    if (p) p.stock = Math.max(0, p.stock - it.qty);
+  });
+  saveDB();
+  posCart = [];
+  closeModal();
+  toast('Satış tamamlandı! ✅');
+  renderPOS(document.getElementById('app'));
 }
 
 /* ================= DASHBOARD ================= */
