@@ -3,7 +3,7 @@
    Verilənlər: localStorage (DB_KEY altında)
    ============================================================ */
 
-const DB_KEY = 'sirniyyat_db_v2';
+const DB_KEY = 'sirniyyat_db_v3';
 // Yalnız adı TƏSDİQLƏNMİŞ (alt-mətni yoxlanılmış) real şəkillər saxlanıldı.
 const IMG = {
   ballıTort: 'https://lh3.googleusercontent.com/aida-public/AB6AXuALQiHAkXe43qate2K8RJwzphK_eVKzDJC-5R-2Amfqu21030Netch_9Nws49Xy2CU-IbFUmCHkTnfFJDlDmwkFoxJwDDK8bL2efKS0erQif48u1taf9A2Fhf-RHVriJGkm_xXBS7dRlzQffdB1t6_-0LTmyxIK3hExpd2XkFc10c38rMu7upJ1jAtl9wk9MfasKJ09x0lcMa2r2ZE6d_87lzC_tn4engb962omil1e2eW2iDmqTEJ7',
@@ -11,15 +11,15 @@ const IMG = {
   kurasan: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDtOhhyG4QEn51Ju004JPrnQUm9VPml6XfpN-8og5YD45TSQ62zMZYn9iZZR-JoW2vJEyCHpIHM0vDtnpFHFiKvUfAT5JIQ4lY3K1SpR8nTshcPNOTzFYgSI1jGFTWS37O1Hs1vea_gW_QxtDa6nSu1JCeTnlDeLQd0pYktYovyfVp8xs9TRoCfzzaKRUy8ldGAr0qSwT6IPVwLBP2_q_0J6CBkxsJqLUEQhQUON_HKQF2ijBnK2cT0',
   paxlava: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBm1GvPvWyRkFsbYXmNpB0Wn8U9Msbsbj0kNxlXaxtoYDHXhPdT9WWIEcTc6f0w6FGrwTdFNTySqbqY1A7qD3uilJqo_xG3nDv17vWqUZYYuShH16P0xt_MKPcY78zUaLrcMU_K3TCNb2R2vajStjEuFCQNwIcYNCzo2lkeDIsLiPnUHl5K8tVihSXkFVq4lQbWrw7ZhaOLrmif-M8uTGoFUtiQakO0LHVoqZPu4CUhQoaBsNqUarp3',
   miniPaxlava: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC4UrvKf3qpHKHVHXSU7yAAimQstSv_mtU-bJiihETZhSfLeUxdOs9xG275ZdEX73VX98ymy-hXMGQOeDBnSc50gRWQfn3vOreeOPlUyNV5WT7zjUGGajQM9860slfdXs6d1tUrhC8mVK5OvMiGriiZCLGSXJiRhemdHUAu_0DGep5Tv4TDJ0zYTKFc2Z7ZtKwhSgCifkAvYBL2sQY776r-nF8dyZExRmkR5M6NpTJ_e5BrBRTVVWhl',
-  chocCake: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBpiYTJi916BMOWTjZq7U4O9N2CxT4NCWxbAr53nesh6YAT--9I0enkdGt9p5bKq7E1N0DazK2qAGSPSU71AEfMNp-4PxqcpfH39CgCGMYj72sXhRi08tei5EZ-TjvxY6723Yi72OQ0bM1NhsqTHvRFFA-rGSW5jBfLDhRjojAxvpJ2LzOK1ZBYGJpvJ2DxZcPNzGZEGi_Uh3bD9BTJfT2u6-gqOKrdS6hxHRAs62_8sWrqkiAml7CC'
+  chocCake: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBpiYTJi916BMOWTjZq7U4O9N2CxT4NCWxbAr53nesh6YAT--9I0enkdGt9p5bKq7E1N0DazK2qAGSPSU71AEfMNp-4PxqcpfH39CgCGMYj72sXhRi08tei5EZ-TjvxY6723Yi72OQ0bM1NhsqTHvRFFA-rGSW5jBfLDhRjojAxvpJ2LzOK1ZBYGJpvJ2DxZcPNzGZEGi_Uh3bD9BTJfT2u6-gqOKrdS6hxHRAs62_8sWrqkiAml7CC',
+  sekerburaReal: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sekerbura_DSC3151.jpg',
+  qogalReal: 'https://commons.wikimedia.org/wiki/Special:FilePath/%C5%9Eirin_qo%C4%9Fal.jpg',
+  eclairReal: 'https://commons.wikimedia.org/wiki/Special:FilePath/Liebesknochen3.JPG',
+  cayDestiReal: 'https://commons.wikimedia.org/wiki/Special:FilePath/Tea_in_Azerbaijani_national_Armudu_glass.jpg'
 };
-// Real, uyğun şəkli təsdiqlənməyən məhsullar üçün rəngli emoji-tile istifadə olunur (yanlış şəkil əvəzinə)
+// Uyğun real şəkli olmayan (nadir) hallar üçün ehtiyat emoji-tile
 const EMOJI_TILE = {
-  sekerbura: { emoji: '🥟', bg: 'from-[#fed7ca] to-[#fce4ec]' },
-  qogal: { emoji: '🥯', bg: 'from-[#f2ecb8] to-[#fed7ca]' },
-  tortAssorti: { emoji: '🎂', bg: 'from-[#fce4ec] to-[#e4beb2]' },
-  eclair: { emoji: '🧁', bg: 'from-[#eae4b1] to-[#fce4ec]' },
-  cayDesti: { emoji: '☕', bg: 'from-[#e4beb2] to-[#f2ecb8]' }
+  tortAssorti: { emoji: '🎂', bg: 'from-[#fce4ec] to-[#e4beb2]' }
 };
 function productVisual(p, sizeClasses) {
   if (p.img) return `<img src="${p.img}" class="${sizeClasses} object-cover" alt="${escapeHtml(p.name)}"/>`;
@@ -45,12 +45,12 @@ function seedDB() {
     { id: uid('p'), name: 'Kurasan', desc: 'Kərə yağı ilə', price: 3.5, stock: 45, unit: 'ədəd', catId: categories[2].id, img: IMG.kurasan },
     { id: uid('p'), name: 'Paxlava', desc: 'Qozlu, ballı', price: 2, stock: 30, unit: 'pors', catId: categories[1].id, img: IMG.paxlava },
     { id: uid('p'), name: 'Mini Paxlava', desc: 'Qarışıq qoz-fındıq', price: 1.5, stock: 60, unit: 'ədəd', catId: categories[1].id, img: IMG.miniPaxlava },
-    { id: uid('p'), name: 'Şəkərbura', desc: 'Ənənəvi Novruz şirniyyatı', price: 2.2, stock: 40, unit: 'ədəd', catId: categories[1].id, emojiKey: 'sekerbura' },
-    { id: uid('p'), name: 'Qoğal', desc: 'Zəncəfilli, xəşilli', price: 2.5, stock: 25, unit: 'ədəd', catId: categories[1].id, emojiKey: 'qogal' },
+    { id: uid('p'), name: 'Şəkərbura', desc: 'Ənənəvi Novruz şirniyyatı', price: 2.2, stock: 40, unit: 'ədəd', catId: categories[1].id, img: IMG.sekerburaReal },
+    { id: uid('p'), name: 'Qoğal', desc: 'Zəncəfilli, xəşilli', price: 2.5, stock: 25, unit: 'ədəd', catId: categories[1].id, img: IMG.qogalReal },
     { id: uid('p'), name: 'Ballı Tort', desc: 'Ənənəvi bal tortu, qat-qat', price: 42, stock: 8, unit: 'ədəd', catId: categories[0].id, img: IMG.ballıTort },
     { id: uid('p'), name: 'Tort Assorti', desc: 'Şokoladlı, qarışıq çeşid', price: 38, stock: 6, unit: 'ədəd', catId: categories[0].id, img: IMG.chocCake },
-    { id: uid('p'), name: 'Eklerlər', desc: 'Şokoladlı krem dolması', price: 3, stock: 20, unit: 'ədəd', catId: categories[2].id, emojiKey: 'eclair' },
-    { id: uid('p'), name: 'Çay dəsti', desc: 'Qara çay, 6 ədəd bişkot ilə', price: 6, stock: 15, unit: 'dəst', catId: categories[3].id, emojiKey: 'cayDesti' }
+    { id: uid('p'), name: 'Eklerlər', desc: 'Şokoladlı krem dolması', price: 3, stock: 20, unit: 'ədəd', catId: categories[2].id, img: IMG.eclairReal },
+    { id: uid('p'), name: 'Çay dəsti', desc: 'Qara çay, 6 ədəd bişkot ilə', price: 6, stock: 15, unit: 'dəst', catId: categories[3].id, img: IMG.cayDestiReal }
   ];
   const customers = [
     { id: uid('c'), name: 'Aysel Məmmədova', phone: '+994 50 123 45 67', birthday: '1994-03-12', address: 'Nərimanov r., Bakı', notes: 'VIP müştəri, hər ay tort sifariş edir' },

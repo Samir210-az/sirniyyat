@@ -73,9 +73,18 @@
     .receipt-paper { font-family: 'Courier New', monospace; width: 280px; margin: 0 auto; color: #111; }
     .receipt-paper .rline { display: flex; justify-content: space-between; font-size: 13px; padding: 2px 0; }
     @media print {
+      @page { size: 80mm auto; margin: 4mm; }
+      html, body { height: auto !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; background: #fff !important; }
       body * { visibility: hidden; }
       #receipt-print-area, #receipt-print-area * { visibility: visible; }
-      #receipt-print-area { position: fixed; top: 0; left: 0; width: 100%; }
+      #receipt-print-area {
+        position: absolute; top: 0; left: 0; width: 100% !important;
+        margin: 0 !important; border: none !important; box-shadow: none !important; padding: 0 !important;
+      }
+      header, nav, footer { display: none !important; }
+      #modal-root > div { position: static !important; background: none !important; backdrop-filter: none !important; min-height: 0 !important; padding: 0 !important; }
+      #modal-root > div > div { max-height: none !important; overflow: visible !important; border-radius: 0 !important; }
+      #modal-root button { display: none !important; }
     }
     .glass-card { background: linear-gradient(135deg, #ffffff 0%, #fff1ed 100%); border: 1px solid #fce4ec; box-shadow: 0 8px 32px 0 rgba(141, 110, 99, 0.1); }
     .soft-shadow { box-shadow: 0 4px 16px rgba(141, 110, 99, 0.08); }
@@ -99,7 +108,7 @@
 <header class="w-full top-0 sticky shadow-sm bg-surface/85 backdrop-blur-md z-40">
   <div class="flex justify-between items-center px-margin-mobile py-3 w-full max-w-7xl mx-auto">
     <div class="flex items-center gap-2 cursor-pointer" onclick="navigate('dashboard')">
-      <div class="w-11 h-11 rounded-full bg-primary-container flex items-center justify-center text-2xl brand-emoji">🍰</div>
+      <img src="https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Shortcake/3D/shortcake_3d.png" alt="Tort" class="w-11 h-11 brand-emoji object-contain" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Birthday%20cake/3D/birthday_cake_3d.png'"/>
       <span class="text-2xl md:text-3xl font-headline-md font-headline-md brand-title">Şirniyyat Evi</span>
     </div>
     <div class="hidden md:flex items-center gap-6">
