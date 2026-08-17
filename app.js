@@ -86,12 +86,18 @@ function seedDB() {
     { id: uid('o'), customerId: customers[2].id, date: todayISO(), time: '08:15', items: [{ productId: products[4].id, qty: 5, price: 2.2 }, { productId: products[5].id, qty: 5, price: 2.5 }], status: 'tehvil', discount: 0, createdAt: now - 10800000 },
     { id: uid('o'), customerId: customers[3].id, date: todayISO(), time: '07:50', items: [{ productId: products[6].id, qty: 1, price: 42 }], status: 'catdirilma', discount: 5, createdAt: now - 14400000 }
   ];
-  return { categories, products, customers, orders };
+  return { categories, products, customers, orders, receivings: [] };
 }
 
 function loadDB() {
   const raw = localStorage.getItem(DB_KEY);
-  if (raw) { try { return JSON.parse(raw); } catch (e) {} }
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      if (!parsed.receivings) parsed.receivings = [];
+      return parsed;
+    } catch (e) {}
+  }
   const seeded = seedDB();
   localStorage.setItem(DB_KEY, JSON.stringify(seeded));
   return seeded;
@@ -157,16 +163,18 @@ function orderTotal(order) {
   const sum = order.items.reduce((s, it) => s + it.qty * it.price, 0);
   return sum - (sum * (order.discount || 0) / 100);
 }
-function todaysOrders() { return DB.orders.filter(o => o.date === todayISO()); }
+function activeOrders() { return DB.orders.filter(o => o.status !== 'legv'); }
+function todaysOrders() { return activeOrders().filter(o => o.date === todayISO()); }
 function statusLabel(s) {
-  return { hazirlanir: 'Hazırlanır', hazir: 'Hazırdır', tehvil: 'Təhvil verildi', catdirilma: 'Çatdırılmada' }[s] || s;
+  return { hazirlanir: 'Hazırlanır', hazir: 'Hazırdır', tehvil: 'Təhvil verildi', catdirilma: 'Çatdırılmada', legv: 'Ləğv edildi' }[s] || s;
 }
 function statusClass(s) {
   return {
     hazirlanir: 'bg-primary-container text-on-primary-container',
     hazir: 'bg-[#E8F5E9] text-[#2E7D32]',
     tehvil: 'bg-[#E8F5E9] text-[#2E7D32]',
-    catdirilma: 'bg-secondary-container text-on-secondary-container'
+    catdirilma: 'bg-secondary-container text-on-secondary-container',
+    legv: 'bg-error-container text-error'
   }[s] || 'bg-surface-container text-on-surface-variant';
 }
 
@@ -177,6 +185,7 @@ function render() {
   if (ROUTE === 'pos') return renderPOS(app);
   if (ROUTE === 'products') return renderProducts(app);
   if (ROUTE === 'orders') return renderOrders(app);
+  if (ROUTE === 'receiving') return renderReceiving(app);
   if (ROUTE === 'customers') return renderCustomers(app);
   if (ROUTE === 'reports') return renderReports(app);
   if (ROUTE === 'settings') return renderSettings(app);
@@ -189,7 +198,7 @@ function posCatFilter() { return document.getElementById('app').dataset.posCat |
 function renderPOS(app) {
   const today = todaysOrders().reduce((s, o) => s + orderTotal(o), 0);
   const thisMonth = todayISO().slice(0, 7);
-  const monthTotal = DB.orders.filter(o => o.date.startsWith(thisMonth)).reduce((s, o) => s + orderTotal(o), 0);
+  const monthTotal = activeOrders().filter(o => o.date.startsWith(thisMonth)).reduce((s, o) => s + orderTotal(o), 0);
 
   app.innerHTML = `
     <div class="fade-in pb-24">
@@ -402,13 +411,13 @@ function renderDashboard(app) {
   const today = todaysOrders();
   const dailySales = today.reduce((s, o) => s + orderTotal(o), 0);
   const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-  const ySales = DB.orders.filter(o => o.date === yesterday).reduce((s, o) => s + orderTotal(o), 0);
+  const ySales = activeOrders().filter(o => o.date === yesterday).reduce((s, o) => s + orderTotal(o), 0);
   const growth = ySales > 0 ? Math.round(((dailySales - ySales) / ySales) * 100) : (dailySales > 0 ? 100 : 0);
   const newOrders = today.length;
-  const delivering = DB.orders.filter(o => o.status === 'catdirilma').length;
+  const delivering = activeOrders().filter(o => o.status === 'catdirilma').length;
 
   const salesByProduct = {};
-  DB.orders.forEach(o => o.items.forEach(it => { salesByProduct[it.productId] = (salesByProduct[it.productId] || 0) + it.qty; }));
+  activeOrders().forEach(o => o.items.forEach(it => { salesByProduct[it.productId] = (salesByProduct[it.productId] || 0) + it.qty; }));
   const topProducts = Object.entries(salesByProduct).sort((a, b) => b[1] - a[1]).slice(0, 3)
     .map(([pid, qty]) => ({ product: DB.products.find(p => p.id === pid), qty }))
     .filter(x => x.product);
@@ -690,23 +699,25 @@ function renderOrders(app) {
           const c = DB.customers.find(cu => cu.id === o.customerId) || { name: 'Naməlum müştəri' };
           const itemsText = o.items.map(it => { const p = DB.products.find(pp => pp.id === it.productId); return `${it.qty}x ${p ? p.name : '?'}`; }).join(', ');
           return `
-          <div class="bg-surface-container-lowest rounded-xl border border-primary-container soft-shadow p-md">
+          <div class="bg-surface-container-lowest rounded-xl border ${o.status === 'legv' ? 'border-error/40 opacity-75' : 'border-primary-container'} soft-shadow p-md">
             <div class="flex justify-between items-start gap-2 mb-2">
               <div class="flex items-center gap-2 min-w-0">
                 <div class="w-9 h-9 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0">
                   <span class="text-label-sm font-label-sm">${initials(c.name)}</span>
                 </div>
                 <div class="min-w-0">
-                  <h4 class="text-body-md font-body-md text-on-background font-semibold truncate">${escapeHtml(c.name)}</h4>
+                  <h4 class="text-body-md font-body-md text-on-background font-semibold truncate ${o.status === 'legv' ? 'line-through' : ''}">${escapeHtml(c.name)}</h4>
                   <p class="text-label-sm font-label-sm text-on-surface-variant">${o.date} · ${o.time}</p>
                 </div>
               </div>
               <span class="px-2 py-1 rounded-full ${statusClass(o.status)} text-[10px] font-bold uppercase tracking-wide shrink-0">${statusLabel(o.status)}</span>
             </div>
             <p class="text-body-sm font-body-sm text-on-surface-variant mb-2">${escapeHtml(itemsText)}</p>
+            ${o.status === 'legv' ? `<p class="text-label-sm font-label-sm text-error mb-2">Səbəb: ${escapeHtml(o.cancelReason || '-')}</p>` : ''}
             <div class="flex justify-between items-center">
-              <span class="text-label-md font-label-md text-on-background font-bold">${fmtMoney(orderTotal(o))}</span>
+              <span class="text-label-md font-label-md text-on-background font-bold ${o.status === 'legv' ? 'line-through' : ''}">${fmtMoney(orderTotal(o))}</span>
               <div class="flex items-center gap-2">
+                ${o.status !== 'legv' ? `
                 <select onchange="updateOrderStatus('${o.id}', this.value)" class="text-label-sm font-label-sm border border-outline-variant rounded-full px-2 py-1 bg-surface-container-lowest outline-none">
                   <option value="hazirlanir" ${o.status === 'hazirlanir' ? 'selected' : ''}>Hazırlanır</option>
                   <option value="hazir" ${o.status === 'hazir' ? 'selected' : ''}>Hazırdır</option>
@@ -714,7 +725,10 @@ function renderOrders(app) {
                   <option value="tehvil" ${o.status === 'tehvil' ? 'selected' : ''}>Təhvil verildi</option>
                 </select>
                 <button onclick="openOrderForm('${o.id}')" class="p-1.5 rounded-full bg-surface-container hover:bg-primary-container transition-colors"><span class="material-symbols-outlined text-base block">edit</span></button>
-                <button onclick="deleteOrder('${o.id}')" class="p-1.5 rounded-full bg-error-container text-error hover:opacity-80 transition-opacity"><span class="material-symbols-outlined text-base block">delete</span></button>
+                ` : ''}
+                <button onclick="deleteOrder('${o.id}')" class="p-1.5 rounded-full ${o.status === 'legv' ? 'bg-surface-container text-on-surface-variant' : 'bg-error-container text-error'} hover:opacity-80 transition-opacity" title="${o.status === 'legv' ? 'Bərpa et' : 'Ləğv et'}">
+                  <span class="material-symbols-outlined text-base block">${o.status === 'legv' ? 'restore' : 'cancel'}</span>
+                </button>
               </div>
             </div>
           </div>`;
@@ -727,10 +741,43 @@ function updateOrderStatus(id, status) {
   o.status = status; saveDB(); toast('Status yeniləndi');
 }
 function deleteOrder(id) {
-  confirmModal('Sifarişi sil?', 'Bu sifarişi silmək istədiyinizə əminsiniz? Bu əməliyyat geri qaytarıla bilməz.', () => {
-    DB.orders = DB.orders.filter(x => x.id !== id);
-    saveDB(); toast('Sifariş silindi'); renderOrders(document.getElementById('app'));
-  });
+  const o = DB.orders.find(x => x.id === id);
+  if (!o) return;
+  if (o.status === 'legv') {
+    confirmModal('Sifarişi bərpa et?', 'Bu sifariş ləğv edilib. Yenidən aktiv etmək istəyirsiniz?', () => {
+      o.status = 'hazirlanir'; delete o.cancelReason; delete o.cancelledAt;
+      saveDB(); toast('Sifariş bərpa edildi'); renderOrders(document.getElementById('app'));
+    });
+    return;
+  }
+  openModal(`
+    <div class="p-6">
+      <div class="w-14 h-14 mx-auto rounded-full bg-error-container flex items-center justify-center mb-4">
+        <span class="material-symbols-outlined text-error text-3xl">warning</span>
+      </div>
+      <h3 class="text-headline-sm font-headline-sm text-on-background mb-2 text-center">Sifarişi Ləğv Et</h3>
+      <p class="text-body-sm font-body-sm text-on-surface-variant mb-4 text-center">Sifariş silinmir, "Ləğv edildi" statusuna keçir və qeyd tarixçədə saxlanılır. Səbəb yazmaq məcburidir.</p>
+      <form id="cancel-order-form">
+        <label class="text-label-sm font-label-sm text-on-surface-variant">Ləğv səbəbi</label>
+        <textarea required name="reason" rows="3" class="w-full mt-1 px-4 py-3 rounded-xl border border-outline-variant bg-surface-container-lowest focus:border-primary outline-none" placeholder="Məs: müştəri imtina etdi, səhv daxil edilib..."></textarea>
+        <div class="flex gap-3 pt-4">
+          <button type="button" onclick="closeModal()" class="flex-1 py-3 rounded-full border border-outline-variant text-on-background font-label-md text-label-md hover:bg-surface-container transition-colors">Geri</button>
+          <button type="submit" class="flex-1 py-3 rounded-full bg-error text-on-error font-label-md text-label-md hover:opacity-90 transition-opacity">Ləğv Et</button>
+        </div>
+      </form>
+    </div>`);
+  document.getElementById('cancel-order-form').onsubmit = (e) => {
+    e.preventDefault();
+    const reason = new FormData(e.target).get('reason').trim();
+    if (!reason) return;
+    o.status = 'legv';
+    o.cancelReason = reason;
+    o.cancelledAt = Date.now();
+    saveDB();
+    closeModal();
+    toast('Sifariş ləğv edildi');
+    renderOrders(document.getElementById('app'));
+  };
 }
 
 function openOrderForm(id) {
@@ -827,6 +874,148 @@ function openOrderForm(id) {
   };
 }
 
+/* ================= MAL QƏBULU ================= */
+let receivingCart = [];
+function receivingDateFilter() { return document.getElementById('app').dataset.recDate || todayISO(); }
+
+function renderReceiving(app) {
+  const date = receivingDateFilter();
+  app.innerHTML = `
+    <div class="fade-in">
+      <div class="flex justify-between items-center mb-md">
+        <h2 class="text-headline-md font-headline-md text-on-background">Mal Qəbulu</h2>
+        <button onclick="openReceivingForm()" class="px-4 py-2 rounded-full bg-primary text-on-primary text-label-md font-label-md hover:opacity-90 transition-opacity flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">add</span> Yeni Qəbul
+        </button>
+      </div>
+      <div class="flex items-center gap-2 mb-md">
+        <span class="material-symbols-outlined text-on-surface-variant">calendar_month</span>
+        <input id="receiving-date-input" type="date" value="${date}" onchange="filterReceivingByDate(this.value)" class="px-4 py-2 rounded-xl border border-outline-variant bg-surface-container-lowest outline-none"/>
+        <button onclick="filterReceivingByDate('${todayISO()}')" class="text-label-sm font-label-sm text-primary">Bu gün</button>
+      </div>
+      <div id="receiving-list" class="space-y-3"></div>
+    </div>`;
+  renderReceivingList(date);
+}
+function filterReceivingByDate(date) {
+  document.getElementById('app').dataset.recDate = date;
+  renderReceivingList(date);
+}
+function renderReceivingList(date) {
+  const list = DB.receivings.filter(r => r.date === date).sort((a, b) => b.createdAt - a.createdAt);
+  const totalQty = list.reduce((s, r) => s + r.items.reduce((x, it) => x + it.qty, 0), 0);
+  const el = document.getElementById('receiving-list');
+  el.innerHTML = `
+    <div class="bg-surface-container-lowest rounded-xl border border-primary-container soft-shadow p-md mb-2 flex justify-between items-center">
+      <span class="text-body-sm font-body-sm text-on-surface-variant">${date} tarixində qəbul olunan</span>
+      <span class="text-label-md font-label-md text-on-background font-bold">${totalQty} ədəd</span>
+    </div>
+    ${list.length ? list.map(r => {
+      const itemsText = r.items.map(it => { const p = DB.products.find(pp => pp.id === it.productId); return `${it.qty}x ${p ? p.name : '?'}`; }).join(', ');
+      return `
+      <div class="bg-surface-container-lowest rounded-xl border border-primary-container soft-shadow p-md">
+        <div class="flex justify-between items-start gap-2 mb-1">
+          <div>
+            <h4 class="text-body-md font-body-md text-on-background font-semibold">${escapeHtml(r.supplierName)}</h4>
+            <p class="text-label-sm font-label-sm text-on-surface-variant">${r.time}${r.invoiceNo ? ' · Faktura №' + escapeHtml(r.invoiceNo) : ''}</p>
+          </div>
+          <button onclick="deleteReceiving('${r.id}')" class="p-1.5 rounded-full bg-error-container text-error hover:opacity-80 transition-opacity shrink-0"><span class="material-symbols-outlined text-base block">delete</span></button>
+        </div>
+        <p class="text-body-sm font-body-sm text-on-surface-variant">${escapeHtml(itemsText)}</p>
+      </div>`;
+    }).join('') : `<div class="text-center py-12 text-on-surface-variant text-body-md">Bu tarixdə mal qəbulu qeydə alınmayıb</div>`}
+  `;
+}
+
+function openReceivingForm() {
+  receivingCart = [];
+  openModal(`
+    <div class="p-6">
+      <h3 class="text-headline-sm font-headline-sm text-on-background mb-4">Yeni Mal Qəbulu</h3>
+      <form id="receiving-form" class="space-y-3">
+        <div>
+          <label class="text-label-sm font-label-sm text-on-surface-variant">Gətirən şəxsin adı</label>
+          <input required name="supplierName" class="w-full mt-1 px-4 py-3 rounded-xl border border-outline-variant bg-surface-container-lowest focus:border-primary outline-none" placeholder="Ad Soyad"/>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-label-sm font-label-sm text-on-surface-variant">Faktura № (istəyə bağlı)</label>
+            <input name="invoiceNo" class="w-full mt-1 px-4 py-3 rounded-xl border border-outline-variant bg-surface-container-lowest focus:border-primary outline-none"/>
+          </div>
+          <div>
+            <label class="text-label-sm font-label-sm text-on-surface-variant">Tarix</label>
+            <input required type="date" name="date" value="${todayISO()}" class="w-full mt-1 px-4 py-3 rounded-xl border border-outline-variant bg-surface-container-lowest focus:border-primary outline-none"/>
+          </div>
+        </div>
+        <div>
+          <label class="text-label-sm font-label-sm text-on-surface-variant">Məhsul əlavə et</label>
+          <div class="flex gap-2 mt-1">
+            <select id="rec-product-select" class="flex-grow px-3 py-2.5 rounded-xl border border-outline-variant bg-surface-container-lowest outline-none">
+              ${DB.products.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('')}
+            </select>
+            <input id="rec-qty-input" type="number" min="1" value="1" class="w-16 px-2 py-2.5 rounded-xl border border-outline-variant bg-surface-container-lowest outline-none text-center"/>
+            <button type="button" onclick="addReceivingItem()" class="px-3 py-2.5 rounded-xl bg-primary-container text-on-primary-container"><span class="material-symbols-outlined text-base block">add</span></button>
+          </div>
+        </div>
+        <div id="rec-cart-list" class="space-y-1 max-h-40 overflow-y-auto"></div>
+        <div class="flex gap-3 pt-2">
+          <button type="button" onclick="closeModal()" class="flex-1 py-3 rounded-full border border-outline-variant text-on-background font-label-md text-label-md hover:bg-surface-container transition-colors">Ləğv et</button>
+          <button type="submit" class="flex-1 py-3 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:opacity-90 transition-opacity">Qəbulu Təsdiqlə</button>
+        </div>
+      </form>
+    </div>`);
+  window.addReceivingItem = () => {
+    const pid = document.getElementById('rec-product-select').value;
+    const qty = parseInt(document.getElementById('rec-qty-input').value) || 1;
+    const p = DB.products.find(x => x.id === pid);
+    if (!p) return;
+    const existing = receivingCart.find(it => it.productId === pid);
+    if (existing) existing.qty += qty; else receivingCart.push({ productId: pid, qty });
+    renderRecCartList();
+  };
+  window.removeReceivingItem = (pid) => { receivingCart = receivingCart.filter(it => it.productId !== pid); renderRecCartList(); };
+  window.renderRecCartList = () => {
+    const el = document.getElementById('rec-cart-list');
+    el.innerHTML = receivingCart.length ? receivingCart.map(it => {
+      const p = DB.products.find(x => x.id === it.productId);
+      return `<div class="flex justify-between items-center text-body-sm bg-surface-container-lowest border border-surface-variant/30 rounded-lg px-3 py-2">
+        <span>${it.qty}x ${escapeHtml(p ? p.name : '?')}</span>
+        <button type="button" onclick="removeReceivingItem('${it.productId}')" class="text-error"><span class="material-symbols-outlined text-base block">close</span></button>
+      </div>`;
+    }).join('') : `<p class="text-label-sm text-on-surface-variant text-center py-2">Hələ məhsul əlavə edilməyib</p>`;
+  };
+  renderRecCartList();
+
+  document.getElementById('receiving-form').onsubmit = (e) => {
+    e.preventDefault();
+    if (!receivingCart.length) { toast('Ən azı bir məhsul əlavə edin', 'error'); return; }
+    const f = new FormData(e.target);
+    const now = new Date();
+    DB.receivings.push({
+      id: uid('r'), supplierName: f.get('supplierName').trim(), invoiceNo: f.get('invoiceNo').trim(),
+      date: f.get('date'), time: now.toTimeString().slice(0, 5), createdAt: Date.now(),
+      items: receivingCart.map(it => ({ ...it }))
+    });
+    receivingCart.forEach(it => {
+      const p = DB.products.find(x => x.id === it.productId);
+      if (p) p.stock += it.qty;
+    });
+    saveDB();
+    closeModal();
+    toast('Mal qəbulu qeydə alındı, stok yeniləndi ✅');
+    document.getElementById('app').dataset.recDate = f.get('date');
+    renderReceiving(document.getElementById('app'));
+  };
+}
+function deleteReceiving(id) {
+  const r = DB.receivings.find(x => x.id === id);
+  if (!r) return;
+  confirmModal('Qəbul qeydini sil?', 'Bu qeydi silsəniz, əlaqədar stok artımı geri alınmayacaq (yalnız qeyd silinəcək). Stoku əl ilə düzəltməli ola bilərsiniz.', () => {
+    DB.receivings = DB.receivings.filter(x => x.id !== id);
+    saveDB(); toast('Qeyd silindi'); renderReceivingList(receivingDateFilter());
+  });
+}
+
 /* ================= CUSTOMERS ================= */
 function renderCustomers(app) {
   app.innerHTML = `
@@ -850,7 +1039,7 @@ function renderCustomerList(list) {
   const el = document.getElementById('customer-list');
   el.innerHTML = list.length ? list.map(c => {
     const orderCount = DB.orders.filter(o => o.customerId === c.id).length;
-    const spent = DB.orders.filter(o => o.customerId === c.id).reduce((s, o) => s + orderTotal(o), 0);
+    const spent = activeOrders().filter(o => o.customerId === c.id).reduce((s, o) => s + orderTotal(o), 0);
     return `
     <div class="bg-surface-container-lowest rounded-xl border border-primary-container soft-shadow p-md flex items-center gap-sm">
       <div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0">
@@ -925,11 +1114,11 @@ function renderReports(app) {
     const d = new Date(Date.now() - (6 - i) * 86400000);
     return d.toISOString().slice(0, 10);
   });
-  const salesByDay = last7.map(d => DB.orders.filter(o => o.date === d).reduce((s, o) => s + orderTotal(o), 0));
+  const salesByDay = last7.map(d => activeOrders().filter(o => o.date === d).reduce((s, o) => s + orderTotal(o), 0));
   const dayLabels = last7.map(d => new Date(d).toLocaleDateString('az-AZ', { day: '2-digit', month: '2-digit' }));
 
   const catTotals = {};
-  DB.orders.forEach(o => o.items.forEach(it => {
+  activeOrders().forEach(o => o.items.forEach(it => {
     const p = DB.products.find(pp => pp.id === it.productId);
     if (!p) return;
     const cat = DB.categories.find(c => c.id === p.catId);
@@ -937,11 +1126,11 @@ function renderReports(app) {
     catTotals[key] = (catTotals[key] || 0) + it.qty * it.price;
   }));
 
-  const totalRevenue = DB.orders.reduce((s, o) => s + orderTotal(o), 0);
-  const avgOrder = DB.orders.length ? totalRevenue / DB.orders.length : 0;
+  const totalRevenue = activeOrders().reduce((s, o) => s + orderTotal(o), 0);
+  const avgOrder = activeOrders().length ? totalRevenue / activeOrders().length : 0;
 
   const topCustomers = DB.customers.map(c => ({
-    c, spent: DB.orders.filter(o => o.customerId === c.id).reduce((s, o) => s + orderTotal(o), 0)
+    c, spent: activeOrders().filter(o => o.customerId === c.id).reduce((s, o) => s + orderTotal(o), 0)
   })).sort((a, b) => b.spent - a.spent).slice(0, 5);
 
   app.innerHTML = `
