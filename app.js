@@ -282,7 +282,7 @@ function seedDB() {
     { id: uid('o'), customerId: customers[2].id, date: todayISO(), time: '08:15', items: [{ productId: products[4].id, qty: 5, price: 2.2 }, { productId: products[5].id, qty: 5, price: 2.5 }], status: 'tehvil', discount: 0, createdAt: now - 10800000 },
     { id: uid('o'), customerId: customers[3].id, date: todayISO(), time: '07:50', items: [{ productId: products[6].id, qty: 1, price: 42 }], status: 'catdirilma', discount: 5, createdAt: now - 14400000 }
   ];
-  return { categories, products, customers, orders, receivings: [] };
+  return { categories, products, customers, orders, receivings: [], deletedOrders: [] };
 }
 
 function loadDB() {
@@ -291,6 +291,7 @@ function loadDB() {
     try {
       const parsed = JSON.parse(raw);
       if (!parsed.receivings) parsed.receivings = [];
+      if (!parsed.deletedOrders) parsed.deletedOrders = [];
       return parsed;
     } catch (e) {}
   }
@@ -386,6 +387,7 @@ function render() {
   if (ROUTE === 'customers') return renderCustomers(app);
   if (ROUTE === 'reports') return renderReports(app);
   if (ROUTE === 'settings') return renderSettings(app);
+  if (ROUTE === 'archive') return renderArchive(app);
 }
 
 /* ================= SATIŞ (POS) ================= */
@@ -944,9 +946,10 @@ function updateOrderStatus(id, status) {
 function permanentlyDeleteOrder(id) {
   const o = DB.orders.find(x => x.id === id);
   if (!o || o.status !== 'legv') return; // yalnız artıq ləğv edilmiş (audit izli) sifarişlər tam silinə bilər
-  confirmModal('Tam sil?', 'Bu ləğv edilmiş sifariş sistemdən həmişəlik silinəcək (test məlumatlarını təmizləmək üçün). Bu əməliyyat geri qaytarıla bilməz.', () => {
+  confirmModal('Tam sil?', 'Bu sifariş fəal siyahıdan çıxarılacaq, amma nəzarət üçün "Ləğv/Silinmiş" arxivində həmişəlik saxlanılacaq. Satışa/hesabata təsir etmir.', () => {
+    DB.deletedOrders.push({ ...o, deletedAt: Date.now() });
     DB.orders = DB.orders.filter(x => x.id !== id);
-    saveDB(); toast('Sifariş tam silindi'); renderOrders(document.getElementById('app'));
+    saveDB(); toast('Sifariş arxivə köçürüldü'); renderOrders(document.getElementById('app'));
   });
 }
 function deleteOrder(id) {
@@ -1391,6 +1394,38 @@ function renderReports(app) {
 }
 
 /* ================= SETTINGS ================= */
+function renderArchive(app) {
+  const cancelled = DB.orders.filter(o => o.status === 'legv').map(o => ({ ...o, archiveType: 'legv' }));
+  const deleted = DB.deletedOrders.map(o => ({ ...o, archiveType: 'silinib' }));
+  const all = [...cancelled, ...deleted].sort((a, b) => (b.deletedAt || b.cancelledAt || 0) - (a.deletedAt || a.cancelledAt || 0));
+  app.innerHTML = `
+    <div class="fade-in">
+      <h2 class="text-headline-md font-headline-md text-on-background mb-1">Ləğv Edilmiş / Silinmiş</h2>
+      <p class="text-body-sm font-body-sm text-on-surface-variant mb-md">Bu siyahı həmişəlik saxlanılır, satışa və hesabata təsir etmir — yalnız nəzarət üçündür</p>
+      <div class="space-y-3">
+        ${all.length ? all.map(o => {
+          const c = DB.customers.find(cu => cu.id === o.customerId) || { name: 'Naməlum müştəri' };
+          const itemsText = o.items.map(it => { const p = DB.products.find(pp => pp.id === it.productId); return `${it.qty}x ${p ? p.name : '?'}`; }).join(', ');
+          const when = o.archiveType === 'silinib' ? o.deletedAt : o.cancelledAt;
+          return `
+          <div class="bg-surface-container-lowest rounded-xl border ${o.archiveType === 'silinib' ? 'border-error/40' : 'border-primary-container'} soft-shadow p-md">
+            <div class="flex justify-between items-start gap-2 mb-1">
+              <div>
+                <h4 class="text-body-md font-body-md text-on-background font-semibold">${escapeHtml(c.name)}</h4>
+                <p class="text-label-sm font-label-sm text-on-surface-variant">Sifariş: ${o.date} · ${o.time}</p>
+              </div>
+              <span class="text-[10px] font-bold uppercase px-2 py-1 rounded-full ${o.archiveType === 'silinib' ? 'bg-error-container text-error' : 'bg-secondary-container text-on-secondary-container'} shrink-0">${o.archiveType === 'silinib' ? 'Tam Silinib' : 'Ləğv Edilib'}</span>
+            </div>
+            <p class="text-body-sm font-body-sm text-on-surface-variant mb-1">${escapeHtml(itemsText)}</p>
+            <p class="text-label-sm font-label-sm text-error mb-1">Səbəb: ${escapeHtml(o.cancelReason || '-')}</p>
+            <p class="text-label-sm font-label-sm text-on-surface-variant">${o.archiveType === 'silinib' ? 'Silinmə' : 'Ləğv'} tarixi: ${when ? new Date(when).toLocaleString('az-AZ') : '-'}</p>
+            <p class="text-label-md font-label-md text-on-background font-bold mt-1">${fmtMoney(orderTotal(o))}</p>
+          </div>`;
+        }).join('') : `<div class="text-center py-12 text-on-surface-variant text-body-md">Hələ ləğv/silinmiş sifariş yoxdur</div>`}
+      </div>
+    </div>`;
+}
+
 function renderSettings(app) {
   app.innerHTML = `
     <div class="fade-in max-w-md">
@@ -1414,11 +1449,17 @@ function renderSettings(app) {
         </div>
       </div>
       <div class="flex flex-col gap-2 mt-md">
+        <button onclick="navigate('archive')" class="w-full py-3 rounded-full border border-outline-variant text-on-background font-label-md text-label-md hover:bg-surface-container transition-colors flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-base">archive</span> Ləğv/Silinmiş Sifarişlərə Bax
+        </button>
         <button onclick="exportData()" class="w-full py-3 rounded-full border border-outline-variant text-on-background font-label-md text-label-md hover:bg-surface-container transition-colors flex items-center justify-center gap-2">
           <span class="material-symbols-outlined text-base">download</span> Məlumatları ehtiyat kopyala (JSON)
         </button>
-        <button onclick="resetData()" class="w-full py-3 rounded-full bg-error-container text-error font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
-          <span class="material-symbols-outlined text-base">restart_alt</span> Bütün məlumatları sıfırla
+        <button onclick="resetData()" class="w-full py-3 rounded-full border border-outline-variant text-on-background font-label-md text-label-md hover:bg-surface-container transition-colors flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-base">restart_alt</span> Nümunə Məlumatlara Sıfırla (test üçün)
+        </button>
+        <button onclick="wipeAllData()" class="w-full py-3 rounded-full bg-error-container text-error font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-base">delete_forever</span> Bütün Test Məlumatlarını TAM Boşalt (canlıya keçid)
         </button>
       </div>
     </div>`;
@@ -1430,10 +1471,18 @@ function exportData() {
   toast('Ehtiyat nüsxə endirildi');
 }
 function resetData() {
-  confirmModal('Bütün məlumatları sıfırla?', 'Bütün məhsul, müştəri və sifarişlər silinəcək və nümunə məlumatlarla əvəz olunacaq. Bu əməliyyat geri qaytarıla bilməz.', () => {
+  confirmModal('Nümunə məlumatlara sıfırla?', 'Bütün cari məlumatlar silinəcək və TEST/nümunə məhsul-müştəri-sifarişlərlə əvəz olunacaq. Real iş üçün deyil, sınaq üçündür.', () => {
     localStorage.removeItem(DB_KEY);
     DB = loadDB();
-    toast('Məlumatlar sıfırlandı');
+    toast('Nümunə məlumatlara sıfırlandı');
+    navigate('dashboard');
+  });
+}
+function wipeAllData() {
+  confirmModal('Bütün məlumatları TAM boşalt?', 'Bütün məhsul, müştəri, sifariş, mal qəbulu VƏ arxiv həmişəlik silinəcək — sistem tam BOŞ vəziyyətə gələcək (heç bir nümunə məlumat olmadan). Real işə başlamazdan əvvəl istifadə edin. Bu əməliyyat geri qaytarıla BİLMƏZ.', () => {
+    DB = { categories: [], products: [], customers: [], orders: [], receivings: [], deletedOrders: [] };
+    saveDB();
+    toast('Bütün məlumatlar boşaldıldı — sistem tam təmizdir');
     navigate('dashboard');
   });
 }
