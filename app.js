@@ -326,19 +326,54 @@ function completeSale() {
   const customerId = document.getElementById('pos-customer-select').value;
   const discount = parseFloat(document.getElementById('pos-discount-input').value) || 0;
   const now = new Date();
-  DB.orders.push({
+  const order = {
     id: uid('o'), customerId: customerId || null, date: todayISO(), time: now.toTimeString().slice(0, 5),
     createdAt: Date.now(), items: posCart.map(it => ({ ...it })), discount, status: 'tehvil'
-  });
+  };
+  DB.orders.push(order);
   posCart.forEach(it => {
     const p = DB.products.find(x => x.id === it.productId);
     if (p) p.stock = Math.max(0, p.stock - it.qty);
   });
   saveDB();
   posCart = [];
-  closeModal();
   toast('Satış tamamlandı! ✅');
-  renderPOS(document.getElementById('app'));
+  showReceipt(order);
+  renderPOSGrid(posCatFilter());
+  updateCartBar();
+}
+
+function showReceipt(order) {
+  const sum = order.items.reduce((s, it) => s + it.qty * it.price, 0);
+  const final = sum - sum * (order.discount || 0) / 100;
+  const itemsHtml = order.items.map((it, i) => {
+    const p = DB.products.find(x => x.id === it.productId);
+    const name = p ? p.name : '?';
+    const lineTotal = fmtMoney(it.qty * it.price);
+    return `<div class="rline"><span>${i + 1}. ${escapeHtml(name)} x${it.qty}</span><span>${lineTotal}</span></div>`;
+  }).join('');
+  openModal(`
+    <div class="p-6">
+      <div id="receipt-print-area" class="receipt-paper bg-white p-4 rounded-lg border border-dashed border-outline-variant">
+        <h3 class="text-center font-bold text-base mb-2">Şirniyyat Evi</h3>
+        <div class="border-t border-dashed border-gray-400 my-2"></div>
+        ${itemsHtml}
+        <div class="border-t border-dashed border-gray-400 my-2"></div>
+        ${order.discount ? `<div class="rline"><span>Endirim</span><span>${order.discount}%</span></div>` : ''}
+        <div class="rline items-center mt-1">
+          <span>${order.discount ? `<span class="line-through text-gray-400">${fmtMoney(sum)}</span>` : ''}</span>
+          <span class="font-bold text-base">${fmtMoney(final)}</span>
+        </div>
+        <div class="border-t border-dashed border-gray-400 my-3"></div>
+        <p class="text-center text-sm">Nuş olsun!<br/>Bizi seçdiyiniz üçün təşəkkür edirik!</p>
+      </div>
+      <div class="flex gap-3 pt-4">
+        <button onclick="closeModal(); navigate('pos');" class="flex-1 py-3 rounded-full border border-outline-variant text-on-background font-label-md text-label-md hover:bg-surface-container transition-colors">Bağla</button>
+        <button onclick="window.print()" class="flex-1 py-3 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:opacity-90 transition-opacity flex items-center justify-center gap-1">
+          <span class="material-symbols-outlined text-base">print</span> Çap et
+        </button>
+      </div>
+    </div>`);
 }
 
 /* ================= DASHBOARD ================= */

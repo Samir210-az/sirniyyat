@@ -58,6 +58,25 @@
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .brand-title {
+        background: linear-gradient(90deg, #75584d, #b8886f, #75584d);
+        background-size: 200% auto;
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+        animation: brandShine 4s linear infinite, brandPulse 2.8s ease-in-out infinite;
+        display: inline-block;
+    }
+    @keyframes brandShine { to { background-position: 200% center; } }
+    @keyframes brandPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.035); } }
+    .brand-emoji { animation: brandWiggle 2.6s ease-in-out infinite; display: inline-block; transform-origin: 70% 70%; }
+    @keyframes brandWiggle { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
+    /* Qəbz çapı */
+    .receipt-paper { font-family: 'Courier New', monospace; width: 280px; margin: 0 auto; color: #111; }
+    .receipt-paper .rline { display: flex; justify-content: space-between; font-size: 13px; padding: 2px 0; }
+    @media print {
+      body * { visibility: hidden; }
+      #receipt-print-area, #receipt-print-area * { visibility: visible; }
+      #receipt-print-area { position: fixed; top: 0; left: 0; width: 100%; }
+    }
     .glass-card { background: linear-gradient(135deg, #ffffff 0%, #fff1ed 100%); border: 1px solid #fce4ec; box-shadow: 0 8px 32px 0 rgba(141, 110, 99, 0.1); }
     .soft-shadow { box-shadow: 0 4px 16px rgba(141, 110, 99, 0.08); }
     .modal-backdrop { background: rgba(44, 22, 14, 0.5); backdrop-filter: blur(2px); }
@@ -79,9 +98,9 @@
 
 <header class="w-full top-0 sticky shadow-sm bg-surface/85 backdrop-blur-md z-40">
   <div class="flex justify-between items-center px-margin-mobile py-3 w-full max-w-7xl mx-auto">
-    <div class="flex items-center gap-xs cursor-pointer" onclick="navigate('dashboard')">
-      <div class="w-9 h-9 rounded-full bg-primary-container flex items-center justify-center text-lg">🍰</div>
-      <span class="text-headline-sm font-headline-sm text-on-background">Şirniyyat Evi</span>
+    <div class="flex items-center gap-2 cursor-pointer" onclick="navigate('dashboard')">
+      <div class="w-11 h-11 rounded-full bg-primary-container flex items-center justify-center text-2xl brand-emoji">🍰</div>
+      <span class="text-2xl md:text-3xl font-headline-md font-headline-md brand-title">Şirniyyat Evi</span>
     </div>
     <div class="hidden md:flex items-center gap-6">
       <a onclick="navigate('dashboard')" data-nav="dashboard" class="nav-link text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer pb-1">Ana Səhifə</a>
