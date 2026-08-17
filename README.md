@@ -1,4 +1,4 @@
-# Şirniyyat Evi — CRM
+# Ev Ləzzəti Şirniyyat — CRM
 
 Şirniyyat mağazası üçün sadə, sürətli və tam funksional idarəetmə paneli.
 

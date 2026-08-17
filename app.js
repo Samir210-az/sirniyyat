@@ -1,5 +1,5 @@
 /* ============================================================
-   Şirniyyat Evi CRM — tam funksional SPA
+   Ev Ləzzəti Şirniyyat CRM — tam funksional SPA
    Verilənlər: localStorage (DB_KEY altında)
    ============================================================ */
 
@@ -374,7 +374,7 @@ function showReceipt(order) {
   openModal(`
     <div class="p-6">
       <div id="receipt-print-area" class="receipt-paper bg-white p-4 rounded-lg border border-dashed border-outline-variant">
-        <h3 class="text-center font-bold text-base mb-2">Şirniyyat Evi</h3>
+        <h3 class="text-center font-bold text-base mb-2">Ev Ləzzəti Şirniyyat</h3>
         <div class="border-t border-dashed border-gray-400 my-2"></div>
         ${itemsHtml}
         <div class="border-t border-dashed border-gray-400 my-2"></div>
@@ -998,7 +998,7 @@ function renderSettings(app) {
       <div class="bg-surface-container-lowest rounded-xl border border-primary-container soft-shadow p-md space-y-3">
         <div class="flex justify-between items-center">
           <span class="text-body-md font-body-md text-on-background">Mağaza adı</span>
-          <span class="text-body-sm font-body-sm text-on-surface-variant">Şirniyyat Evi</span>
+          <span class="text-body-sm font-body-sm text-on-surface-variant">Ev Ləzzəti Şirniyyat</span>
         </div>
         <div class="flex justify-between items-center">
           <span class="text-body-md font-body-md text-on-background">Cəmi məhsul</span>
