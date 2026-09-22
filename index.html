@@ -26,7 +26,7 @@
                     "outline": "#7f7478", "inverse-on-surface": "#ffede8",
                     "primary-container": "#fce4ec", "surface-tint": "#6b5a60",
                     "on-primary-container": "#76646b", "primary-fixed": "#f4dce4",
-                    "primary": "#6b5a60", "on-error": "#ffffff",
+                    "primary": "#8b1538", "on-error": "#ffffff",
                     "secondary-container": "#fed7ca", "on-background": "#2c160e",
                     "tertiary": "#636037", "error": "#ba1a1a",
                     "surface-container-high": "#ffe2da", "outline-variant": "#d0c3c7",
@@ -63,12 +63,12 @@
         font-style: italic;
         font-weight: 700;
         letter-spacing: 0.01em;
-        background: linear-gradient(90deg, #6b4a38, #c9835a, #75584d, #a8663f, #6b4a38);
+        background: linear-gradient(90deg, #f4d03f, #ffe9a8, #d4af37, #b8860b, #f4d03f);
         background-size: 300% auto;
         -webkit-background-clip: text; background-clip: text; color: transparent;
         animation: brandShine 5s linear infinite, brandPulse 3s ease-in-out infinite, brandEntrance .8s cubic-bezier(.2,1.4,.4,1);
         display: inline-block;
-        text-shadow: 0 1px 12px rgba(169,106,63,0.25);
+        text-shadow: 0 1px 12px rgba(184,134,11,0.45);
     }
     @keyframes brandShine { to { background-position: 300% center; } }
     @keyframes brandPulse { 0%,100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.04) rotate(-0.5deg); } }
@@ -104,14 +104,16 @@
     @keyframes toastOut { to { opacity:0; transform: translateY(-16px) } }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-thumb { background: #d0c3c7; border-radius: 8px; }
-    .nav-active { background: #fed7ca; color: #795c51; }
+    .nav-active { background: #f0c060; color: #4a0e1a; }
+    header .nav-link, header .material-symbols-outlined { color: #f5deb3; }
+    header .nav-link:hover { color: #ffffff; }
     .skeleton { background: linear-gradient(90deg, #ffe9e3 25%, #fff1ed 50%, #ffe9e3 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; }
     @keyframes shimmer { 0% { background-position: 200% 0 } 100% { background-position: -200% 0 } }
 </style>
 </head>
 <body class="antialiased pb-24 md:pb-0">
 
-<header class="w-full top-0 sticky shadow-sm bg-[#f0d5bf]/90 backdrop-blur-md z-40">
+<header class="w-full top-0 sticky shadow-sm bg-gradient-to-r from-[#3d0c14] via-[#7a1030] to-[#3d0c14] backdrop-blur-md z-40 border-b-2 border-[#b8860b]/60">
   <div class="flex justify-between items-center px-margin-mobile py-3 w-full max-w-7xl mx-auto">
     <div class="flex items-center gap-2 cursor-pointer" onclick="handleLogoTap()">
       <img src="https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Shortcake/3D/shortcake_3d.png" alt="Tort" class="w-11 h-11 brand-emoji object-contain" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/microsoft/fluentui-emoji@latest/assets/Birthday%20cake/3D/birthday_cake_3d.png'"/>
