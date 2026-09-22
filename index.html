@@ -92,8 +92,17 @@
       #modal-root > div > div { max-height: none !important; overflow: visible !important; border-radius: 0 !important; }
       #modal-root button { display: none !important; }
     }
-    .glass-card { background: linear-gradient(135deg, #ffffff 0%, #fff1ed 100%); border: 1px solid #fce4ec; box-shadow: 0 8px 32px 0 rgba(141, 110, 99, 0.1); }
+    .glass-card { background: linear-gradient(135deg, #5c1023 0%, #3d0c14 100%); border: 1px solid #d4a017; box-shadow: 0 8px 32px 0 rgba(212, 160, 23, 0.2); }
     .soft-shadow { box-shadow: 0 4px 16px rgba(184, 134, 11, 0.18); }
+    .soft-shadow.bg-surface-container-lowest { background: linear-gradient(180deg, #5c1023 0%, #3d0c14 100%); }
+    .soft-shadow.bg-surface-container-lowest .text-on-background,
+    .glass-card .text-on-background { color: #f5e6c8; }
+    .soft-shadow.bg-surface-container-lowest .text-on-surface-variant,
+    .soft-shadow.bg-surface-container-lowest .text-secondary,
+    .glass-card .text-on-surface-variant { color: #d9b98a; }
+    .soft-shadow.bg-surface-container-lowest .text-primary,
+    .glass-card .text-primary { color: #f0c060; }
+    .soft-shadow.bg-surface-container-lowest [class*="hover:bg-surface-container-low"]:hover { background: rgba(212,160,23,0.15) !important; }
     .modal-backdrop { background: rgba(44, 22, 14, 0.5); backdrop-filter: blur(2px); }
     .fade-in { animation: fadeIn .25s ease-out; }
     .slide-up { animation: slideUp .3s cubic-bezier(.16,1,.3,1); }
