@@ -454,14 +454,14 @@ function renderPOSGrid(catId) {
     const inCart = posCart.find(it => it.productId === p.id);
     const qty = inCart ? inCart.qty : 0;
     return `
-    <div onclick="addToCart('${p.id}')" class="relative bg-surface-container-lowest rounded-xl border ${qty > 0 ? 'border-primary ring-2 ring-primary/30' : 'border-primary-container'} soft-shadow overflow-hidden cursor-pointer active:scale-95 transition-transform select-none">
-      <div class="relative aspect-square overflow-hidden bg-surface-container">
+    <div onclick="addToCart('${p.id}')" class="relative bg-gradient-to-b from-[#5c1023] to-[#3d0c14] rounded-xl border-2 ${qty > 0 ? 'border-[#f0c060] ring-2 ring-[#f0c060]/40' : 'border-[#d4a017]'} soft-shadow overflow-hidden cursor-pointer active:scale-95 transition-transform select-none">
+      <div class="relative aspect-square overflow-hidden bg-[#2a0810]">
         ${productVisual(p, 'w-full h-full')}
-        ${qty > 0 ? `<span class="absolute top-2 right-2 bg-primary text-on-primary text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shadow">${qty}</span>` : ''}
+        ${qty > 0 ? `<span class="absolute top-2 right-2 bg-[#d4a017] text-[#3d0c14] text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shadow">${qty}</span>` : ''}
       </div>
       <div class="p-sm">
-        <h4 class="text-body-sm font-body-sm text-on-background font-semibold truncate">${escapeHtml(p.name)}</h4>
-        <span class="text-label-md font-label-md text-primary font-bold">${fmtMoney(p.price)}</span>
+        <h4 class="text-body-sm font-body-sm text-[#f5e6c8] font-semibold truncate">${escapeHtml(p.name)}</h4>
+        <span class="text-label-md font-label-md text-[#f0c060] font-bold">${fmtMoney(p.price)}</span>
       </div>
     </div>`;
   }).join('') : `<div class="col-span-2 md:col-span-4 text-center py-12 text-on-surface-variant text-body-md">Bu kateqoriyada məhsul yoxdur</div>`;
@@ -751,20 +751,20 @@ function renderProductGrid(catId) {
     const cat = DB.categories.find(c => c.id === p.catId);
     const low = p.stock <= 5;
     return `
-    <div class="bg-surface-container-lowest rounded-xl border border-primary-container soft-shadow overflow-hidden group">
-      <div class="relative aspect-square overflow-hidden bg-surface-container">
+    <div class="bg-gradient-to-b from-[#5c1023] to-[#3d0c14] rounded-xl border-2 border-[#d4a017] soft-shadow overflow-hidden group">
+      <div class="relative aspect-square overflow-hidden bg-[#2a0810]">
         <div class="absolute inset-0 group-hover:scale-105 transition-transform duration-300">${productVisual(p, 'w-full h-full')}</div>
         ${low ? `<span class="absolute top-2 left-2 bg-error text-on-error text-[10px] font-bold px-2 py-0.5 rounded-full">AZ QALIB</span>` : ''}
       </div>
       <div class="p-sm">
-        <h4 class="text-body-md font-body-md text-on-background font-semibold truncate">${escapeHtml(p.name)}</h4>
-        <p class="text-label-sm font-label-sm text-on-surface-variant truncate mb-1">${escapeHtml(cat ? cat.name : '')}</p>
+        <h4 class="text-body-md font-body-md text-[#f5e6c8] font-semibold truncate">${escapeHtml(p.name)}</h4>
+        <p class="text-label-sm font-label-sm text-[#d9b98a] truncate mb-1">${escapeHtml(cat ? cat.name : '')}</p>
         <div class="flex justify-between items-center">
-          <span class="text-label-md font-label-md text-primary font-bold">${fmtMoney(p.price)}</span>
-          <span class="text-label-sm font-label-sm text-on-surface-variant">${p.stock} ${escapeHtml(p.unit)}</span>
+          <span class="text-label-md font-label-md text-[#f0c060] font-bold">${fmtMoney(p.price)}</span>
+          <span class="text-label-sm font-label-sm text-[#d9b98a]">${p.stock} ${escapeHtml(p.unit)}</span>
         </div>
         <div class="flex gap-1 mt-2">
-          <button onclick="openProductForm('${p.id}')" class="flex-1 py-1.5 rounded-full bg-surface-container text-on-background text-label-sm font-label-sm hover:bg-primary-container transition-colors">Redaktə</button>
+          <button onclick="openProductForm('${p.id}')" class="flex-1 py-1.5 rounded-full bg-[#d4a017] text-[#3d0c14] text-label-sm font-label-sm hover:bg-[#f0c060] transition-colors">Redaktə</button>
           <button onclick="deleteProduct('${p.id}')" class="p-1.5 rounded-full bg-error-container text-error hover:opacity-80 transition-opacity">
             <span class="material-symbols-outlined text-base block">delete</span>
           </button>
